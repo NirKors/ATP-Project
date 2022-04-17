@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 /** Every maze is built out of a 2-dimensional array of ints. 1 means it's a wall, 0 means it's a path.*/
 public class Maze {
-    //TODO privatize maze
-    int[][] maze;
+
+    private int[][] maze;
     /** Constructor of the maze*/
     public Maze(int[][] mz) {
         this.maze = mz;
