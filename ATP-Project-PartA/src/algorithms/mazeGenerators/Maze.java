@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Maze {
 
-    private int[][] maze;
+    protected int[][] maze;
     private Position startPos, goalPos;
 
     /**
@@ -17,7 +17,9 @@ public class Maze {
         maze = new int[row_size][column_size];
     }
 
-    /** Function that gets us the private array of the class*/
+    /**
+     * Function that gets us the array of the class
+     */
     public int[][] getMaze() {
         return maze;
     }
