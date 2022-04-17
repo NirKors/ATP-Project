@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Maze {
 
     private int[][] maze;
+    private Position startPos, goalPos;
 
     /**
      * Constructor of the maze
@@ -43,5 +44,13 @@ public class Maze {
     public void print(){
         for(int i=0;i<this.getRowNum()-1;i++)
             System.out.println(Arrays.toString(this.getMaze()[i]));
+    }
+
+    public Position getStartPosition() {
+        return startPos;
+    }
+
+    public Position getGoalPosition() {
+        return goalPos;
     }
 }

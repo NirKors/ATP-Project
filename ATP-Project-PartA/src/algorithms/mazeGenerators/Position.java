@@ -10,11 +10,4 @@ public class Position {
         this.column = column;
     }
 
-    public int getStartPosition(){
-        return 0;
-    }
-
-    public int getGoalPosition(){
-        return 0;
-    }
 }
