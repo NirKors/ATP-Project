@@ -9,6 +9,5 @@ public class EmptyMazeGenerator extends AMazeGenerator {
                 EmpMaze[i][j] = 0;
         }
         return new Maze(EmpMaze); //TODO
-
     }
 }
