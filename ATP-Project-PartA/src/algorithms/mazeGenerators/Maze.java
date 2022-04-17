@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class Maze {
 
-    protected int[][] maze;
+    private int[][] maze;
     private Position startPos, goalPos;
 
     /**
@@ -24,27 +24,39 @@ public class Maze {
         return maze;
     }
 
-    /** Given the row and column numbers, return the current value within that spot.*/
+    /**
+     * Given the row and column numbers, return the current value within that spot.
+     */
     public int getVal(int row, int column) {
         return this.getMaze()[row][column];
     }
 
-    /** Given the row and column numbers, sets the given value into that spot in the maze.*/
-    public void setVal(int row, int column, int val){
-        this.getMaze()[row][column]=val;
+    /**
+     * Given the row and column numbers, sets the given value into that spot in the maze.
+     */
+    public void setVal(int row, int column, int val) {
+        this.getMaze()[row][column] = val;
     }
 
-    /** Gets the number of rows*/
-    public int getRowNum(){
+    /**
+     * Gets the number of rows
+     */
+    public int getRowNum() {
         return getMaze().length;
     }
-    /** Gets the number of columns*/
-    public int getColNum(){
+
+    /**
+     * Gets the number of columns
+     */
+    public int getColNum() {
         return getMaze()[0].length;
     }
-    /** Prints the array to the system*/
-    public void print(){
-        for(int i=0;i<this.getRowNum()-1;i++)
+
+    /**
+     * Prints the array to the system
+     */
+    public void print() {
+        for (int i = 0; i < this.getRowNum() - 1; i++)
             System.out.println(Arrays.toString(this.getMaze()[i]));
     }
 
