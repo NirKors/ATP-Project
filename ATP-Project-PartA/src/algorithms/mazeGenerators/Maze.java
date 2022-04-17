@@ -56,8 +56,24 @@ public class Maze {
      * Prints the array to the system
      */
     public void print() {
-        for (int i = 0; i < this.getRowNum() - 1; i++)
-            System.out.println(Arrays.toString(this.getMaze()[i]));
+        //Unable to use the "substring" method without initializing str
+        String str = null;
+        for (int i = 0; i < this.getRowNum(); i++){
+            for(int j=0;j<this.getColNum();j++){
+                str="{";
+                if(i==this.getStartPosition().getRowIndex() && j == this.getStartPosition().getColumnIndex()){
+                    str = str + "S,";
+                } else if (i == this.getGoalPosition().getRowIndex() && j == this.getGoalPosition().getColumnIndex()) {
+                    str=str+"E,";
+                } else {
+                    str=str+getVal(i,j)+",";
+                }
+            }
+            str = str.substring(0,str.length()-1);
+            str = str+"}";
+            System.out.println(str);
+        }
+
     }
     /** Gets the starting position */
     public Position getStartPosition() {
