@@ -59,11 +59,11 @@ public class Maze {
         for (int i = 0; i < this.getRowNum() - 1; i++)
             System.out.println(Arrays.toString(this.getMaze()[i]));
     }
-
+    /** Gets the starting position */
     public Position getStartPosition() {
         return startPos;
     }
-
+    /** Gets the goal position */
     public Position getGoalPosition() {
         return goalPos;
     }
