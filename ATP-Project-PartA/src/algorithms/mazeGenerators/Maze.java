@@ -45,4 +45,12 @@ public class Maze {
         for(int i=0;i<this.getRowNum()-1;i++)
             System.out.println(Arrays.toString(this.getMaze()[i]));
     }
+
+    public Position getStartPosition() {
+        return startPos;
+    }
+
+    public Position getGoalPosition() {
+        return goalPos;
+    }
 }
