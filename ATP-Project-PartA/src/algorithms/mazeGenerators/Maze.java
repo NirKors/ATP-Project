@@ -6,4 +6,12 @@ public class Maze {
     public Maze(int[][] mz){
         this.maze = mz;
     }
+
+    public int[][] getMaze() {
+        return maze;
+    }
+
+    public int getVal(int row, int column){
+        return this.getMaze()[row][column];
+    }
 }
