@@ -12,7 +12,7 @@ public class Maze {
         return maze;
     }
 
-    public int getVal(int row, int column){
+    public int getVal(int row, int column) {
         return this.getMaze()[row][column];
     }
 }
