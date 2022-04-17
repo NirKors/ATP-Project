@@ -12,6 +12,7 @@ public class MyMazeGenerator extends AMazeGenerator{
         int column_d = (int) (Math.random() * column + 1);
         // Then recursively repeat the process on the sub-chambers until all chambers are minimum sized.
 
-        return maze;
+       return maze;
+       // This is a test
     }
 }
