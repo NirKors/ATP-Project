@@ -15,4 +15,8 @@ public class Maze {
     public int getVal(int row, int column) {
         return this.getMaze()[row][column];
     }
+
+    public void setVal(int row, int column, int val){
+        this.getMaze()[row][column]=val;
+    }
 }
