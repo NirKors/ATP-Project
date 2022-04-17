@@ -29,7 +29,8 @@ public class EmptyMazeGenerator extends AMazeGenerator {
                 goal_row = Math.random() < 0.5 ? 0 : row - 1;
             }
         }
-
+        maze.setVal(start_row, start_column, 0);
+        maze.setVal(goal_row, goal_column, 0);
         maze.setStartPosition(new Position(start_row, start_column));
         maze.setGoalPosition(new Position(goal_row, goal_column));
 
