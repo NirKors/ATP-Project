@@ -7,3 +7,4 @@ public class Maze {
         this.maze = mz;
     }
 }
+//changes to check in github
