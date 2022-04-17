@@ -12,3 +12,4 @@ public class EmptyMazeGenerator extends AMazeGenerator{
 
     }
 }
+//test
