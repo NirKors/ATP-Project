@@ -6,5 +6,5 @@ public class Maze {
     public Maze(int[][] mz){
         this.maze = mz;
     }
-    
+
 }
