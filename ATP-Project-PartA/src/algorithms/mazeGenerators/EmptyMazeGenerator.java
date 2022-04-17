@@ -14,19 +14,19 @@ public class EmptyMazeGenerator extends AMazeGenerator {
         // Random start / goal generation:
         while (start_row == goal_row && start_column == goal_column) {
             if (Math.random() < 0.5) {
-                start_row = (int) (Math.random() * row + 1);
-                start_column = Math.random() < 0.5 ? 0 : column;
+                start_row = (int) (Math.random() * row);
+                start_column = Math.random() < 0.5 ? 0 : column - 1;
             } else {
-                start_column = (int) (Math.random() * column + 1);
-                start_row = Math.random() < 0.5 ? 0 : row;
+                start_column = (int) (Math.random() * column);
+                start_row = Math.random() < 0.5 ? 0 : row - 1;
             }
 
             if (Math.random() < 0.5) {
-                goal_row = (int) (Math.random() * row + 1);
-                goal_column = Math.random() < 0.5 ? 0 : column;
+                goal_row = (int) (Math.random() * row);
+                goal_column = Math.random() < 0.5 ? 0 : column - 1;
             } else {
-                goal_column = (int) (Math.random() * column + 1);
-                goal_row = Math.random() < 0.5 ? 0 : row;
+                goal_column = (int) (Math.random() * column);
+                goal_row = Math.random() < 0.5 ? 0 : row - 1;
             }
         }
 
