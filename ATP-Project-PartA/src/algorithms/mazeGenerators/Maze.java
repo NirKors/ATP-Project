@@ -1,7 +1,5 @@
 package algorithms.mazeGenerators;
 
-import java.util.Arrays;
-
 /**
  * Every maze is built out of a 2-dimensional array of ints. 1 means it's a wall, 0 means it's a path.
  */
@@ -58,19 +56,19 @@ public class Maze {
     public void print() {
         //Unable to use the "substring" method without initializing str
         String str = null;
-        for (int i = 0; i < this.getRowNum(); i++) {
-            for (int j = 0; j < this.getColNum(); j++) {
-                str = "{";
-                if (i == this.getStartPosition().getRowIndex() && j == this.getStartPosition().getColumnIndex()) {
-                    str = str + "S,";
-                } else if (i == this.getGoalPosition().getRowIndex() && j == this.getGoalPosition().getColumnIndex()) {
-                    str = str + "E,";
+        for (int row = 0; row < this.getRowNum(); row++) {
+            str = "{";
+            for (int col = 0; col < this.getColNum(); col++) {
+                if (row == startPos.getRowIndex() && col == startPos.getColumnIndex()) {
+                    str += "S,";
+                } else if (row == this.getGoalPosition().getRowIndex() && col == this.getGoalPosition().getColumnIndex()) {
+                    str += "E,";
                 } else {
-                    str = str + getVal(i, j) + ",";
+                    str += getVal(row, col) + ",";
                 }
             }
             str = str.substring(0, str.length() - 1);
-            str = str + "}";
+            str += "}";
             System.out.println(str);
         }
 
