@@ -2,13 +2,18 @@ package algorithms.mazeGenerators;
 
 import java.util.Arrays;
 
-/** Every maze is built out of a 2-dimensional array of ints. 1 means it's a wall, 0 means it's a path.*/
+/**
+ * Every maze is built out of a 2-dimensional array of ints. 1 means it's a wall, 0 means it's a path.
+ */
 public class Maze {
 
     private int[][] maze;
-    /** Constructor of the maze*/
-    public Maze(int[][] mz) {
-        this.maze = mz;
+
+    /**
+     * Constructor of the maze
+     */
+    public Maze(int row_size, int column_size) {
+        maze = new int[row_size][column_size];
     }
 
     /** Function that gets us the private array of the class*/
