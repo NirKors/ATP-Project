@@ -15,6 +15,5 @@ public class MyMazeGenerator extends AMazeGenerator {
         // Then recursively repeat the process on the sub-chambers until all chambers are minimum sized.
 
         return maze;
-        // This is a test
     }
 }
