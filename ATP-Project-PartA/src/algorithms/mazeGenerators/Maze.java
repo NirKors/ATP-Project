@@ -8,6 +8,7 @@ import java.util.Arrays;
 public class Maze {
 
     private int[][] maze;
+    private Position startPos, goalPos;
 
     /**
      * Constructor of the maze
