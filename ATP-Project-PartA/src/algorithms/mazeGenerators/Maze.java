@@ -30,10 +30,14 @@ public class Maze {
     }
 
     /**
-     * Given the row and column numbers, sets the given value into that spot in the maze.
+     * Given the row and column numbers or a position, sets the given value into that spot in the maze.
      */
     public void setVal(int row, int column, int val) {
-        this.getMaze()[row][column] = val;
+        maze[row][column] = val;
+    }
+
+    public void setVal(Position pos, int val) {
+        maze[pos.getRowIndex()][pos.getColumnIndex()] = val;
     }
 
     /**
