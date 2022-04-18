@@ -23,10 +23,12 @@ public class Maze {
     }
 
     /**
-     * Given the row and column numbers, return the current value within that spot.
+     * Given the row and column numbers, return the current value within that spot. Returns -1 if value is off limits.
      */
     public int getVal(int row, int column) {
-        return this.getMaze()[row][column];
+        if (row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum())
+            return -1;
+        return this.maze[row][column];
     }
 
     /**
