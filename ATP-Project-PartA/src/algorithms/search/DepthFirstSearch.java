@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public class DepthFirstSearch implements ISearchingAlgorithm {
+public class DepthFirstSearch extends ASearchingAlgorithm {
     @Override
     public Solution solve(ISearchable domain) {
         return null;
@@ -11,8 +11,4 @@ public class DepthFirstSearch implements ISearchingAlgorithm {
         return "DepthFirstSearch";
     }
 
-    @Override
-    public int getNumberOfNodesEvaluated() {
-        return 0;
-    }
 }

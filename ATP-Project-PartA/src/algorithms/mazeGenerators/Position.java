@@ -52,20 +52,4 @@ public class Position {
         return new Position(this.getRowIndex(), this.getColumnIndex() + 1);
     }
 
-    // now we will add horizontal movement
-    public Position Up_Right() {
-        return new Position(this.getRowIndex() + 1, this.getColumnIndex() + 1);
-    }
-
-    public Position Up_Left() {
-        return new Position(this.getRowIndex() + 1, this.getColumnIndex() - 1);
-    }
-
-    public Position Down_Right() {
-        return new Position(this.getRowIndex() - 1, this.getColumnIndex() + 1);
-    }
-
-    public Position Down_Left() {
-        return new Position(this.getRowIndex() - 1, this.getColumnIndex() - 1);
-    }
 }
