@@ -8,6 +8,11 @@ public abstract class AMazeGenerator implements IMazeGenerator {
         return System.currentTimeMillis() - time;
     }
 
+    /**
+     * Generates a random Start position and a random Goal position at the edges where available.
+     *
+     * @param maze
+     */
     protected void generateStartGoal(Maze maze) {
 
         // Random start / goal generation:
