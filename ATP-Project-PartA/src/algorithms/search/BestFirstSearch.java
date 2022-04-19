@@ -8,7 +8,7 @@ public class BestFirstSearch implements ISearchingAlgorithm {
 
     @Override
     public String getName() {
-        return null;
+        return "BestFirstSearch";
     }
 
     @Override

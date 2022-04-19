@@ -8,7 +8,7 @@ public class DepthFirstSearch implements ISearchingAlgorithm {
 
     @Override
     public String getName() {
-        return null;
+        return "DepthFirstSearch";
     }
 
     @Override
