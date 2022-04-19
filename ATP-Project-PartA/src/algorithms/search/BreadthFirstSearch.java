@@ -8,7 +8,7 @@ public class BreadthFirstSearch implements ISearchingAlgorithm {
 
     @Override
     public String getName() {
-        return null;
+        return "BreadthFirstSearch";
     }
 
     @Override
