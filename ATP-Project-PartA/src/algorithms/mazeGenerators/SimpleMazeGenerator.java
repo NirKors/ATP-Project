@@ -7,6 +7,7 @@ public class SimpleMazeGenerator extends AMazeGenerator {
      */
     @Override
     public Maze generate(int row, int column) {
+        // Start by creating a random
         Maze maze = new Maze(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
@@ -39,6 +40,32 @@ public class SimpleMazeGenerator extends AMazeGenerator {
         maze.setVal(goal_row, goal_column, 0);
         maze.setStartPosition(new Position(start_row, start_column));
         maze.setGoalPosition(new Position(goal_row, goal_column));
+
+        // We generated a maze with a start and end position, with random walls/paths.
+        // The below function will make sure that there is at least a single path between these positions.
+        int curr_row = start_row, curr_col = start_column;
+        while (true) {
+            if (curr_row == goal_row && curr_col == goal_column) {
+                break;
+            }
+            // Using math.random, we will decide if to get closer by column or row
+            if (Math.random() < 0.5) {
+                // Checking by columns
+                if (curr_col < goal_column) {
+                    maze.setVal(curr_row, ++curr_col, 0);
+                }
+                if (curr_col > goal_column) {
+                    maze.setVal(curr_row, --curr_col, 0);
+                }
+            } else {
+                if (curr_row < goal_row) {
+                    maze.setVal(++curr_row, curr_col, 0);
+                }
+                if (curr_row > goal_row) {
+                    maze.setVal(--curr_row, curr_col, 0);
+                }
+            }
+        }
 
         return maze;
     }

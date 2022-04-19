@@ -70,7 +70,7 @@ public class Maze {
                 } else if (row == this.getGoalPosition().getRowIndex() && col == this.getGoalPosition().getColumnIndex()) {
                     str += "E,";
                 } else {
-                    str += getVal(row, col) + ",";
+                    str += (getVal(row, col) == 0 ? " " : "@") + ",";
                 }
             }
             str = str.substring(0, str.length() - 1);

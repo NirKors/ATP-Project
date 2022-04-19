@@ -1,4 +1,9 @@
 package algorithms.search;
 
-public class MazeState {
+import algorithms.mazeGenerators.Position;
+
+import java.util.ArrayList;
+
+public class MazeState extends AState {
+
 }
