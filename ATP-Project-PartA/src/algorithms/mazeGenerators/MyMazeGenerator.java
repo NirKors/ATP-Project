@@ -1,68 +1,73 @@
 package algorithms.mazeGenerators;
 
 
+import java.util.Stack;
+
 public class MyMazeGenerator extends AMazeGenerator {
 
     private Maze mazeGB;
 
-    //TODO: Current problem is that the maze isn't guaranteed to be solvable. Possibly because the way the holes are formed and then blocked again.
     @Override
     public Maze generate(int row, int col) {
         mazeGB = new EmptyMazeGenerator().generate(row, col);
-        System.out.println("\n\n\n***************STARTING MAZE BUILDING\n");
+        Position cell = new Position(0, 0);
+        mazeGB.setVal(cell, 1);
+        Stack<Position> allCells = new Stack<>();
+        allCells.push(cell);
+        while (!allCells.isEmpty()) {
+            Stack<Position> unvisited = unvisited(getNeighbors(cell));
+            if (!unvisited.isEmpty()) {
+                allCells.push(cell);
+                Position temp = cell;
+                cell = unvisited.elementAt((int) (Math.random() * unvisited.size()));
+                connectWall(temp, cell);
+            } else if (!allCells.isEmpty())
+                cell = allCells.pop();
+        }
 
-        recursiveBuilder(0, row - 1, 0, col - 1);
+
+        for (int i = 0; i < mazeGB.getRowNum(); i++) {
+            for (int j = 0; j < mazeGB.getColNum(); j++) {
+                if (mazeGB.getVal(i, j) == 0)
+                    mazeGB.setVal(i, j, 1);
+                else
+                    mazeGB.setVal(i, j, 0);
+            }
+        }
+        generateStartGoal(mazeGB);
         return mazeGB;
     }
 
-    private void recursiveBuilder(int rowBottom, int rowUpper, int colBottom, int colUpper) {
-        if (rowUpper - rowBottom < 1 || colUpper - colBottom < 1) return;
+    private void connectWall(Position a, Position b) {
+        mazeGB.setVal(b, 1);
+        int rowa = a.getRowIndex(), rowb = b.getRowIndex(), cola = a.getColumnIndex(), colb = b.getColumnIndex();
+        if (rowa == rowb)
+            mazeGB.setVal(rowa, Math.max(cola, colb) - 1, 1);
+        else
+            mazeGB.setVal(Math.max(rowa, rowb) - 1, cola, 1);
+    }
 
-        int row = ((int) ((Math.random() * (rowUpper - rowBottom) + rowBottom)));
-        int col = ((int) ((Math.random() * (colUpper - colBottom) + colBottom)));
+    private Stack<Position> unvisited(Position[] neighbors) {
+        Stack<Position> unvisited = new Stack<>();
 
-        if (rowUpper - rowBottom > colUpper - colBottom) {
-            int[] limit = buildHorizontalWall(row, col);
-            int hole = (int) (Math.random() * (limit[1] - limit[0]) + limit[0]);
-            mazeGB.setVal(row, hole, 0); // Punches a hole in the wall
-            recursiveBuilder(rowBottom, row - 1, colBottom, hole - 1);
-            recursiveBuilder(rowBottom, row - 1, hole + 1, colUpper);
-            recursiveBuilder(row + 1, rowUpper, colBottom, hole - 1);
-            recursiveBuilder(row + 1, rowUpper, hole + 1, colUpper);
-
-        } else {
-            int[] limit = buildVerticalWall(row, col);
-            int hole = (int) (Math.random() * (limit[1] - limit[0]) + limit[0]);
-            mazeGB.setVal(hole, col, 0); // Punches a hole in the wall
-            recursiveBuilder(rowBottom, hole - 1, colBottom, col - 1);
-            recursiveBuilder(rowBottom, hole - 1, col + 1, colUpper);
-            recursiveBuilder(hole + 1, rowUpper, colBottom, col - 1);
-            recursiveBuilder(hole + 1, rowUpper, col + 1, colUpper);
+        for (Position neighbor : neighbors) {
+            int row = neighbor.getRowIndex(), col = neighbor.getColumnIndex();
+            if (row < 0 || row > mazeGB.getRowNum() || col < 0 || col > mazeGB.getColNum())
+                continue;
+            if (mazeGB.getVal(row, col) != 0)
+                continue;
+            unvisited.push(neighbor);
         }
+        return unvisited;
     }
 
-
-    private int[] buildHorizontalWall(int row, int col) {
-        int temp = col, upper, bottom;
-        while (mazeGB.getVal(row, ++col) == 0)
-            mazeGB.setVal(row, col, 1);
-        upper = col - 1;
-        col = temp + 1;
-        while (mazeGB.getVal(row, --col) == 0)
-            mazeGB.setVal(row, col, 1);
-        bottom = col + 1;
-        return new int[]{bottom, upper};
-    }
-
-    private int[] buildVerticalWall(int row, int col) {
-        int temp = row, upper, bottom;
-        while (mazeGB.getVal(++row, col) == 0)
-            mazeGB.setVal(row, col, 1);
-        upper = row - 1;
-        row = temp + 1;
-        while (mazeGB.getVal(--row, col) == 0)
-            mazeGB.setVal(row, col, 1);
-        bottom = row + 1;
-        return new int[]{bottom, upper};
+    private Position[] getNeighbors(Position cell) {
+        Position[] neighbors = new Position[4];
+        int row = cell.getRowIndex(), col = cell.getColumnIndex();
+        neighbors[0] = new Position(row, col + 2); // Up
+        neighbors[1] = new Position(row, col - 2); // Down
+        neighbors[2] = new Position(row + 2, col); // Right
+        neighbors[3] = new Position(row - 2, col); // Left
+        return neighbors;
     }
 }
