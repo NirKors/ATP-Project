@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public class BestFirstSearch implements ISearchingAlgorithm {
+public class BestFirstSearch extends ASearchingAlgorithm {
     @Override
     public Solution solve(ISearchable domain) {
         return null;
@@ -8,11 +8,7 @@ public class BestFirstSearch implements ISearchingAlgorithm {
 
     @Override
     public String getName() {
-        return null;
+        return "BestFirstSearch";
     }
 
-    @Override
-    public int getNumberOfNodesEvaluated() {
-        return 0;
-    }
 }
