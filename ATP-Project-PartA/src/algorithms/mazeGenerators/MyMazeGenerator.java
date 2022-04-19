@@ -1,12 +1,12 @@
 package algorithms.mazeGenerators;
 
-
 import java.util.Stack;
 
 public class MyMazeGenerator extends AMazeGenerator {
 
     private Maze mazeGB;
 
+    // This is an implementation of Randomized depth-first search.
     @Override
     public Maze generate(int row, int col) {
         mazeGB = new EmptyMazeGenerator().generate(row, col);
@@ -25,7 +25,7 @@ public class MyMazeGenerator extends AMazeGenerator {
                 cell = allCells.pop();
         }
 
-
+        // Invert the maze
         for (int i = 0; i < mazeGB.getRowNum(); i++) {
             for (int j = 0; j < mazeGB.getColNum(); j++) {
                 if (mazeGB.getVal(i, j) == 0)
@@ -38,6 +38,9 @@ public class MyMazeGenerator extends AMazeGenerator {
         return mazeGB;
     }
 
+    /**
+     * Connects 'a' and 'b' with a wall, and changes the value of b to a wall as well.
+     */
     private void connectWall(Position a, Position b) {
         mazeGB.setVal(b, 1);
         int rowa = a.getRowIndex(), rowb = b.getRowIndex(), cola = a.getColumnIndex(), colb = b.getColumnIndex();
@@ -47,6 +50,10 @@ public class MyMazeGenerator extends AMazeGenerator {
             mazeGB.setVal(Math.max(rowa, rowb) - 1, cola, 1);
     }
 
+    /**
+     * @param neighbors Array of neighbors to a cell
+     * @return Stack of unvisited, valid cells, null if there are none.
+     */
     private Stack<Position> unvisited(Position[] neighbors) {
         Stack<Position> unvisited = new Stack<>();
 
@@ -61,6 +68,10 @@ public class MyMazeGenerator extends AMazeGenerator {
         return unvisited;
     }
 
+    /**
+     * @param cell given cell
+     * @return Array of Positions around the given cell
+     */
     private Position[] getNeighbors(Position cell) {
         Position[] neighbors = new Position[4];
         int row = cell.getRowIndex(), col = cell.getColumnIndex();
