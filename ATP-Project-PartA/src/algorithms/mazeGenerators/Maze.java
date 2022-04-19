@@ -15,12 +15,6 @@ public class Maze {
         maze = new int[row_size][column_size];
     }
 
-    /**
-     * Function that gets us the array of the class
-     */
-    public int[][] getMaze() {
-        return maze;
-    }
 
     /**
      * Given the row and column numbers, return the current value within that spot. Returns -1 if value is off limits.
@@ -46,14 +40,14 @@ public class Maze {
      * Gets the number of rows
      */
     public int getRowNum() {
-        return getMaze().length;
+        return maze.length;
     }
 
     /**
      * Gets the number of columns
      */
     public int getColNum() {
-        return getMaze()[0].length;
+        return maze[0].length;
     }
 
     /**
@@ -70,7 +64,7 @@ public class Maze {
                 } else if (row == this.getGoalPosition().getRowIndex() && col == this.getGoalPosition().getColumnIndex()) {
                     str += "E,";
                 } else {
-                    str += (getVal(row, col) == 0 ? " " : "@") + ",";
+                    str += getVal(row, col) + ",";
                 }
             }
             str = str.substring(0, str.length() - 1);
