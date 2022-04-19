@@ -1,6 +1,6 @@
 package algorithms.search;
 
-public class BreadthFirstSearch implements ISearchingAlgorithm {
+public class BreadthFirstSearch extends ASearchingAlgorithm {
     @Override
     public Solution solve(ISearchable domain) {
         return null;
@@ -11,8 +11,4 @@ public class BreadthFirstSearch implements ISearchingAlgorithm {
         return "BreadthFirstSearch";
     }
 
-    @Override
-    public int getNumberOfNodesEvaluated() {
-        return 0;
-    }
 }
