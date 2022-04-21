@@ -44,7 +44,7 @@ public class SearchableMaze implements ISearchable {
         int row = state.pos.getRowIndex(), col = state.pos.getColumnIndex();
         if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
             return false;
-        return true;
+        return maze.getVal(row, col) == 0;
     }
 
 
