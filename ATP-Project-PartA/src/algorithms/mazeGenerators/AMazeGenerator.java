@@ -16,11 +16,10 @@ public abstract class AMazeGenerator implements IMazeGenerator {
     protected void generateStartGoal(Maze maze) {
 
         // Random start / goal generation:
-
         int start_row = 0, goal_row = 0, start_column = 0, goal_column = 0;
         int targetStart = 0, targetGoal = 0;
         int row = maze.getRowNum(), column = maze.getColNum();
-        while (start_row == goal_row && start_column == goal_column) {
+        while ((start_row == goal_row && start_column == goal_column) || (targetStart != 0 || targetGoal != 0)) {
 
             if (Math.random() < 0.5) {
                 start_row = (int) (Math.random() * row);
