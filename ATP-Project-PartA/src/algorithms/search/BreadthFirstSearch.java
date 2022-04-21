@@ -11,11 +11,12 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         ArrayList<AState> visited = new ArrayList<>();
 
         Q.add(current_state);
+        visited.add(current_state);
         while (!Q.isEmpty()) {
-            current_state = Q.remove(Q.size() - 1);
+            current_state = Q.remove(0); // FIFO?
             v.addState(current_state);
 
-            if (current_state == domain.getGoal())
+            if (current_state.equals(domain.getGoal()))
                 return v;
 
             boolean flag = false;
@@ -24,7 +25,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                     flag = false;
                     continue;
                 }
-                if ((!visited.contains(state)) && domain.isIn(state)) { //TODO Handle walls.
+                if ((!visited.contains(state)) && domain.isIn(state)) {
+                    nodes_Evaluated++;
                     visited.add(state);
                     Q.add(state);
                 }
