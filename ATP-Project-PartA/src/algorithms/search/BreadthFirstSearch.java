@@ -7,6 +7,12 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     @Override
     public Solution solve(ISearchable domain) {
         Solution v = new Solution();
+        v.setSolution(cleanPath(solve(domain, true)));
+        return v;
+    }
+
+    protected Solution solve(ISearchable domain, boolean ignoreDiagonal) {
+        Solution v = new Solution();
         AState current_state = domain.getStart();
         ArrayList<AState> Q = new ArrayList<>();
         ArrayList<AState> visited = new ArrayList<>();
@@ -18,18 +24,21 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             v.addState(current_state);
 
             if (current_state.equals(domain.getGoal())) { // Reached goal.
-                v.setSolution(cleanPath(v));
                 return v;
             }
 
             boolean flag = false;
             for (AState state : domain.getAllPossibleStates(current_state)) {
-                if (flag) { // Skips diagonal paths.
+                if (flag && ignoreDiagonal) { // Skips diagonal paths.
                     flag = false;
                     continue;
                 }
 
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
+                    if (state.equals(domain.getGoal())) {// Reached goal.
+                        v.addState(state);
+                        return v;
+                    }
                     nodes_Evaluated++;
                     visited.add(state);
                     Q.add(state);
@@ -47,7 +56,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    private ArrayList<AState> cleanPath(Solution v) {
+    protected ArrayList<AState> cleanPath(Solution v) {
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
