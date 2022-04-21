@@ -52,7 +52,8 @@ public class Position {
         return new Position(this.getRowIndex(), this.getColumnIndex() + 1);
     }
 
-    public boolean eqauls(Object o) {
+    @Override
+    public boolean equals(Object o) {
         if (o == this)
             return true;
         if (!(o instanceof Position))
