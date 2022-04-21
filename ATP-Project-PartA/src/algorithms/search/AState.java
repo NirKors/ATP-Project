@@ -9,6 +9,12 @@ public abstract class AState {
         return pos.toString();
     }
 
+    /**
+     * Indicates whether some other object is "equal to" this one, by comparing positions.
+     *
+     * @param o - Object to compare to 'this'
+     * @return boolean - True if equal, else false.
+     */
     @Override
     public boolean equals(Object o) {
         if (o == this)

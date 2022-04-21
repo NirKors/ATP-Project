@@ -7,6 +7,11 @@ public class SearchableMaze implements ISearchable {
     Maze maze;
     private MazeState start, goal;
 
+    /**
+     * SearchableMaze Constructor.
+     *
+     * @param maze Given maze to store along its starting and goal positions.
+     */
     public SearchableMaze(Maze maze) {
         this.maze = maze;
         start = new MazeState(maze.getStartPosition());
@@ -14,16 +19,28 @@ public class SearchableMaze implements ISearchable {
     }
 
 
+    /**
+     * @return Stored starting State.
+     */
     @Override
     public MazeState getStart() {
         return start;
     }
 
+    /**
+     * @return Stored goal State.
+     */
     @Override
     public MazeState getGoal() {
         return goal;
     }
 
+    /**
+     * Returns an array of eight neighboring States to a given State.
+     *
+     * @param state Given State.
+     * @return array of neighbors to state, starting with its above neighbor, and following clockwise in eight directions in total.
+     */
     @Override
     public AState[] getAllPossibleStates(AState state) {
         AState[] states = new AState[8];
@@ -39,6 +56,10 @@ public class SearchableMaze implements ISearchable {
         return states;
     }
 
+    /**
+     * @param state Given State
+     * @return True if given State is an empty space (0) in the maze, and is within its boundaries.
+     */
     @Override
     public boolean isIn(AState state) {
         int row = state.pos.getRowIndex(), col = state.pos.getColumnIndex();
