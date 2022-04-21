@@ -52,4 +52,14 @@ public class Position {
         return new Position(this.getRowIndex(), this.getColumnIndex() + 1);
     }
 
+    public boolean eqauls(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Position))
+            return false;
+
+        Position p = (Position) o;
+        return p.getRowIndex() == row && p.getColumnIndex() == column;
+    }
+
 }
