@@ -1,7 +1,10 @@
 package algorithms.maze3D;
 
+import algorithms.mazeGenerators.Maze;
+
 public abstract class AMaze3DGenerator implements IMaze3DGenerator {
-        @Override
+
+    @Override
         public long measureAlgorithmTimeMillis(int depth, int row, int column) {
             long time = System.currentTimeMillis();
             generate(depth ,row, column);
