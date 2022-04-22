@@ -20,14 +20,14 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
             if (curr_pos.equals(goal_pos))
                 return maze;
             double select = Math.random();
-            if (select < 1 / 3) {
+            if (select < 1.0 / 3) {
                 if (curr_pos.getColumnIndex() < goal_pos.getColumnIndex()) {
                     curr_pos = curr_pos.Up();
                 }
                 if (curr_pos.getColumnIndex() > goal_pos.getColumnIndex()) {
                     curr_pos = curr_pos.Down();
                 }
-            } else if (select < 2 / 3) {
+            } else if (select < 2.0 / 3) {
                 if (curr_pos.getRowIndex() < goal_pos.getRowIndex()) {
                     curr_pos = curr_pos.Right();
                 }
