@@ -25,6 +25,10 @@ public class Maze3D {
         maze[pos.getDepthIndex()][pos.getRowIndex()][pos.getColumnIndex()] = val;
     }
 
+    public void setVal(int depth, int row, int column, int val) {
+        maze[depth][row][column] = val;
+    }
+
     public int getRowNum() {
         return getMaze()[0].length;
     }
