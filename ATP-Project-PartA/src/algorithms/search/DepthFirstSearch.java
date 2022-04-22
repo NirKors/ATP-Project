@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class DepthFirstSearch extends ASearchingAlgorithm {
-    /** Solves the maze using a DFS algorithm */
+    /**
+     * Solves the maze using a DFS algorithm
+     */
     @Override
     public Solution solve(ISearchable domain) {
         Solution v = new Solution();
@@ -33,9 +35,9 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
                     prevDict.put(state, current_state);
                 }
             }
+            // TODO: check out why nodes evaluated is not working correctly.
             nodes_Evaluated++;
         }
-        nodes_Evaluated--;
         ArrayList<AState> reverser = new ArrayList<>();
         reverser.add(domain.getGoal());
         current_state = domain.getGoal();
@@ -47,14 +49,14 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         while (!(current_state.equals(domain.getStart()))) {
 
             for (AState key : prevDict.keySet()) {
-                if (key.equals(current_state)){
+                if (key.equals(current_state)) {
                     current_state = key;
                     break;
                 }
             }
             prev_state = prevDict.get(current_state);
             reverser.add(current_state);
-            current_state=prev_state;
+            current_state = prev_state;
         }
         reverser.add(domain.getStart());
         reverser.remove(0);
