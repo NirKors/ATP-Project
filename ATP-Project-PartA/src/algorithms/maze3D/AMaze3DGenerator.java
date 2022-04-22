@@ -13,8 +13,15 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
 
     protected void generateStartGoal(Maze3D maze) {
         int depth = maze.getDepthNum(), row = maze.getRowNum(), col = maze.getColNum();
-        Position3D start = new Position3D((int)(Math.random() * depth), (int)(Math.random() * row), (int)(Math.random() * col));
-        Position3D goal = new Position3D((int)(Math.random() * depth), (int)(Math.random() * row), (int)(Math.random() * col));
+        Position3D start;
+        Position3D goal;
+
+        while (true) {
+            start = new Position3D((int) (Math.random() * depth), (int) (Math.random() * row), (int) (Math.random() * col));
+            goal = new Position3D((int) (Math.random() * depth), (int) (Math.random() * row), (int) (Math.random() * col));
+            if (!start.equals(goal))
+                break;
+        }
 
         maze.setVal(start, 0);
         maze.setVal(goal, 0);
