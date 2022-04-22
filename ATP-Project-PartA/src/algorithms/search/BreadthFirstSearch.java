@@ -7,7 +7,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     @Override
     public Solution solve(ISearchable domain) {
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(domain, true)));
+        v.setSolution(cleanPath(solve(domain, true), true));
         return v;
     }
 
@@ -56,7 +56,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v) {
+    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) {
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
@@ -64,9 +64,13 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             AState prev = path.get(counter - 1);
             int diffRow = Math.abs(curr.pos.getRowIndex() - prev.pos.getRowIndex());
             int diffCol = Math.abs(curr.pos.getColumnIndex() - prev.pos.getColumnIndex());
-            if (diffRow > 1 || diffCol > 1 || diffRow + diffCol == 2)
-                path.remove(prev);
 
+            if (diffRow > 1 || diffCol > 1)
+                path.remove(prev);
+            else if (removeDiagonal && diffRow + diffCol == 2) {
+                path.remove(prev);
+                counter--;
+            }
         }
         return path;
     }
@@ -76,5 +80,4 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     public String getName() {
         return "BreadthFirstSearch";
     }
-
 }
