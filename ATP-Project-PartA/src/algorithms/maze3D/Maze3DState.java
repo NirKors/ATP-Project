@@ -1,4 +1,7 @@
 package algorithms.maze3D;
 
-public class Maze3DState {
+import algorithms.search.AState;
+
+public class Maze3DState extends AState {
+
 }
