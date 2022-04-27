@@ -2,8 +2,9 @@ package algorithms.search;
 
 import algorithms.mazeGenerators.Position;
 
-public abstract class AState { //TODO: Add support to 3d positions and abstract. Translate Position(3d) to AState
-    Position pos;
+public abstract class AState { //TODO: Translate Position/Position3d to AState
+    protected Position pos;
+
 
     public String toString() {
         return pos.toString();

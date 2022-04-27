@@ -15,7 +15,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
 
         Position3D curr_pos = maze.getStartPosition();
         Position3D goal_pos = maze.getGoalPosition();
-
+        /* TODO: Fix changes
         while (true) {
             if (curr_pos.equals(goal_pos))
                 return maze;
@@ -42,7 +42,10 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
                     curr_pos = curr_pos.Below();
                 }
             }
+
             maze.setVal(curr_pos, 0);
         }
+     */
+        return null;
     }
 }
