@@ -37,7 +37,7 @@ public class Position3D extends Position{
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Position3D))
+        if (!(o.getClass() == this.getClass()))
             return false;
 
         Position3D p = (Position3D) o;

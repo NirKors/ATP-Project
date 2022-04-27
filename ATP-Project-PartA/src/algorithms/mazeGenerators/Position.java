@@ -56,7 +56,7 @@ public class Position {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Position))
+        if (!(o.getClass() == this.getClass()))
             return false;
 
         Position p = (Position) o;
