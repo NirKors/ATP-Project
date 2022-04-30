@@ -36,23 +36,19 @@ public class SearchableMaze implements ISearchable {
     }
 
     /**
-     * Returns an array of eight neighboring States to a given State.
+     * Returns an array of four neighboring States to a given State.
      *
      * @param state Given State.
      * @return array of neighbors to state, starting with its above neighbor, and following clockwise in eight directions in total.
      */
     @Override
     public AState[] getAllPossibleStates(AState state) {
-        AState[] states = new AState[8];
+        AState[] states = new AState[4];
         Position pos = state.getState();
         states[0] = new MazeState(pos.Up());
-        states[1] = new MazeState(pos.Up().Right());
-        states[2] = new MazeState(pos.Right());
-        states[3] = new MazeState(pos.Down().Right());
-        states[4] = new MazeState(pos.Down());
-        states[5] = new MazeState(pos.Down().Left());
-        states[6] = new MazeState(pos.Left());
-        states[7] = new MazeState(pos.Up());
+        states[1] = new MazeState(pos.Right());
+        states[2] = new MazeState(pos.Down());
+        states[3] = new MazeState(pos.Left());
         return states;
     }
 

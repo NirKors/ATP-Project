@@ -5,11 +5,9 @@ import algorithms.maze3D.Maze3D;
 import algorithms.maze3D.MyMaze3DGenerator;
 
 
-public class RunMaze3DGenerator { //TODO: More testing.
+public class RunMaze3DGenerator {
     public static void main(String[] args) {
         IMaze3DGenerator mg = new MyMaze3DGenerator();
-
-        Maze3D maze = mg.generate(2, 4, 4);
-        maze.print();
+        System.out.println(mg.measureAlgorithmTimeMillis(500, 500, 500));
     }
 }

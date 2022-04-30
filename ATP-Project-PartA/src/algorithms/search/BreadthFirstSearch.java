@@ -32,10 +32,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
 
             boolean flag = false;
             for (AState state : domain.getAllPossibleStates(current_state)) {
-                if (flag && ignoreDiagonal) { // Skips diagonal paths.
-                    flag = false;
-                    continue;
-                }
 
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
                     if (state.equals(domain.getGoal())) {// Reached goal.
