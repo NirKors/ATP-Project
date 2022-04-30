@@ -43,4 +43,52 @@ public class Position3D extends Position{
         Position3D p = (Position3D) o;
         return p.getRowIndex() == this.getRowIndex() && p.getColumnIndex() == this.getColumnIndex() && p.getDepthIndex() == depth;
     }
+
+    /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    @Override
+    public Position3D Up() {
+        return new Position3D(this.getDepthIndex(), this.getRowIndex() + 1, this.getColumnIndex());
+    }
+        /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    @Override
+    public Position3D Down() {
+        return new Position3D(this.getDepthIndex(), this.getRowIndex() - 1, this.getColumnIndex());
+    }
+        /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    @Override
+    public Position3D Left() {
+        return new Position3D(this.getDepthIndex(), this.getRowIndex(), this.getColumnIndex() - 1);
+    }
+        /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    @Override
+    public Position3D Right() {
+        return new Position3D(this.getDepthIndex(), this.getRowIndex(), this.getColumnIndex() + 1);
+    }
+        /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    public Position3D Above() {
+        return new Position3D(this.getDepthIndex() + 1, this.getRowIndex(), this.getColumnIndex());
+    }
+        /** Changes the coordinate values
+     *
+     * @return new Position3D
+     */
+    public Position3D Below() {
+        return new Position3D(this.getDepthIndex() - 1, this.getRowIndex(), this.getColumnIndex());
+    }
+
 }

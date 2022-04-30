@@ -27,7 +27,16 @@ public class SearchableMaze3D implements ISearchable {
      */
     @Override
     public AState[] getAllPossibleStates(AState state) { //TODO: Consider different approach
-        AState[] states = new AState[25];
+
+        AState[] states = new AState[6];
+        Position3D pos = (Position3D) state.getPos();
+        states[0] = new MazeState(pos.Up());
+        states[1] = new MazeState(pos.Right());
+        states[2] = new MazeState(pos.Down());
+        states[3] = new MazeState(pos.Left());
+        states[4] = new MazeState(pos.Above());
+        states[5] = new MazeState(pos.Below());
+        return states;
     }
 
     /**
@@ -36,6 +45,10 @@ public class SearchableMaze3D implements ISearchable {
      */
     @Override
     public boolean isIn(AState state) {
-
+        Position3D pos = (Position3D) state.getPos();
+        int row = pos.getRowIndex(), col = pos.getColumnIndex(), depth = pos.getDepthIndex();
+        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
+            return false;
+        return maze.getVal(depth, row, col) == 0;
     }
 }
