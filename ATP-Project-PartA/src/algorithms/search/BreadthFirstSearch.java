@@ -62,9 +62,9 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             if (!domain.validTraversal(curr, prev, false)) {
                 path.remove(prev);
             }
-            else if (!domain.validTraversal(curr, prev, removeDiagonal)) {
+            else if (removeDiagonal && !domain.validTraversal(curr, prev, true)) {
                 path.remove(prev);
-                counter--; //TODO: Why this?
+                counter++;
             }
         }
         return path;

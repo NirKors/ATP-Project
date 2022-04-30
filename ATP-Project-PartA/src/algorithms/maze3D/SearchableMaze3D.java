@@ -59,6 +59,16 @@ public class SearchableMaze3D implements ISearchable {
 
     @Override
     public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
-        return false; // TODO: Implement.
+        Position3D currp = (Position3D) curr.getState();
+        Position3D prevp = (Position3D) prev.getState();
+        int diffdepth = Math.abs(currp.getDepthIndex() - prevp.getDepthIndex());
+        int diffRow = Math.abs(currp.getRowIndex() - prevp.getRowIndex());
+        int diffCol = Math.abs(currp.getColumnIndex() - prevp.getColumnIndex());
+
+        if (diffdepth > 1 || diffRow > 1 || diffCol > 1)
+            return false;
+        else if (removeDiagonal && diffdepth + diffRow + diffCol == 2)
+            return false;
+        return true;
     }
 }
