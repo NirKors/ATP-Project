@@ -52,7 +52,7 @@ public class SearchableMaze3D implements ISearchable {
     public boolean isIn(AState state) {
         Position3D pos = (Position3D) state.getState();
         int row = pos.getRowIndex(), col = pos.getColumnIndex(), depth = pos.getDepthIndex();
-        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
+        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum() || depth < 0 || depth >= maze.getDepthNum())
             return false;
         return maze.getVal(depth, row, col) == 0;
     }
