@@ -7,9 +7,10 @@ public class Maze3D {
     public Maze3D(int depth_size, int row_size, int column_size){
                 maze = new int[depth_size][row_size][column_size];
     }
-    public int[][][] getMaze() {
+    public int[][][] getMap() {
         return maze;
     }
+
 
     public int getVal(int depth, int row, int column) {
         if (depth < 0 || row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum())
@@ -17,8 +18,10 @@ public class Maze3D {
         return this.maze[depth][row][column];
     }
 
+
+
     public int getDepthNum() {
-        return getMaze().length;
+        return getMap().length;
     }
 
     public void setVal(Position3D pos, int val) {
@@ -30,11 +33,11 @@ public class Maze3D {
     }
 
     public int getRowNum() {
-        return getMaze()[0].length;
+        return getMap()[0].length;
     }
 
     public int getColNum() {
-        return getMaze()[0][0].length;
+        return getMap()[0][0].length;
     }
 
     public void setMaze(int[][][] maze) {
