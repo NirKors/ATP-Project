@@ -11,7 +11,7 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
         return System.currentTimeMillis() - time;
     }
 
-    protected void generateStartGoal(Maze3D maze) {
+    protected void generateStartGoal(Maze3D maze) { //TODO: Understand how Start and Goal positions are created.
         int depth = maze.getDepthNum(), row = maze.getRowNum(), col = maze.getColNum();
         Position3D start;
         Position3D goal;

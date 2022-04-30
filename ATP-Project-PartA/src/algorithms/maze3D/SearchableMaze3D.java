@@ -26,7 +26,7 @@ public class SearchableMaze3D implements ISearchable {
      * @return AState[] of new possible positions.
      */
     @Override
-    public AState[] getAllPossibleStates(AState state) { //TODO: Consider different approach
+    public AState[] getAllPossibleStates(AState state) {
 
         AState[] states = new AState[6];
         Position3D pos = (Position3D) state.getPos();

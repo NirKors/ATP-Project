@@ -35,7 +35,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
                     prevDict.put(state, current_state);
                 }
             }
-            // TODO: check out why nodes evaluated is not working correctly.
             nodes_Evaluated++;
         }
         ArrayList<AState> reverser = new ArrayList<>();
