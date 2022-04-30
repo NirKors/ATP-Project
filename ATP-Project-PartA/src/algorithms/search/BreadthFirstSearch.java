@@ -10,7 +10,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     public Solution solve(ISearchable domain) {
         this.domain = domain;
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(), true));
+        v.setSolution(cleanPath(solve()));
         return v;
     }
 
@@ -52,7 +52,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) { //TODO: Is 'removeDiagonal' abstract enough?
+    protected ArrayList<AState> cleanPath(Solution v) { //TODO: Is 'removeDiagonal' abstract enough?
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
@@ -62,7 +62,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             if (!domain.validTraversal(curr, prev, false)) {
                 path.remove(prev);
             }
-            else if (removeDiagonal && !domain.validTraversal(curr, prev, true)) {
+            else if (!domain.validTraversal(curr, prev, true)) {
                 path.remove(prev);
                 counter++;
             }
