@@ -14,7 +14,7 @@ public class Maze3D {
 
 
     public int getVal(int depth, int row, int column) {
-        if (depth < 0 || row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum())
+        if (depth < 0 || row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum() || depth >= this.getDepthNum())
             return -1;
         return this.maze[depth][row][column];
     }
