@@ -6,6 +6,7 @@ public abstract class AState { //TODO: Translate Position/Position3d to AState
     protected Position pos;
 
 
+    @Override
     public String toString() {
         return pos.toString();
     }
@@ -27,7 +28,7 @@ public abstract class AState { //TODO: Translate Position/Position3d to AState
         return pos.equals(state.pos);
     }
 
-    public Position getPos() {
+    public Position getState() {
         return pos;
     }
 }

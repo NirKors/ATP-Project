@@ -8,4 +8,6 @@ public interface ISearchable {
     AState[] getAllPossibleStates(AState state);
 
     boolean isIn(AState state);
+
+    boolean validTraversal(AState curr, AState prev, boolean removeDiagonal);
 }

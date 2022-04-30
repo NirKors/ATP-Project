@@ -1,6 +1,5 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
 import algorithms.search.MazeState;
@@ -29,7 +28,7 @@ public class SearchableMaze3D implements ISearchable {
     public AState[] getAllPossibleStates(AState state) {
 
         AState[] states = new AState[6];
-        Position3D pos = (Position3D) state.getPos();
+        Position3D pos = (Position3D) state.getState();
         states[0] = new MazeState(pos.Up());
         states[1] = new MazeState(pos.Right());
         states[2] = new MazeState(pos.Down());
@@ -45,10 +44,15 @@ public class SearchableMaze3D implements ISearchable {
      */
     @Override
     public boolean isIn(AState state) {
-        Position3D pos = (Position3D) state.getPos();
+        Position3D pos = (Position3D) state.getState();
         int row = pos.getRowIndex(), col = pos.getColumnIndex(), depth = pos.getDepthIndex();
         if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
             return false;
         return maze.getVal(depth, row, col) == 0;
+    }
+
+    @Override
+    public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
+        return false; // TODO: Implement.
     }
 }

@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 
 public class BreadthFirstSearch extends ASearchingAlgorithm {
+    protected ISearchable domain;
+
     @Override
     public Solution solve(ISearchable domain) {
+        this.domain = domain;
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(domain, true), true));
+        v.setSolution(cleanPath(solve(true), true));
         return v;
     }
 
-    protected Solution solve(ISearchable domain, boolean ignoreDiagonal) {
+    protected Solution solve(boolean ignoreDiagonal) {
         Solution v = new Solution();
         AState current_state = domain.getStart();
         ArrayList<AState> Q = new ArrayList<>();
@@ -56,18 +59,17 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) {
+    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) { //TODO: Is this abstract enough?
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
             AState curr = path.get(--counter);
             AState prev = path.get(counter - 1);
-            int diffRow = Math.abs(curr.pos.getRowIndex() - prev.pos.getRowIndex());
-            int diffCol = Math.abs(curr.pos.getColumnIndex() - prev.pos.getColumnIndex());
 
-            if (diffRow > 1 || diffCol > 1)
+            if (!domain.validTraversal(curr, prev, false)) {
                 path.remove(prev);
-            else if (removeDiagonal && diffRow + diffCol == 2) {
+            }
+            if (!domain.validTraversal(curr, prev, true)) {
                 path.remove(prev);
                 counter--;
             }
