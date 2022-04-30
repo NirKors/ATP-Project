@@ -65,7 +65,7 @@ public class SearchableMaze3D implements ISearchable {
         int diffRow = Math.abs(currp.getRowIndex() - prevp.getRowIndex());
         int diffCol = Math.abs(currp.getColumnIndex() - prevp.getColumnIndex());
 
-        if (diffdepth > 1 || diffRow > 1 || diffCol > 1)
+        if (diffdepth > 1 || diffRow > 1 || diffCol > 1 || diffdepth + diffRow + diffCol > 2)
             return false;
         else if (removeDiagonal && diffdepth + diffRow + diffCol == 2)
             return false;
