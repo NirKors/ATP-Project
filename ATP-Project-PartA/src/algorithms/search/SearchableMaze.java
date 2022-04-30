@@ -36,23 +36,19 @@ public class SearchableMaze implements ISearchable {
     }
 
     /**
-     * Returns an array of eight neighboring States to a given State.
+     * Returns an array of four neighboring States to a given State.
      *
      * @param state Given State.
      * @return array of neighbors to state, starting with its above neighbor, and following clockwise in eight directions in total.
      */
     @Override
     public AState[] getAllPossibleStates(AState state) {
-        AState[] states = new AState[8];
-        Position pos = state.pos;
+        AState[] states = new AState[4];
+        Position pos = state.getState();
         states[0] = new MazeState(pos.Up());
-        states[1] = new MazeState(pos.Up().Right());
-        states[2] = new MazeState(pos.Right());
-        states[3] = new MazeState(pos.Down().Right());
-        states[4] = new MazeState(pos.Down());
-        states[5] = new MazeState(pos.Down().Left());
-        states[6] = new MazeState(pos.Left());
-        states[7] = new MazeState(pos.Up());
+        states[1] = new MazeState(pos.Right());
+        states[2] = new MazeState(pos.Down());
+        states[3] = new MazeState(pos.Left());
         return states;
     }
 
@@ -62,10 +58,22 @@ public class SearchableMaze implements ISearchable {
      */
     @Override
     public boolean isIn(AState state) {
-        int row = state.pos.getRowIndex(), col = state.pos.getColumnIndex();
+        int row = state.getState().getRowIndex(), col = state.getState().getColumnIndex();
         if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
             return false;
         return maze.getVal(row, col) == 0;
+    }
+
+    @Override
+    public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
+        int diffRow = Math.abs(curr.getState().getRowIndex() - prev.getState().getRowIndex());
+        int diffCol = Math.abs(curr.getState().getColumnIndex() - prev.getState().getColumnIndex());
+
+        if (diffRow > 1 || diffCol > 1)
+            return false;
+        else if (removeDiagonal && diffRow + diffCol == 2)
+            return false;
+        return true;
     }
 
 

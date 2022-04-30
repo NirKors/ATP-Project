@@ -8,8 +8,13 @@ import algorithms.search.MazeState;
 public class SearchableMaze3D implements ISearchable {
 
     Maze3D maze;
-    private MazeState start, goal;
+    private Maze3DState start, goal;
 
+    public SearchableMaze3D(Maze3D maze) {
+        this.maze = maze;
+        start = new Maze3DState(maze.getStartPosition());
+        goal = new Maze3DState(maze.getGoalPosition());
+    }
     @Override
     public AState getStart() {
         return start;
@@ -26,8 +31,17 @@ public class SearchableMaze3D implements ISearchable {
      * @return AState[] of new possible positions.
      */
     @Override
-    public AState[] getAllPossibleStates(AState state) { //TODO: Consider different approach
-        AState[] states = new AState[25];
+    public AState[] getAllPossibleStates(AState state) {
+
+        AState[] states = new AState[6];
+        Position3D pos = (Position3D) state.getState();
+        states[0] = new MazeState(pos.Up());
+        states[1] = new MazeState(pos.Right());
+        states[2] = new MazeState(pos.Down());
+        states[3] = new MazeState(pos.Left());
+        states[4] = new MazeState(pos.Above());
+        states[5] = new MazeState(pos.Below());
+        return states;
     }
 
     /**
@@ -36,6 +50,25 @@ public class SearchableMaze3D implements ISearchable {
      */
     @Override
     public boolean isIn(AState state) {
+        Position3D pos = (Position3D) state.getState();
+        int row = pos.getRowIndex(), col = pos.getColumnIndex(), depth = pos.getDepthIndex();
+        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum() || depth < 0 || depth >= maze.getDepthNum())
+            return false;
+        return maze.getVal(depth, row, col) == 0;
+    }
 
+    @Override
+    public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
+        Position3D currp = (Position3D) curr.getState();
+        Position3D prevp = (Position3D) prev.getState();
+        int diffdepth = Math.abs(currp.getDepthIndex() - prevp.getDepthIndex());
+        int diffRow = Math.abs(currp.getRowIndex() - prevp.getRowIndex());
+        int diffCol = Math.abs(currp.getColumnIndex() - prevp.getColumnIndex());
+
+        if (diffdepth > 1 || diffRow > 1 || diffCol > 1 || diffdepth + diffRow + diffCol > 2)
+            return false;
+        else if (removeDiagonal && diffdepth + diffRow + diffCol == 2)
+            return false;
+        return true;
     }
 }

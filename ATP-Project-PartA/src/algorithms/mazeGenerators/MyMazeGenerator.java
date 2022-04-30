@@ -26,14 +26,15 @@ public class MyMazeGenerator extends AMazeGenerator {
         }
 
         // Invert the maze
-        for (int i = 0; i < mazeGB.getRowNum(); i++) {
-            for (int j = 0; j < mazeGB.getColNum(); j++) {
-                if (mazeGB.getVal(i, j) == 0)
-                    mazeGB.setVal(i, j, 1);
-                else
-                    mazeGB.setVal(i, j, 0);
+        if (!(row == 2 && col == 2))
+            for (int i = 0; i < mazeGB.getRowNum(); i++) {
+                for (int j = 0; j < mazeGB.getColNum(); j++) {
+                    if (mazeGB.getVal(i, j) == 0)
+                        mazeGB.setVal(i, j, 1);
+                    else
+                        mazeGB.setVal(i, j, 0);
+                }
             }
-        }
         generateStartGoal(mazeGB);
         return mazeGB;
     }

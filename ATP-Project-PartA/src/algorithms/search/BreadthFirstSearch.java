@@ -4,14 +4,17 @@ import java.util.ArrayList;
 
 
 public class BreadthFirstSearch extends ASearchingAlgorithm {
+    protected ISearchable domain;
+
     @Override
     public Solution solve(ISearchable domain) {
+        this.domain = domain;
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(domain, true)));
+        v.setSolution(cleanPath(solve()));
         return v;
     }
 
-    protected Solution solve(ISearchable domain, boolean ignoreDiagonal) {
+    protected Solution solve() {
         Solution v = new Solution();
         AState current_state = domain.getStart();
         ArrayList<AState> Q = new ArrayList<>();
@@ -27,13 +30,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                 return v;
             }
 
-            boolean flag = false;
             for (AState state : domain.getAllPossibleStates(current_state)) {
-                if (flag && ignoreDiagonal) { // Skips diagonal paths.
-                    flag = false;
-                    continue;
-                }
-
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
                     if (state.equals(domain.getGoal())) {// Reached goal.
                         v.addState(state);
@@ -43,7 +40,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                     visited.add(state);
                     Q.add(state);
                 }
-                flag = true;
             }
 
         }
@@ -56,17 +52,20 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v) {
+    protected ArrayList<AState> cleanPath(Solution v) { //TODO: Is 'removeDiagonal' abstract enough?
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
             AState curr = path.get(--counter);
             AState prev = path.get(counter - 1);
-            int diffRow = Math.abs(curr.pos.getRowIndex() - prev.pos.getRowIndex());
-            int diffCol = Math.abs(curr.pos.getColumnIndex() - prev.pos.getColumnIndex());
-            if (diffRow > 1 || diffCol > 1 || diffRow + diffCol == 2)
-                path.remove(prev);
 
+            if (!domain.validTraversal(curr, prev, false)) {
+                path.remove(prev);
+            }
+            else if (!domain.validTraversal(curr, prev, true)) {
+                path.remove(prev);
+                counter++;
+            }
         }
         return path;
     }
@@ -76,5 +75,4 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     public String getName() {
         return "BreadthFirstSearch";
     }
-
 }

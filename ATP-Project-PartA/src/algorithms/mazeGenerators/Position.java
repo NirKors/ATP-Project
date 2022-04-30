@@ -35,19 +35,31 @@ public class Position {
         return "{" + this.getRowIndex() + "," + this.getColumnIndex() + "}";
     }
 
-    // To ease out movements and states, we will add functions that give a new position depending on where we want to go
+    /** Changes the coordinate values
+     *
+     * @return new Position
+     */
     public Position Up() {
         return new Position(this.getRowIndex() + 1, this.getColumnIndex());
     }
-
+    /** Changes the coordinate values
+     *
+     * @return new Position
+     */
     public Position Down() {
         return new Position(this.getRowIndex() - 1, this.getColumnIndex());
     }
-
+    /** Changes the coordinate values
+     *
+     * @return new Position
+     */
     public Position Left() {
         return new Position(this.getRowIndex(), this.getColumnIndex() - 1);
     }
-
+    /** Changes the coordinate values
+     *
+     * @return new Position
+     */
     public Position Right() {
         return new Position(this.getRowIndex(), this.getColumnIndex() + 1);
     }
@@ -56,7 +68,7 @@ public class Position {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Position))
+        if (!(o.getClass() == this.getClass()))
             return false;
 
         Position p = (Position) o;
