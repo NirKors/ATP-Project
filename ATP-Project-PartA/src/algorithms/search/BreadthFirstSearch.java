@@ -10,11 +10,11 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
     public Solution solve(ISearchable domain) {
         this.domain = domain;
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(true), true));
+        v.setSolution(cleanPath(solve(), true));
         return v;
     }
 
-    protected Solution solve(boolean ignoreDiagonal) {
+    protected Solution solve() {
         Solution v = new Solution();
         AState current_state = domain.getStart();
         ArrayList<AState> Q = new ArrayList<>();
@@ -30,9 +30,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                 return v;
             }
 
-            boolean flag = false;
             for (AState state : domain.getAllPossibleStates(current_state)) {
-
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
                     if (state.equals(domain.getGoal())) {// Reached goal.
                         v.addState(state);
@@ -42,7 +40,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                     visited.add(state);
                     Q.add(state);
                 }
-                flag = true;
             }
 
         }
@@ -55,7 +52,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) { //TODO: Is this abstract enough?
+    protected ArrayList<AState> cleanPath(Solution v, boolean removeDiagonal) { //TODO: Is 'removeDiagonal' abstract enough?
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {
@@ -65,9 +62,9 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             if (!domain.validTraversal(curr, prev, false)) {
                 path.remove(prev);
             }
-            if (!domain.validTraversal(curr, prev, true)) {
+            else if (!domain.validTraversal(curr, prev, removeDiagonal)) {
                 path.remove(prev);
-                counter--;
+                counter--; //TODO: Why this?
             }
         }
         return path;

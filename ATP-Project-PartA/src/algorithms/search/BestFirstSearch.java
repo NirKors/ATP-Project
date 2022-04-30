@@ -7,7 +7,7 @@ public class BestFirstSearch extends BreadthFirstSearch {
     public Solution solve(ISearchable domain) {
         this.domain = domain;
         Solution v = new Solution();
-        v.setSolution(cleanPath(solve(false), false));
+        v.setSolution(cleanPath(solve(), false));
         v.setSolution(cleanBestPath(v));
         return v;
     }
