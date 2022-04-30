@@ -24,11 +24,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
                 break;
             }
             S.remove(S.size() - 1);
-            int flag = -1;
             for (AState state : domain.getAllPossibleStates(current_state)) {
-                flag++;
-                if (flag % 2 != 0)
-                    continue;
                 if (!(visited.contains(state)) && domain.isIn(state)) {
                     visited.add(state);
                     S.add(state);
