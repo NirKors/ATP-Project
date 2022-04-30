@@ -1,5 +1,6 @@
 package algorithms.maze3D;
 
+import algorithms.mazeGenerators.Maze;
 import algorithms.search.AState;
 import algorithms.search.ISearchable;
 import algorithms.search.MazeState;
@@ -7,8 +8,13 @@ import algorithms.search.MazeState;
 public class SearchableMaze3D implements ISearchable {
 
     Maze3D maze;
-    private MazeState start, goal;
+    private Maze3DState start, goal;
 
+    public SearchableMaze3D(Maze3D maze) {
+        this.maze = maze;
+        start = new Maze3DState(maze.getStartPosition());
+        goal = new Maze3DState(maze.getGoalPosition());
+    }
     @Override
     public AState getStart() {
         return start;
