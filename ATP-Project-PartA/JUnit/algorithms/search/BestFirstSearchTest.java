@@ -5,16 +5,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BestFirstSearchTest {
+    private BestFirstSearch best = new BestFirstSearch();
 
     @Test
-    void solve() {
-
+    void solve() throws Exception{
+        //TODO: How to test?
     }
 
     @Test
-    /** Test to make sure the naming works correctly */
-    void getName() {
-        ISearchingAlgorithm Best = new BestFirstSearch();
-        assertEquals("BestFirstSearch",Best.getName());
+    void getName() throws Exception{
+        assertEquals("BestFirstSearch", best.getName());
     }
 }
