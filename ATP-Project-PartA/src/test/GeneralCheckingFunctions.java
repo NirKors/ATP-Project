@@ -7,5 +7,10 @@ public class GeneralCheckingFunctions {
         boolean weChoseToDoTheMaze3DAssignment = true;
         return weChoseToDoTheMaze3DAssignment;
     }
-
+    public static String getGithubLink(){
+        //change the <username> in the link to the username of the student who
+        //created the github project: TODO: Nir plz add your name in the link below
+        String githubLink = "https://github.com/<username>/ATP-Project";
+        return githubLink;
+    }
 }
