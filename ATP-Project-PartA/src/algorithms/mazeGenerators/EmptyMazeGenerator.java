@@ -7,7 +7,7 @@ public class EmptyMazeGenerator extends AMazeGenerator {
         // they will be given default values of 2
         row = (row<2)? 2 : row;
         column = (column<2)? 2 : column;
-        System.out.println("Row " + row + " Column " + column);
+
         Maze maze = new Maze(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++)
