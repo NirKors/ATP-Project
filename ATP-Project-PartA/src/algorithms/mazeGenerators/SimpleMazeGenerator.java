@@ -8,6 +8,10 @@ public class SimpleMazeGenerator extends AMazeGenerator {
     @Override
     public Maze generate(int row, int column) {
         // Start by creating a random
+        // in here, we will make sure that row and col are not null. In case they are, they will be given default
+        // values of 2
+        row = (row<2)? 2 : row;
+        column = (column<2)? 2 : column;
         Maze maze = new Maze(row, column);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
