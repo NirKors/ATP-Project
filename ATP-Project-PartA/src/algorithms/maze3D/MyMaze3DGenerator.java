@@ -13,6 +13,14 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
     // This is an implementation of Randomized depth-first search, altered to fit 3D mazes.
     @Override
     public Maze3D generate(int depth, int row, int col) {
+        // Input validation:
+        if (depth < 1) depth = 1;
+        if (row < 1) row = 2;
+        if (col < 1) col = 2;
+        if (row < 2 && (col < 2 ||depth < 2)) row = 2;
+        if (col < 2 && (row < 2 || depth < 2)) col = 2;
+        if (depth < 2 && (row < 2 || col < 2)) depth = 2;
+
         mazeGB = createEmpty(depth, row, col);
         Position3D cell = new Position3D(0, 0, 0);
         mazeGB.setVal(cell, 1);

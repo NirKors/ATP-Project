@@ -9,8 +9,8 @@ public class GeneralCheckingFunctions {
     }
     public static String getGithubLink(){
         //change the <username> in the link to the username of the student who
-        //created the github project: TODO: Nir plz add your name in the link below
-        String githubLink = "https://github.com/<username>/ATP-Project";
+        //created the github project:
+        String githubLink = "https://github.com/NirKors/ATP-Project";
         return githubLink;
     }
 }
