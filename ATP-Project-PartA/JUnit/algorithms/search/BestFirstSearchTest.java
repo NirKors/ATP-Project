@@ -5,6 +5,8 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BestFirstSearchTest {
@@ -16,11 +18,18 @@ class BestFirstSearchTest {
 
     }
 
-    void givenNullArgs() throws Exception{
+    @Test
+    void givenLessThenTwo() throws Exception{
         IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(0, 5);
+        Maze maze = mg.generate(1, -10);
         maze.print();
         SearchableMaze searchableMaze = new SearchableMaze(maze);
+        Solution solution = best.solve(searchableMaze);
+        ArrayList<AState> solutionPath = solution.getSolutionPath();
+        for (int i = 0; i < solutionPath.size(); i++) {
+            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
+        }
+
     }
 
     @Test
