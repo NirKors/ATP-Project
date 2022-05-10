@@ -24,6 +24,25 @@ class BestFirstSearchTest {
     }
 
     @Test
+    void IsBest(){
+        IMazeGenerator mg = new MyMazeGenerator();
+        for (int i = 0; i < 10; i++) {
+            Maze maze = mg.generate((int)Math.random() * 18 + 2, (int)Math.random() * 18 + 2);
+            SearchableMaze searchableMaze = new SearchableMaze(maze);
+            int bfs = solveProblem(searchableMaze, new BreadthFirstSearch());
+            int dfs = solveProblem(searchableMaze, new DepthFirstSearch());
+            int best = solveProblem(searchableMaze, new BestFirstSearch());
+            assertFalse(best > dfs || best > bfs);
+        }
+    }
+
+    private static int solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
+        Solution solution = searcher.solve(domain);
+        ArrayList<AState> solutionPath = solution.getSolutionPath();
+        return solutionPath.size();
+    }
+
+    @Test
     void getName() throws Exception{
         assertEquals("BestFirstSearch", best.getName());
     }
