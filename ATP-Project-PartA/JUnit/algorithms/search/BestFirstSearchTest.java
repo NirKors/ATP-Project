@@ -1,5 +1,9 @@
 package algorithms.search;
 
+import algorithms.maze3D.IMaze3DGenerator;
+import algorithms.maze3D.Maze3D;
+import algorithms.maze3D.MyMaze3DGenerator;
+import algorithms.maze3D.SearchableMaze3D;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
@@ -48,6 +52,14 @@ class BestFirstSearchTest {
         assertEquals(2, maze.getRowNum());
     }
 
+    @Test
+    void InvalidInput3D() {
+        IMaze3DGenerator mg = new MyMaze3DGenerator();
+        Maze3D maze = mg.generate(1, -10,0);
+        assertEquals(2, maze.getColNum());
+        assertEquals(2, maze.getRowNum());
+        assertEquals(1, maze.getDepthNum());
+    }
 
     @Test
     /**
@@ -58,6 +70,18 @@ class BestFirstSearchTest {
         for (int i = 0; i < 10; i++) {
             Maze maze = mg.generate((int)(Math.random() * 18 + 2), (int)(Math.random() * 18 + 2));
             SearchableMaze searchableMaze = new SearchableMaze(maze);
+            int bfs = solveProblem(searchableMaze, new BreadthFirstSearch()).size();
+            int dfs = solveProblem(searchableMaze, new DepthFirstSearch()).size();
+            int best = solveProblem(searchableMaze, new BestFirstSearch()).size();
+            assertFalse(best > dfs || best > bfs);
+        }
+    }
+    @Test
+    void IsBest3D(){
+        IMaze3DGenerator mg = new MyMaze3DGenerator();
+        for (int i = 0; i < 10; i++) {
+            Maze3D maze = mg.generate((int)(Math.random() * 18 + 2), (int)(Math.random() * 18 + 2),(int)(Math.random() * 18 + 2));
+            SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
             int bfs = solveProblem(searchableMaze, new BreadthFirstSearch()).size();
             int dfs = solveProblem(searchableMaze, new DepthFirstSearch()).size();
             int best = solveProblem(searchableMaze, new BestFirstSearch()).size();
