@@ -52,7 +52,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    protected ArrayList<AState> cleanPath(Solution v) { //TODO: Is 'removeDiagonal' abstract enough?
+    protected ArrayList<AState> cleanPath(Solution v) {
         ArrayList<AState> path = v.getSolutionPath();
         int counter = path.size();
         while (counter > 2) {

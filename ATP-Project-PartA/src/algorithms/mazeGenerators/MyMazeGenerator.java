@@ -9,6 +9,8 @@ public class MyMazeGenerator extends AMazeGenerator {
     // This is an implementation of Randomized depth-first search.
     @Override
     public Maze generate(int row, int col) {
+        row = (row<2)? 2 : row;
+        col = (col<2)? 2 : col;
         mazeGB = new EmptyMazeGenerator().generate(row, col);
         Position cell = new Position(0, 0);
         mazeGB.setVal(cell, 1);
