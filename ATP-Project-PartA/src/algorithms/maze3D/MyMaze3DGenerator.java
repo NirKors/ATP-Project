@@ -14,12 +14,10 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
     @Override
     public Maze3D generate(int depth, int row, int col) {
         // Input validation:
-        if (depth < 1) depth = 1;
-        if (row < 1) row = 2;
-        if (col < 1) col = 2;
-        if (row < 2 && (col < 2 ||depth < 2)) row = 2;
-        if (col < 2 && (row < 2 || depth < 2)) col = 2;
-        if (depth < 2 && (row < 2 || col < 2)) depth = 2;
+        if (depth < 2) depth = 2;
+        if (row < 2) row = 2;
+        if (col < 2) col = 2;
+
 
         mazeGB = createEmpty(depth, row, col);
         Position3D cell = new Position3D(0, 0, 0);
@@ -36,16 +34,6 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
             } else if (!allCells.isEmpty())
                 cell = allCells.pop();
         }
-
-        // Invert the maze
-        if (!(depth <= 2 && row <= 2 && col <= 2))
-            for (int k = 0; k < mazeGB.getDepthNum(); k++)
-                for (int i = 0; i < mazeGB.getRowNum(); i++)
-                    for (int j = 0; j < mazeGB.getColNum(); j++)
-                        if (mazeGB.getVal(k, i, j) == 0)
-                            mazeGB.setVal(k, i, j, 1);
-                        else
-                            mazeGB.setVal(k, i, j, 0);
 
         generateStartGoal(mazeGB); // Fix generateStartGoal once an answer in the forum is received.
         return mazeGB;

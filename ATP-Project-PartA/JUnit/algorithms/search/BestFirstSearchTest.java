@@ -58,7 +58,7 @@ class BestFirstSearchTest {
         Maze3D maze = mg.generate(1, -10,0);
         assertEquals(2, maze.getColNum());
         assertEquals(2, maze.getRowNum());
-        assertEquals(1, maze.getDepthNum());
+        assertEquals(2, maze.getDepthNum());
     }
 
     @Test
@@ -76,7 +76,11 @@ class BestFirstSearchTest {
             assertFalse(best > dfs || best > bfs);
         }
     }
+
     @Test
+    /**
+     * Checks randomly created mazes and solves them while making sure Best's path is equal or shorter in length.
+     */
     void IsBest3D(){
         IMaze3DGenerator mg = new MyMaze3DGenerator();
         for (int i = 0; i < 10; i++) {
@@ -85,6 +89,7 @@ class BestFirstSearchTest {
             int bfs = solveProblem(searchableMaze, new BreadthFirstSearch()).size();
             int dfs = solveProblem(searchableMaze, new DepthFirstSearch()).size();
             int best = solveProblem(searchableMaze, new BestFirstSearch()).size();
+
             assertFalse(best > dfs || best > bfs);
         }
     }
