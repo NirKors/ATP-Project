@@ -3,6 +3,7 @@ package algorithms.search;
 import algorithms.mazeGenerators.IMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,8 +15,37 @@ class BestFirstSearchTest {
 
     @Test
     void solve(){
-        int[][] artificial = new int[5][5];
+        Maze artificial_maze = new Maze(4, 4);
+        int i, j;
+        for (i = 0; i < 4; i++)
+            for (j = 0; j < 4; j++)
+                artificial_maze.setVal(i, j, 1);
+        j = 0;
+        for (i = 0; i < 4; i++) {
+            artificial_maze.setVal(i, j, 0);
+            if (i != 3)
+                artificial_maze.setVal(i, ++j, 0);
+        }
+        artificial_maze.setStartPosition(new Position(0, 0));
+        artificial_maze.setGoalPosition(new Position(3, 3));
 
+        SearchableMaze searchableMaze = new SearchableMaze(artificial_maze);
+        ArrayList<AState> sol = solveProblem(searchableMaze, new BestFirstSearch());
+        ArrayList<AState> expected = new ArrayList<>();
+        for (i = 0; i < 4; i++)
+            expected.add(new MazeState(new Position(i, i)));
+        assertEquals(expected, sol);
+
+    }
+
+
+
+    @Test
+    void InvalidInput() {
+        IMazeGenerator mg = new MyMazeGenerator();
+        Maze maze = mg.generate(1, -10);
+        assertEquals(2, maze.getColNum());
+        assertEquals(2, maze.getRowNum());
     }
 
 
@@ -28,17 +58,17 @@ class BestFirstSearchTest {
         for (int i = 0; i < 10; i++) {
             Maze maze = mg.generate((int)(Math.random() * 18 + 2), (int)(Math.random() * 18 + 2));
             SearchableMaze searchableMaze = new SearchableMaze(maze);
-            int bfs = solveProblem(searchableMaze, new BreadthFirstSearch());
-            int dfs = solveProblem(searchableMaze, new DepthFirstSearch());
-            int best = solveProblem(searchableMaze, new BestFirstSearch());
+            int bfs = solveProblem(searchableMaze, new BreadthFirstSearch()).size();
+            int dfs = solveProblem(searchableMaze, new DepthFirstSearch()).size();
+            int best = solveProblem(searchableMaze, new BestFirstSearch()).size();
             assertFalse(best > dfs || best > bfs);
         }
     }
 
-    private static int solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
+    private static ArrayList<AState> solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
         Solution solution = searcher.solve(domain);
         ArrayList<AState> solutionPath = solution.getSolutionPath();
-        return solutionPath.size();
+        return solutionPath;
     }
 
     @Test
