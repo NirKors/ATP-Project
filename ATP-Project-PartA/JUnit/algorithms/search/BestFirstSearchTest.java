@@ -13,30 +13,20 @@ class BestFirstSearchTest {
     private BestFirstSearch best = new BestFirstSearch();
 
     @Test
-    void solve() throws Exception{
-        //TODO: How to test?
+    void solve(){
+        int[][] artificial = new int[5][5];
 
     }
 
-    @Test
-    void givenLessThenTwo() throws Exception{
-        IMazeGenerator mg = new MyMazeGenerator();
-        Maze maze = mg.generate(1, -10);
-        maze.print();
-        SearchableMaze searchableMaze = new SearchableMaze(maze);
-        Solution solution = best.solve(searchableMaze);
-        ArrayList<AState> solutionPath = solution.getSolutionPath();
-        for (int i = 0; i < solutionPath.size(); i++) {
-            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
-        }
-
-    }
 
     @Test
+    /**
+     * Used to check that BestFirstSearch algorithm always returns a path equal or shorter in length compared to other algorithms.
+     */
     void IsBest(){
         IMazeGenerator mg = new MyMazeGenerator();
         for (int i = 0; i < 10; i++) {
-            Maze maze = mg.generate((int)Math.random() * 18 + 2, (int)Math.random() * 18 + 2);
+            Maze maze = mg.generate((int)(Math.random() * 18 + 2), (int)(Math.random() * 18 + 2));
             SearchableMaze searchableMaze = new SearchableMaze(maze);
             int bfs = solveProblem(searchableMaze, new BreadthFirstSearch());
             int dfs = solveProblem(searchableMaze, new DepthFirstSearch());
@@ -52,7 +42,7 @@ class BestFirstSearchTest {
     }
 
     @Test
-    void getName() throws Exception{
+    void getName(){
         assertEquals("BestFirstSearch", best.getName());
     }
 }
