@@ -14,13 +14,12 @@ import java.util.ArrayList;
 public class RunSearchOnMaze3D {
     public static void main(String[] args) {
         IMaze3DGenerator mg = new MyMaze3DGenerator();
-        Maze3D maze = mg.generate(2, 4,5);
-        maze.print();
+        Maze3D maze = mg.generate(3, 3,3);
         SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
         solveProblem(searchableMaze, new BreadthFirstSearch());
         solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
-    } // TODO: Understand how nodes_evaluated are calculated.
+    }
 
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
         //Solve a searching problem with a searcher

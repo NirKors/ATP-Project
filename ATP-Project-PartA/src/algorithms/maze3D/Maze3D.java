@@ -19,6 +19,9 @@ public class Maze3D {
         return this.maze[depth][row][column];
     }
 
+    public int getVal(Position3D pos) {
+        return getVal(pos.getDepthIndex(), pos.getRowIndex(), pos.getColumnIndex());
+    }
 
     public int getDepthNum() {
         return getMap().length;
@@ -62,7 +65,7 @@ public class Maze3D {
 
     public void print() {
         //Unable to use the "substring" method without initializing str
-        String str = null;
+        String str;
         for (int depth = 0; depth < this.getDepthNum(); depth++) {
             str = "{\n";
             for (int row = 0; row < this.getRowNum(); row++) {

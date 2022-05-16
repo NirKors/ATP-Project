@@ -25,6 +25,10 @@ public class Maze {
         return this.maze[row][column];
     }
 
+    public int getVal(Position pos) {
+        return getVal(pos.getRowIndex(), pos.getColumnIndex());
+    }
+
     /**
      * Given the row and column numbers or a position, sets the given value into that spot in the maze.
      */
@@ -55,7 +59,7 @@ public class Maze {
      */
     public void print() {
         //Unable to use the "substring" method without initializing str
-        String str = null;
+        String str;
         for (int row = 0; row < this.getRowNum(); row++) {
             str = "{";
             for (int col = 0; col < this.getColNum(); col++) {

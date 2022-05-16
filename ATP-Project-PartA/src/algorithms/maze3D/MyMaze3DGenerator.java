@@ -35,7 +35,7 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
                 cell = allCells.pop();
         }
 
-        generateStartGoal(mazeGB); // Fix generateStartGoal once an answer in the forum is received.
+        generateStartGoal(mazeGB);
         return mazeGB;
     }
 
