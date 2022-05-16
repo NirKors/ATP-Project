@@ -5,7 +5,8 @@ import algorithms.mazeGenerators.Position;
 
 public class SearchableMaze implements ISearchable {
     Maze maze;
-    private MazeState start, goal;
+    private  MazeState start;
+    private  MazeState goal;
 
     /**
      * SearchableMaze Constructor.
@@ -64,6 +65,11 @@ public class SearchableMaze implements ISearchable {
         return maze.getVal(row, col) == 0;
     }
 
+    /**
+     * Checks if traversal from state prev to state curr is possible.
+     * @param removeDiagonal boolean whether to check diagonal movement.
+     * @return True if there's a valid traversal, else false.
+     */
     @Override
     public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
         int diffRow = Math.abs(curr.getState().getRowIndex() - prev.getState().getRowIndex());
@@ -71,9 +77,7 @@ public class SearchableMaze implements ISearchable {
 
         if (diffRow > 1 || diffCol > 1)
             return false;
-        else if (removeDiagonal && diffRow + diffCol == 2)
-            return false;
-        return true;
+        else return !removeDiagonal || diffRow + diffCol != 2;
     }
 
 

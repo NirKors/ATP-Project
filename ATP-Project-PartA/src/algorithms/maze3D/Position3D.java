@@ -7,15 +7,11 @@ public class Position3D extends Position{
 
     /**
      * Creates a Position3D with the given parameters.
-     * @param depth
-     * @param row
-     * @param column
      */
     public Position3D(int depth, int row, int column) {
         super(row, column);
         this.depth = depth;
     }
-
 
     /**
      * Returns the depth number of this position

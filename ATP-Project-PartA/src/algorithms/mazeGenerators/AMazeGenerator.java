@@ -10,39 +10,32 @@ public abstract class AMazeGenerator implements IMazeGenerator {
 
     /**
      * Generates a random Start position and a random Goal position at the edges where available.
-     *
-     * @param maze
      */
     protected void generateStartGoal(Maze maze) {
 
         // Random start / goal generation:
-        int start_row = 0, goal_row = 0, start_column = 0, goal_column = 0;
-        int targetStart = 0, targetGoal = 0;
-        int row = maze.getRowNum(), column = maze.getColNum();
-        while ((start_row == goal_row && start_column == goal_column) || (targetStart != 0 || targetGoal != 0)) {
+        Position start, goal;
+        do {
+            start = RandomPos(maze);
+            goal = RandomPos(maze);
+        } while (start.equals(goal) || maze.getVal(start) != 0 || maze.getVal(goal) != 0);
+        maze.setStartPosition(start);
+        maze.setGoalPosition(goal);
+    }
 
-            if (Math.random() < 0.5) {
-                start_row = (int) (Math.random() * row);
-                start_column = Math.random() < 0.5 ? 0 : column - 1;
-            } else {
-                start_column = (int) (Math.random() * column);
-                start_row = Math.random() < 0.5 ? 0 : row - 1;
-            }
-
-            if (Math.random() < 0.5) {
-                goal_row = (int) (Math.random() * row);
-                goal_column = Math.random() < 0.5 ? 0 : column - 1;
-            } else {
-                goal_column = (int) (Math.random() * column);
-                goal_row = Math.random() < 0.5 ? 0 : row - 1;
-            }
-            targetStart = maze.getVal(start_row, start_column);
-            targetGoal = maze.getVal(goal_row, goal_column);
+    /**
+     * Creates a position on a random wall with the given parameters.
+     */
+    private Position RandomPos(Maze maze){
+        int row, col;
+        if (Math.random() < 0.5) {
+            row = (int) (Math.random() * maze.getRowNum());
+            col = Math.random() < 0.5 ? 0 : maze.getColNum() - 1;
+        } else {
+            col = (int) (Math.random() * maze.getColNum());
+            row = Math.random() < 0.5 ? 0 : maze.getRowNum() - 1;
         }
-        maze.setVal(start_row, start_column, 0);
-        maze.setVal(goal_row, goal_column, 0);
-        maze.setStartPosition(new Position(start_row, start_column));
-        maze.setGoalPosition(new Position(goal_row, goal_column));
+        return new Position(row, col);
     }
 
 }

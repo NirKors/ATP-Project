@@ -5,7 +5,7 @@ package algorithms.mazeGenerators;
  */
 public class Maze {
 
-    private int[][] maze;
+    private  int[][] maze;
     private Position startPos, goalPos;
 
     /**
@@ -15,7 +15,6 @@ public class Maze {
         maze = new int[row_size][column_size];
     }
 
-
     /**
      * Given the row and column numbers, return the current value within that spot. Returns -1 if value is off limits.
      */
@@ -23,6 +22,10 @@ public class Maze {
         if (row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum())
             return -1;
         return this.maze[row][column];
+    }
+
+    public int getVal(Position pos) {
+        return getVal(pos.getRowIndex(), pos.getColumnIndex());
     }
 
     /**
@@ -55,20 +58,20 @@ public class Maze {
      */
     public void print() {
         //Unable to use the "substring" method without initializing str
-        String str = null;
+        StringBuilder str;
         for (int row = 0; row < this.getRowNum(); row++) {
-            str = "{";
+            str = new StringBuilder("{");
             for (int col = 0; col < this.getColNum(); col++) {
                 if (row == startPos.getRowIndex() && col == startPos.getColumnIndex()) {
-                    str += "S,";
+                    str.append("S,");
                 } else if (row == this.getGoalPosition().getRowIndex() && col == this.getGoalPosition().getColumnIndex()) {
-                    str += "E,";
+                    str.append("E,");
                 } else {
-                    str += getVal(row, col) + ",";
+                    str.append(getVal(row, col)).append(",");
                 }
             }
-            str = str.substring(0, str.length() - 1);
-            str += "}";
+            str = new StringBuilder(str.substring(0, str.length() - 1));
+            str.append("}");
             System.out.println(str);
         }
 
@@ -82,17 +85,17 @@ public class Maze {
     }
 
     /**
-     * Gets the goal position
-     */
-    public Position getGoalPosition() {
-        return goalPos;
-    }
-
-    /**
      * Sets the starting position
      */
     public void setStartPosition(Position p) {
         startPos = p;
+    }
+
+    /**
+     * Gets the goal position
+     */
+    public Position getGoalPosition() {
+        return goalPos;
     }
 
     /**

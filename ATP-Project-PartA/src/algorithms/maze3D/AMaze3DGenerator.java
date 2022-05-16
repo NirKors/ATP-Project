@@ -1,6 +1,5 @@
 package algorithms.maze3D;
 
-import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 
 public abstract class AMaze3DGenerator implements IMaze3DGenerator {
@@ -11,23 +10,48 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
         return System.currentTimeMillis() - time;
     }
 
-    protected void generateStartGoal(Maze3D maze) { //TODO: Understand how Start and Goal positions are created.
-        int depth = maze.getDepthNum(), row = maze.getRowNum(), col = maze.getColNum();
-        Position3D start;
-        Position3D goal;
-
-        while (true) {
-            start = new Position3D((int) (Math.random() * depth), (int) (Math.random() * row), (int) (Math.random() * col));
-            goal = new Position3D((int) (Math.random() * depth), (int) (Math.random() * row), (int) (Math.random() * col));
-            if (testPosition(start, maze) && testPosition(goal, maze))
-                if (!start.equals(goal))
-                    break;
-        }
-
-        maze.setVal(start, 0);
-        maze.setVal(goal, 0);
+    /**
+     * Used to create random Start and Goal positions in a given maze.
+     */
+    protected void generateStartGoal(Maze3D maze) {
+        // Random start / goal generation:
+        Position3D start, goal;
+        do {
+            start = RandomPos(maze);
+            goal = RandomPos(maze);
+        } while (start.equals(goal) || maze.getVal(start) != 0 || maze.getVal(goal) != 0);
         maze.setStartPosition(start);
         maze.setGoalPosition(goal);
+    }
+
+
+    private Position3D RandomPos(Maze3D maze){
+        int depth, row, col;
+        Position3D pos;
+        while (true){
+            switch ((int) (Math.random() * 3)) { // Chooses which axis to use to create a random wall.
+                case 0 -> { // Depth
+                    depth = Math.random() < 0.5 ? 0 : maze.getDepthNum();
+                    row = (int) (Math.random() * maze.getRowNum());
+                    col = (int) (Math.random() * maze.getColNum());
+                }
+                case 1 -> { // Row
+                    depth = (int) (Math.random() * maze.getDepthNum());
+                    row = Math.random() < 0.5 ? 0 : maze.getRowNum();
+                    col = (int) (Math.random() * maze.getColNum());
+                }
+                default -> { // Col
+                    depth = (int) (Math.random() * maze.getDepthNum());
+                    row = (int) (Math.random() * maze.getRowNum());
+                    col = Math.random() < 0.5 ? 0 : maze.getColNum();
+                }
+            }
+            pos = new Position3D(depth, row, col);
+            if (testPosition(pos, maze))
+                return pos;
+
+        }
+
     }
 
     /**
@@ -57,8 +81,7 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
             if (m.getVal(depth, row, col - 1) == 0)
                 return true;
         if (col < m.getRowNum())
-            if (m.getVal(depth, row, col + 1) == 0)
-                return true;
+            return m.getVal(depth, row, col + 1) == 0;
 
         return false;
     }

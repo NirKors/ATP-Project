@@ -16,7 +16,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         // prevDict is a dictionary where the keys are the states, and the values are the states they came from in the path /
         Hashtable<AState, AState> prevDict = new Hashtable<>();
         S.add(domain.getStart());
-        nodes_Evaluated--;// we don't want the first position to count towards nodes evaluated
         //Here we do the dfs search itself
         while (!S.isEmpty()) {
             current_state = S.get(S.size() - 1);

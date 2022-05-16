@@ -14,6 +14,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         return v;
     }
 
+    /**
+     * Protected method to be used by inheritance (see: BestFirstSearch)
+     * @return Solution to ISearchable domain
+     */
     protected Solution solve() {
         Solution v = new Solution();
         AState current_state = domain.getStart();
@@ -33,6 +37,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             for (AState state : domain.getAllPossibleStates(current_state)) {
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
                     if (state.equals(domain.getGoal())) {// Reached goal.
+                        nodes_Evaluated++;
                         v.addState(state);
                         return v;
                     }

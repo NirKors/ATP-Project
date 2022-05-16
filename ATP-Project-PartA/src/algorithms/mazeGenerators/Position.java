@@ -4,7 +4,8 @@ package algorithms.mazeGenerators;
  * A class representing the position
  */
 public class Position {
-    private int row, column;
+    private  int row;
+    private  int column;
 
     /**
      * Position constructor using the current Row and Column

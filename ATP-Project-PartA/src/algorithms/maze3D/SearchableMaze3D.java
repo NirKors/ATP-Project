@@ -8,7 +8,8 @@ import algorithms.search.MazeState;
 public class SearchableMaze3D implements ISearchable {
 
     Maze3D maze;
-    private Maze3DState start, goal;
+    private  Maze3DState start;
+    private  Maze3DState goal;
 
     public SearchableMaze3D(Maze3D maze) {
         this.maze = maze;
@@ -27,7 +28,6 @@ public class SearchableMaze3D implements ISearchable {
 
     /**
      * Returns a list of possible movements from a given state, including diagonally.
-     * @param state
      * @return AState[] of new possible positions.
      */
     @Override
@@ -57,6 +57,11 @@ public class SearchableMaze3D implements ISearchable {
         return maze.getVal(depth, row, col) == 0;
     }
 
+    /**
+     * Checks if traversal from state prev to state curr is possible.
+     * @param removeDiagonal boolean whether to check diagonal movement.
+     * @return True if there's a valid traversal, else false.
+     */
     @Override
     public boolean validTraversal(AState curr, AState prev, boolean removeDiagonal) {
         Position3D currp = (Position3D) curr.getState();
@@ -67,8 +72,6 @@ public class SearchableMaze3D implements ISearchable {
 
         if (diffdepth > 1 || diffRow > 1 || diffCol > 1 || diffdepth + diffRow + diffCol > 2)
             return false;
-        else if (removeDiagonal && diffdepth + diffRow + diffCol == 2)
-            return false;
-        return true;
+        else return !removeDiagonal || diffdepth + diffRow + diffCol != 2;
     }
 }
