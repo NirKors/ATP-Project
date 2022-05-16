@@ -33,10 +33,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             for (AState state : domain.getAllPossibleStates(current_state)) {
                 if ((!visited.contains(state)) && domain.isIn(state)) { // Checks if a valid, unvisited node.
                     if (state.equals(domain.getGoal())) {// Reached goal.
+                        nodes_Evaluated++;
                         v.addState(state);
                         return v;
                     }
-                    nodes_Evaluated++;
                     visited.add(state);
                     Q.add(state);
                 }
