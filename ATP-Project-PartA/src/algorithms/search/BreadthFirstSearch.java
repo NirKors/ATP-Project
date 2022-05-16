@@ -37,6 +37,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
                         v.addState(state);
                         return v;
                     }
+                    nodes_Evaluated++;
                     visited.add(state);
                     Q.add(state);
                 }
