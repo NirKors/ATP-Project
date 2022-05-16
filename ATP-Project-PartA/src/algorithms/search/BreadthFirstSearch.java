@@ -14,6 +14,10 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         return v;
     }
 
+    /**
+     * Protected method to be used by inheritance (see: BestFirstSearch)
+     * @return Solution to ISearchable domain
+     */
     protected Solution solve() {
         Solution v = new Solution();
         AState current_state = domain.getStart();

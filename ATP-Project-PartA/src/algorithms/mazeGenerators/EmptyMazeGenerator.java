@@ -3,10 +3,9 @@ package algorithms.mazeGenerators;
 public class EmptyMazeGenerator extends AMazeGenerator {
     @Override
     public Maze generate(int row, int column) {
-        // in here, we will make sure that row and col are not null or smaller than 2. In case they are,
-        // they will be given default values of 2
-        row = (row<2)? 2 : row;
-        column = (column<2)? 2 : column;
+        // Default values if needed:
+        row = Math.max(row, 2);
+        column = Math.max(column, 2);
 
         Maze maze = new Maze(row, column);
         for (int i = 0; i < row; i++) {

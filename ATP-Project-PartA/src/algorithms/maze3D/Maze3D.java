@@ -1,17 +1,12 @@
 package algorithms.maze3D;
 
 public class Maze3D {
-    private int[][][] maze;
+    private  int[][][] maze;
     private Position3D startPos, goalPos;
 
     public Maze3D(int depth_size, int row_size, int column_size) {
         maze = new int[depth_size][row_size][column_size];
     }
-
-    public int[][][] getMap() {
-        return maze;
-    }
-
 
     public int getVal(int depth, int row, int column) {
         if (depth < 0 || row < 0 || column < 0 || row >= this.getRowNum() || column >= this.getColNum() || depth >= this.getDepthNum())
@@ -24,7 +19,7 @@ public class Maze3D {
     }
 
     public int getDepthNum() {
-        return getMap().length;
+        return maze.length;
     }
 
     public void setVal(Position3D pos, int val) {
@@ -36,15 +31,11 @@ public class Maze3D {
     }
 
     public int getRowNum() {
-        return getMap()[0].length;
+        return maze[0].length;
     }
 
     public int getColNum() {
-        return getMap()[0][0].length;
-    }
-
-    public void setMaze(int[][][] maze) {
-        this.maze = maze;
+        return maze[0][0].length;
     }
 
     public Position3D getStartPosition() {
@@ -65,25 +56,25 @@ public class Maze3D {
 
     public void print() {
         //Unable to use the "substring" method without initializing str
-        String str;
+        StringBuilder str;
         for (int depth = 0; depth < this.getDepthNum(); depth++) {
-            str = "{\n";
+            str = new StringBuilder("{\n");
             for (int row = 0; row < this.getRowNum(); row++) {
-                str += "\t{";
+                str.append("\t{");
                 for (int col = 0; col < this.getColNum(); col++) {
                     if (row == startPos.getRowIndex() && col == startPos.getColumnIndex() && depth == startPos.getDepthIndex()) {
-                        str += "S,";
+                        str.append("S,");
                     } else if (row == this.getGoalPosition().getRowIndex() && col == this.getGoalPosition().getColumnIndex() && depth == this.getGoalPosition().getDepthIndex()) {
-                        str += "E,";
+                        str.append("E,");
                     } else {
-                        str += getVal(depth, row, col) + ",";
+                        str.append(getVal(depth, row, col)).append(",");
                     }
                 }
-                str = str.substring(0, str.length() - 1);
-                str += "}\n";
+                str = new StringBuilder(str.substring(0, str.length() - 1));
+                str.append("}\n");
             }
 
-            str += "}";
+            str.append("}");
             System.out.println(str);
         }
     }

@@ -10,6 +10,9 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
         return System.currentTimeMillis() - time;
     }
 
+    /**
+     * Used to create random Start and Goal positions in a given maze.
+     */
     protected void generateStartGoal(Maze3D maze) {
         // Random start / goal generation:
         Position3D start, goal;
@@ -20,6 +23,7 @@ public abstract class AMaze3DGenerator implements IMaze3DGenerator {
         maze.setStartPosition(start);
         maze.setGoalPosition(goal);
     }
+
 
     private Position3D RandomPos(Maze3D maze){
         int depth, row, col;

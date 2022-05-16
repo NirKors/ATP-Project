@@ -18,7 +18,6 @@ public class MyMaze3DGenerator extends AMaze3DGenerator {
         if (row < 2) row = 2;
         if (col < 2) col = 2;
 
-
         mazeGB = createEmpty(depth, row, col);
         Position3D cell = new Position3D(0, 0, 0);
         mazeGB.setVal(cell, 1);
