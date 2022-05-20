@@ -18,14 +18,18 @@ public class BestFirstSearch extends BreadthFirstSearch {
      * @param v - Solution to filter
      * @return Filtered solution
      */
-    private ArrayList<AState> cleanBestPath(Solution v) {
+    private ArrayList<AState> cleanBestPath(Solution v) { //TODO need to prefer straight lines or redo best
         ArrayList<AState> path = v.getSolutionPath();
 
         for (int i = 0; i < path.size() - 2; i++) {
             AState curr = path.get(i);
             AState next = path.get(i + 2);
-            if(domain.validTraversal(curr, next, false))
-                path.remove(i + 1);
+            int row = Math.abs(curr.getState().getRowIndex() - next.getState().getRowIndex());
+            int col = Math.abs(curr.getState().getColumnIndex() - next.getState().getColumnIndex());
+            int distance = row + col;
+            if (distance == 2 && (row == 2 || col == 2)){ // Able to form straight line between points
+
+            }
 
         }
         return path;

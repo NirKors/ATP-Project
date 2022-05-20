@@ -44,12 +44,16 @@ public class SearchableMaze implements ISearchable {
      */
     @Override
     public AState[] getAllPossibleStates(AState state) {
-        AState[] states = new AState[4];
+        AState[] states = new AState[8];
         Position pos = state.getState();
         states[0] = new MazeState(pos.Up());
-        states[1] = new MazeState(pos.Right());
-        states[2] = new MazeState(pos.Down());
-        states[3] = new MazeState(pos.Left());
+        states[1] = new MazeState(pos.Up().Right());
+        states[2] = new MazeState(pos.Right());
+        states[3] = new MazeState(pos.Right().Down());
+        states[4] = new MazeState(pos.Down());
+        states[5] = new MazeState(pos.Down().Left());
+        states[6] = new MazeState(pos.Left());
+        states[7] = new MazeState(pos.Left().Up());
         return states;
     }
 
@@ -75,9 +79,7 @@ public class SearchableMaze implements ISearchable {
         int diffRow = Math.abs(curr.getState().getRowIndex() - prev.getState().getRowIndex());
         int diffCol = Math.abs(curr.getState().getColumnIndex() - prev.getState().getColumnIndex());
 
-        if (diffRow > 1 || diffCol > 1)
-            return false;
-        else return !removeDiagonal || diffRow + diffCol != 2;
+        return diffRow <= 1 && diffCol <= 1;
     }
 
 
