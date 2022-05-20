@@ -12,13 +12,22 @@ import algorithms.search.*;
 import java.util.ArrayList;
 
 public class RunSearchOnMaze3D {
+    static int test;
     public static void main(String[] args) {
-        IMaze3DGenerator mg = new MyMaze3DGenerator();
-        Maze3D maze = mg.generate(3, 3,3);
-        SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
-        solveProblem(searchableMaze, new BreadthFirstSearch());
-        solveProblem(searchableMaze, new DepthFirstSearch());
-        solveProblem(searchableMaze, new BestFirstSearch());
+        for (int i = 0; i < 1000; i++) {
+
+            IMaze3DGenerator mg = new MyMaze3DGenerator();
+            Maze3D maze = mg.generate(2, 3,3);
+            SearchableMaze3D searchableMaze = new SearchableMaze3D(maze);
+            solveProblem(searchableMaze, new BreadthFirstSearch());
+            int bfs = test;
+            solveProblem(searchableMaze, new DepthFirstSearch());
+                int dfs = test;
+                if (bfs != dfs){
+                    maze.print();
+                    throw new RuntimeException("It happened (3D)\nBFS path length: " + bfs + "\nDFS path length: " + dfs);
+                }
+        }
     }
 
     private static void solveProblem(ISearchable domain, ISearchingAlgorithm searcher) {
@@ -28,6 +37,7 @@ public class RunSearchOnMaze3D {
         //Printing Solution Path
         System.out.println("Solution path:");
         ArrayList<AState> solutionPath = solution.getSolutionPath();
+        test = solutionPath.size();
         for (int i = 0; i < solutionPath.size(); i++) {
             System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
         }
