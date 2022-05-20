@@ -54,6 +54,12 @@ public class SearchableMaze implements ISearchable {
         states[5] = new MazeState(pos.Down().Left());
         states[6] = new MazeState(pos.Left());
         states[7] = new MazeState(pos.Left().Up());
+
+        states[1].price = 15;
+        states[3].price = 15;
+        states[5].price = 15;
+        states[7].price = 15;
+
         return states;
     }
 
@@ -64,13 +70,13 @@ public class SearchableMaze implements ISearchable {
     @Override
     public boolean isIn(AState state) {
         int row = state.getState().getRowIndex(), col = state.getState().getColumnIndex();
-        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum())
-            return false;
+        if (row < 0 || row >= maze.getRowNum() || col < 0 || col >= maze.getColNum()) return false;
         return maze.getVal(row, col) == 0;
     }
 
     /**
      * Checks if traversal from state prev to state curr is possible.
+     *
      * @param removeDiagonal boolean whether to check diagonal movement.
      * @return True if there's a valid traversal, else false.
      */
