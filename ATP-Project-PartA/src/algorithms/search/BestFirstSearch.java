@@ -5,13 +5,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class BestFirstSearch extends BreadthFirstSearch {
-    @Override
-    public Solution solve(ISearchable domain) {
-        this.domain = domain;
-        Solution v = new Solution();
-        v.setSolution(cleanPath(solve()));
-        return v;
-    }
 
     /**
      * Returns a list of possible neighboring states, by order of movement price.
