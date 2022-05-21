@@ -1,35 +1,26 @@
 package algorithms.search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class BestFirstSearch extends BreadthFirstSearch {
-    @Override
-    public Solution solve(ISearchable domain) {
-        this.domain = domain;
-        Solution v = new Solution();
-        v.setSolution(cleanPath(solve()));
-        v.setSolution(cleanBestPath(v));
-        return v;
-    }
 
     /**
-     * Makes sure Solution v contains a valid path, by removing unnecessary node traversals.
-     *
-     * @param v - Solution to filter
-     * @return Filtered solution
+     * Returns a list of possible neighboring states, by order of movement price.
      */
-    private ArrayList<AState> cleanBestPath(Solution v) {
-        ArrayList<AState> path = v.getSolutionPath();
+    @Override
+    protected AState[] getPossibleStates(AState current_state) {
+        ArrayList<AState> origin = new ArrayList<>(Arrays.asList(domain.getAllPossibleStates(current_state)));
 
-        for (int i = 0; i < path.size() - 2; i++) {
-            AState curr = path.get(i);
-            AState next = path.get(i + 2);
-            if(domain.validTraversal(curr, next, false))
-                path.remove(i + 1);
-
+        origin.sort(Comparator.comparing(AState::getPrice));
+        AState[] buff = new AState[origin.size()];
+        for (int i = 0; i < origin.size(); i++) {
+            buff[i] = origin.get(i);
         }
-        return path;
+        return buff;
     }
+
 
     @Override
     public String getName() {

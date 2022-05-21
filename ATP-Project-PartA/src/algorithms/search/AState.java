@@ -4,6 +4,7 @@ import algorithms.mazeGenerators.Position;
 
 public abstract class AState {
     protected Position pos;
+    int price = 10; // Default price
 
 
     @Override
@@ -19,10 +20,8 @@ public abstract class AState {
      */
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof AState))
-            return false;
+        if (o == this) return true;
+        if (!(o instanceof AState)) return false;
         AState state = (AState) o;
 
         return pos.equals(state.pos);
@@ -30,5 +29,9 @@ public abstract class AState {
 
     public Position getState() {
         return pos;
+    }
+
+    public int getPrice() {
+        return price;
     }
 }

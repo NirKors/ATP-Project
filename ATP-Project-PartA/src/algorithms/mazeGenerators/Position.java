@@ -36,28 +36,35 @@ public class Position {
         return "{" + this.getRowIndex() + "," + this.getColumnIndex() + "}";
     }
 
-    /** Changes the coordinate values
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Up() {
-        return new Position(this.getRowIndex() + 1, this.getColumnIndex());
+        return new Position(this.getRowIndex() - 1, this.getColumnIndex());
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Down() {
-        return new Position(this.getRowIndex() - 1, this.getColumnIndex());
+        return new Position(this.getRowIndex() + 1, this.getColumnIndex());
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Left() {
         return new Position(this.getRowIndex(), this.getColumnIndex() - 1);
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
@@ -67,10 +74,8 @@ public class Position {
 
     @Override
     public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o.getClass() == this.getClass()))
-            return false;
+        if (o == this) return true;
+        if (!(o.getClass() == this.getClass())) return false;
 
         Position p = (Position) o;
         return p.getRowIndex() == row && p.getColumnIndex() == column;
