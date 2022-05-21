@@ -144,11 +144,12 @@ public class Maze {
     public void setGoalPosition(Position p) {
         goalPos = p;
     }
+
     /**
      * Maze will be compressed using negative bytes as flags.
      * <p>
      *     Alternating between 0 and 1, starting with 0 we return the length of consecutive byte in the array.
-     *     While 0 is empty space, 1 is wall, -1 is a new row, -2 is the starting position, -3 is the end position, and -4 signifies continuing the previous byte (used in cases where sequence is larger than 255).
+     *     While 0 is empty space, 1 is wall, -1 is a new row, -2 is the starting position, -3 is the end position.
      *     <p>After an encounter with new row (-1) alternation restarts with 0.</p>
      * </p>
      *
@@ -169,29 +170,26 @@ public class Maze {
         for (int row = 0; row < maze.length; row++) {
             count = 0;
             for (int col = 0; col < maze[0].length; col++) {
-                if (row == srow && col == scol) {
+                if (row == srow && col == scol) { // Start pos found
                     toReturn.add(count);
                     toReturn.add((byte) -2);
                     count = 0;
-                } else if (row == grow && col == gcol) {
+                } else if (row == grow && col == gcol) { // Goal pos found.
                     toReturn.add(count);
                     toReturn.add((byte) -3);
                     count = 0;
-                } else{
-                    if (maze[row][col] == prev && count != 255)
+                } else {
+                    if (maze[row][col] == prev && count != 255) // Byte is similar to previous, and limit hasn't been reached.
                         count++;
-                    else{
+                    else {
                         toReturn.add(count);
-                        count = 0;
-                        if (count == 255){
-                            toReturn.add((byte) -4);
-                        }
-                        else{
-                            count++;
-                            if (prev == 0)
-                                prev = 1;
-                            else
-                                prev = 0;
+                        if (prev == 0) prev = 1;
+                        else prev = 0;
+
+                        if (count == 255) { // Limit reached
+                            count = 0;
+                        } else { // Byte is different to previous
+                            count = 1;
                         }
                     }
                 }
