@@ -1,8 +1,20 @@
 package test;
 
+import Client.IClientStrategy;
+import Client.Client;
+import IO.MyDecompressorInputStream;
 import Server.Server;
 import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.search.AState;
+import algorithms.search.Solution;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class RunCommunicateWithServers {
     public static void main(String[] args) {
