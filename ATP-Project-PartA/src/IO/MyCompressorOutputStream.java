@@ -13,12 +13,18 @@ public class MyCompressorOutputStream extends OutputStream {
      * Helper function
      */
     private void write(byte b, int amount) throws IOException {
+        byte count;
         do {
-            out.write(b);
-            out.write(Math.min(255, amount));
+            out.write(b); //TODO add conversion to actual 255 (unsigned)
+            count = (byte) Math.min(255, amount);
+            out.write(count);
             amount -= 255;
         } while (amount > 255);
     }
+
+
+
+
 
     /**
      * Writes the specified byte to this output stream. The general
@@ -40,16 +46,7 @@ public class MyCompressorOutputStream extends OutputStream {
 
     }
 
-    /**
-     * Writes {@code b.length} bytes from the specified byte array
-     * to this output stream. The general contract for {@code write(b)}
-     * is that it should have exactly the same effect as the call
-     * {@code write(b, 0, b.length)}.
-     *
-     * @param b the data.
-     * @throws IOException if an I/O error occurs.
-     * @see java.io.OutputStream#write(byte[], int, int)
-     */
+
     @Override
     public void write(byte[] b) throws IOException {
         if (b.length == 0) return;
@@ -65,5 +62,6 @@ public class MyCompressorOutputStream extends OutputStream {
                 count = 1;
             }
         }
+        write(data, count);
     }
 }

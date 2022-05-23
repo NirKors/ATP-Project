@@ -18,42 +18,36 @@ public class Maze {
     }
 
     public Maze(byte[] b) { // TODO: Test if works.
+        setSize(b);
         int row = 0, col = 0;
-        for (byte bb : b) {
-            if (bb == -1) {
-                row++;
-            } else if (bb < 0)
-                col++;
-            else
-                col += bb;
-        }
-        maze = new int[row][col];
-        row = 0;
         for (byte cell : b) {
-            col = 0;
-            while (cell != -1) {
-                switch (cell) {
-                    case 0:
-                    case 1:
-                        for (int j = 0; j < cell; j++)
-                            maze[row][col++] = cell;
-                        break;
-                    case -2:
-                        startPos = new Position(row, col);
-                        maze[row][col++] = 0;
-                        break;
-                    case -3:
-                        goalPos = new Position(row, col);
-                        maze[row][col++] = 0;
-                        break;
-                    case -4:
-                        break;
-                }
+            if (cell == 2) {
+                row++;
+                col = 0;
+                continue;
             }
-            row++;
+            switch (cell) {
+                case 1 -> maze[row][col] = cell;
+                case 3 -> startPos = new Position(row, col);
+                case 4 -> goalPos = new Position(row, col);
+            }
+            col++;
+
         }
     }
 
+
+    private void setSize(byte[] b){
+        int row_amount = 0, col_amount = 0;
+        for (int i = 0; i < b.length; i++) {
+            if (b[i] == 2) {
+                row_amount++;
+                if (row_amount == 1)
+                    col_amount = i;
+            }
+        }
+        maze = new int[row_amount][col_amount];
+    }
 
     /**
      * Given the row and column numbers, return the current value within that spot. Returns -1 if value is off limits.
@@ -145,6 +139,25 @@ public class Maze {
         goalPos = p;
     }
 
+    public byte[] toByteArray() {
+        //TODO can improve by only adding one '2'
+        byte[] maze_b = new byte[maze.length * (1 + maze[0].length)];
+        int counter = 0;
+        for(int[] row : maze) {
+            for (int col : row){
+                maze_b[counter++] = (byte)col;
+            }
+            maze_b[counter++] = 2; // new row
+        }
+
+        maze_b[startPos.getRowIndex() * (maze.length + 1) + startPos.getColumnIndex()] = 3; // start pos
+        maze_b[goalPos.getRowIndex() * (maze.length + 1) + goalPos.getColumnIndex()] = 4; // goal pos
+
+        return maze_b;
+    }
+
+
+
     /**
      * Maze will be compressed using negative bytes as flags.
      * <p>
@@ -160,9 +173,10 @@ public class Maze {
      *</pre>
      * @return Compressed byte array.
      */
-    public byte[] toByteArray() {
+    /*
+    public byte[] toByteArray() { //TODO limit is 128 in signed
         ArrayList<Byte> toReturn = new ArrayList<>();
-        byte count;
+        int count;
         int prev = 0;
         int srow = startPos.getRowIndex(), scol = startPos.getColumnIndex();
         int grow = goalPos.getRowIndex(), gcol = goalPos.getColumnIndex();
@@ -171,18 +185,18 @@ public class Maze {
             count = 0;
             for (int col = 0; col < maze[0].length; col++) {
                 if (row == srow && col == scol) { // Start pos found
-                    toReturn.add(count);
+                    toReturn.add((byte) count);
                     toReturn.add((byte) -2);
                     count = 0;
                 } else if (row == grow && col == gcol) { // Goal pos found.
-                    toReturn.add(count);
+                    toReturn.add((byte) count);
                     toReturn.add((byte) -3);
                     count = 0;
                 } else {
                     if (maze[row][col] == prev && count != 255) // Byte is similar to previous, and limit hasn't been reached.
                         count++;
                     else {
-                        toReturn.add(count);
+                        toReturn.add((byte) count);
                         if (prev == 0) prev = 1;
                         else prev = 0;
 
@@ -205,4 +219,5 @@ public class Maze {
         }
         return array;
     }
+    */
 }
