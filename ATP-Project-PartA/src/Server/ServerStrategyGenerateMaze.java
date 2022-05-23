@@ -7,7 +7,7 @@ import algorithms.mazeGenerators.MyMazeGenerator;
 
 import java.io.*;
 
-public class ServerStrategyGenerateMaze implements Server.Strategy.IServerStrategy {
+public class ServerStrategyGenerateMaze implements IServerStrategy {
 
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
@@ -20,7 +20,7 @@ public class ServerStrategyGenerateMaze implements Server.Strategy.IServerStrate
             int col = fromClient.read();
             MyMazeGenerator mazeGenerator = new MyMazeGenerator();
             Maze maze = mazeGenerator.generate(row, col);
-            MyCompressorOutputStream compressed = new MyCompressorOutputStream()
+//            MyCompressorOutputStream compressed = new MyCompressorOutputStream();
         }
         catch (IOException e) {
             e.printStackTrace();

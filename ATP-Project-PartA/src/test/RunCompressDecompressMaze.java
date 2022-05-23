@@ -15,7 +15,7 @@ public class RunCompressDecompressMaze {
         AMazeGenerator mazeGenerator = new MyMazeGenerator();
         Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
         try {
-// save maze to a file
+            // save maze to a file
             OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
             out.write(maze.toByteArray());
             out.flush();
@@ -25,7 +25,7 @@ public class RunCompressDecompressMaze {
         }
         byte savedMazeBytes[] = new byte[0];
         try {
-//read maze from file
+            //read maze from file
             InputStream in = new MyDecompressorInputStream(new FileInputStream(mazeFileName));
             savedMazeBytes = new byte[maze.toByteArray().length];
             in.read(savedMazeBytes);
@@ -36,6 +36,6 @@ public class RunCompressDecompressMaze {
         Maze loadedMaze = new Maze(savedMazeBytes);
         boolean areMazesEquals = Arrays.equals(loadedMaze.toByteArray(), maze.toByteArray());
         System.out.println(String.format("Mazes equal: %s", areMazesEquals));
-//maze should be equal to loadedMaze
+        //maze should be equal to loadedMaze
     }
 }
