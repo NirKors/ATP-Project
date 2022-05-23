@@ -150,8 +150,8 @@ public class Maze {
             maze_b[counter++] = 2; // new row
         }
 
-        maze_b[startPos.getRowIndex() * (maze.length + 1) + startPos.getColumnIndex()] = 3; // start pos
-        maze_b[goalPos.getRowIndex() * (maze.length + 1) + goalPos.getColumnIndex()] = 4; // goal pos
+        maze_b[startPos.getRowIndex() * (maze[0].length + 1) + startPos.getColumnIndex()] = 3; // start pos
+        maze_b[goalPos.getRowIndex() * (maze[0].length + 1) + goalPos.getColumnIndex()] = 4; // goal pos
 
         return maze_b;
     }

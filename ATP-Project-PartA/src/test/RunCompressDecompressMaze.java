@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
-        AMazeGenerator mazeGenerator = new MyMazeGenerator();
+        AMazeGenerator mazeGenerator = new MyMazeGenerator(); //TODO doesn't always work (probably due to 255 limitations not implemented.
         Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
         try {
             // save maze to a file
