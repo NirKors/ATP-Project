@@ -18,9 +18,9 @@ public class SimpleCompressorOutputStream extends OutputStream{
         do {
             out.write(b);
             count = (byte) Math.min(255, amount);
-            out.write(count-128);
+            out.write(count);
             amount -= 255;
-        } while (amount > 255);
+        } while (amount > 0);
     }
 
 

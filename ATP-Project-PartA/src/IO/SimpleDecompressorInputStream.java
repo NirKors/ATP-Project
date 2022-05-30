@@ -24,8 +24,7 @@ public class SimpleDecompressorInputStream extends InputStream{
             data = in.read();
             if (data == -1)
                 return count;
-            amount = in.read() - 128;
-
+            amount = in.read();
             for(int i = 0; i < amount; i++)
                 b[count++] = (byte) data;
 
