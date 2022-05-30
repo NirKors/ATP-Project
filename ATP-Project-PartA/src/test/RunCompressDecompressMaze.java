@@ -1,7 +1,7 @@
 package test;
 
-import IO.MyCompressorOutputStream;
-import IO.MyDecompressorInputStream;
+import IO.SimpleCompressorOutputStream;
+import IO.SimpleDecompressorInputStream;
 import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
@@ -12,11 +12,16 @@ import java.util.Arrays;
 public class RunCompressDecompressMaze {
     public static void main(String[] args) {
         String mazeFileName = "savedMaze.maze";
-        AMazeGenerator mazeGenerator = new MyMazeGenerator(); //TODO doesn't always work (probably due to 255 limitations not implemented.
-        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
+        AMazeGenerator mazeGenerator = new MyMazeGenerator();
+        Maze maze = mazeGenerator.generate(1, 1000); //Generate new maze
+        for (int i = 0; i < 1000; i++) {
+            maze.setVal(0, i, 0);
+            maze.setVal(1, i, 0);
+        }
+        maze.print();
         try {
             // save maze to a file
-            OutputStream out = new MyCompressorOutputStream(new FileOutputStream(mazeFileName));
+            OutputStream out = new SimpleCompressorOutputStream(new FileOutputStream(mazeFileName));
             out.write(maze.toByteArray());
             out.flush();
             out.close();
@@ -26,7 +31,7 @@ public class RunCompressDecompressMaze {
         byte savedMazeBytes[] = new byte[0];
         try {
             //read maze from file
-            InputStream in = new MyDecompressorInputStream(new FileInputStream(mazeFileName));
+            InputStream in = new SimpleDecompressorInputStream(new FileInputStream(mazeFileName));
             savedMazeBytes = new byte[maze.toByteArray().length];
             in.read(savedMazeBytes);
             in.close();

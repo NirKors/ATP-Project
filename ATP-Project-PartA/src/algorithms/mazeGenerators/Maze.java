@@ -32,7 +32,6 @@ public class Maze {
                 case 4 -> goalPos = new Position(row, col);
             }
             col++;
-
         }
     }
 
@@ -139,6 +138,20 @@ public class Maze {
         goalPos = p;
     }
 
+    /**
+     * Maze will be represented using flags.
+     * <p>
+     *     Returns byte array containing maze information. 0 - Empty space, 1 - wall, 2 - new row,
+     *     3 - start position, 4 - goal position.
+     * </p>
+     *
+     *<pre>
+     * Example:
+     *     For the maze [[1, E], [0, S]]
+     *     return array = [1, 4, 2, 0, 3, 2].
+     *</pre>
+     * @return byte array.
+     */
     public byte[] toByteArray() {
         //TODO can improve by only adding one '2'
         byte[] maze_b = new byte[maze.length * (1 + maze[0].length)];
@@ -158,66 +171,5 @@ public class Maze {
 
 
 
-    /**
-     * Maze will be compressed using negative bytes as flags.
-     * <p>
-     *     Alternating between 0 and 1, starting with 0 we return the length of consecutive byte in the array.
-     *     While 0 is empty space, 1 is wall, -1 is a new row, -2 is the starting position, -3 is the end position.
-     *     <p>After an encounter with new row (-1) alternation restarts with 0.</p>
-     * </p>
-     *
-     *<pre>
-     * Example:
-     *     For the maze [[1, E], [0, S]]
-     *     return array = [0, 1, -3, -1, 1, -2, -1].
-     *</pre>
-     * @return Compressed byte array.
-     */
-    /*
-    public byte[] toByteArray() { //TODO limit is 128 in signed
-        ArrayList<Byte> toReturn = new ArrayList<>();
-        int count;
-        int prev = 0;
-        int srow = startPos.getRowIndex(), scol = startPos.getColumnIndex();
-        int grow = goalPos.getRowIndex(), gcol = goalPos.getColumnIndex();
 
-        for (int row = 0; row < maze.length; row++) {
-            count = 0;
-            for (int col = 0; col < maze[0].length; col++) {
-                if (row == srow && col == scol) { // Start pos found
-                    toReturn.add((byte) count);
-                    toReturn.add((byte) -2);
-                    count = 0;
-                } else if (row == grow && col == gcol) { // Goal pos found.
-                    toReturn.add((byte) count);
-                    toReturn.add((byte) -3);
-                    count = 0;
-                } else {
-                    if (maze[row][col] == prev && count != 255) // Byte is similar to previous, and limit hasn't been reached.
-                        count++;
-                    else {
-                        toReturn.add((byte) count);
-                        if (prev == 0) prev = 1;
-                        else prev = 0;
-
-                        if (count == 255) { // Limit reached
-                            count = 0;
-                        } else { // Byte is different to previous
-                            count = 1;
-                        }
-                    }
-                }
-            }
-            toReturn.add((byte) -1);
-            prev = 0;
-        }
-
-        // Conversion to array:
-        byte[] array = new byte[toReturn.size()];
-        for (int i = 0; i < toReturn.size(); i++) {
-            array[i] = toReturn.get(i);
-        }
-        return array;
-    }
-    */
 }
