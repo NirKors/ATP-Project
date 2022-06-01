@@ -5,6 +5,7 @@ import java.io.OutputStream;
 
 public class SimpleCompressorOutputStream extends OutputStream{
     OutputStream out;
+    int temp = 0; // TODO remove
 
     public SimpleCompressorOutputStream(OutputStream out) {
         this.out = out;
@@ -20,6 +21,9 @@ public class SimpleCompressorOutputStream extends OutputStream{
             count = (byte) Math.min(255, amount);
             out.write(count);
             amount -= 255;
+
+            temp += 2;
+
         } while (amount > 0);
     }
 
@@ -61,5 +65,7 @@ public class SimpleCompressorOutputStream extends OutputStream{
             }
         }
         write(data, count);
+        System.out.println("Size after compression: " + temp);
+
     }
 }

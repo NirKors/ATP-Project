@@ -30,7 +30,6 @@ public class SimpleDecompressorInputStream extends InputStream{
 
         }while(amount != -1);
         return count;
-
     }
 
 }
