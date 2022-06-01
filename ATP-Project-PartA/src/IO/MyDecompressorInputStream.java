@@ -1,11 +1,9 @@
 package IO;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Objects;
 
-public class MyDecompressorInputStream extends InputStream { //TODO understand if builtin libraries are allowed.
+public class MyDecompressorInputStream extends InputStream {
 
     InputStream in;
 
@@ -18,12 +16,17 @@ public class MyDecompressorInputStream extends InputStream { //TODO understand i
         return 0;
     }
 
-
+    /**
+     * Decompresses data compressed by {@link MyCompressorOutputStream}.
+     * @param b - the buffer into which the data is read.
+     * @return the total number of bytes read into the buffer, or -1 if there is no more data because the end of the
+     * stream has been reached.
+     */
     @Override
     public int read(byte[] b) throws IOException {
         // Maze row:
         int[] mazeInfo = new int[6]; // Row size, column size, start row, start col, goal row, goal col;
-        for (int j = 0; j < 6; j++){
+        for (int j = 0; j < 6; j++) {
             byte[] reads = new byte[4];
             for (int i = 0; i < 4; i++) {
                 reads[i] = (byte) in.read();
@@ -31,23 +34,46 @@ public class MyDecompressorInputStream extends InputStream { //TODO understand i
             mazeInfo[j] = ((0xFF & reads[0]) << 24) | ((0xFF & reads[1]) << 16) |
                     ((0xFF & reads[2]) << 8) | (0xFF & reads[3]);
         }
-        for (int i = 0; i < b.length; i++) {
-            if (i == mazeInfo[0] + 1){
-                b[i] = 2;
+        int i = 0;
+        int read = -1;
+        byte[] converted;
+        do {
+            if (i == mazeInfo[0]) {
+                b[i++] = 2;
                 continue;
             }
-            // TODO: unfold into byte array
-        }
+            read = in.read();
+            if (read == -1)
+                break;
+            converted = BinToByte((byte) read);
+            for (int j = 7; j >= 0; j--) {
+                if (i == b.length) {
+                    in.readAllBytes();
+                    break;
+                }
+                byte temp = converted[j];
+                if (i == mazeInfo[1])
+                    b[i++] = 2;
+                b[i++] = temp;
+            }
 
+        } while (read != -1);
 
+        int index = mazeInfo[2] * mazeInfo[1]; // Row * column amount
+        index = index > 0 ? index + 1 : 0;
+        index += mazeInfo[3]; // + col
+        b[index] = 3;
 
-        return 0;
+        index = mazeInfo[4] * mazeInfo[1]; // Row * column amount
+        index = index > 0 ? index + 1 : 0;
+        index += mazeInfo[5]; // + col
+        b[index] = 4;
+
+        return i;
     }
 
 
-
-
-    private byte[] BinToByte(byte b){
+    private byte[] BinToByte(byte b) {
         byte[] bin = new byte[8];
 
         char[] c = String.format("%8s", Integer.toBinaryString(b & 0xFF)).replace(' ', '0').toCharArray();

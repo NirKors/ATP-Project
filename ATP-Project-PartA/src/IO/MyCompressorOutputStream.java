@@ -1,11 +1,8 @@
 package IO;
 
-import algorithms.mazeGenerators.Position;
-
-import java.io.*;
-import java.nio.ByteBuffer;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.zip.Deflater;
 
 public class MyCompressorOutputStream extends OutputStream {
 
@@ -20,7 +17,26 @@ public class MyCompressorOutputStream extends OutputStream {
 
     }
 
-
+    /**
+     * Compresses a maze the following way:
+     * <p>
+     *     Four bytes are used for integers at the start, signifying the following information in order:
+     *     <p>
+     *         Row amount, column amount, start position row, start position column, goal position row, goal position column.
+     *     </p>
+     *     The following information is then converted to "binary". Since information about walls is either 0 or 1,
+     *     we can use one byte to show information about eight bytes. For example:
+     *     <p>
+     *     <example>
+     *         <code>
+     *             Series of bytes: [0, 1, 1, 0, 0, 1, 0, 1]
+     *             Will be displayed with byte 101 - its binary value matching the series.
+     *         </code>
+     *     </example>
+     *     </p>
+     * </p>
+     * @param b - The data.
+     */
     public void write(byte[] b) throws IOException {
         int[] size = getMazeSize(b);
 
@@ -42,14 +58,14 @@ public class MyCompressorOutputStream extends OutputStream {
         byte[] temp;
         int i = 0;
         byte two = 0;
-        while (i < b.length){
+        while (i < b.length) {
             temp = new byte[8];
             for (int j = 0; j < 8; j++) {
-                if (i + j == b.length){
+                if (i + j == b.length) {
                     i = b.length;
                     break;
                 }
-                byte cell = b[i+j];
+                byte cell = b[i + j];
                 switch (cell) {
                     case 0, 1 -> temp[j] = cell;
                     case 2 -> {
@@ -60,7 +76,7 @@ public class MyCompressorOutputStream extends OutputStream {
                     case 3, 4 -> {
                         temp[j] = 0;
                         int[] pos = new int[2];
-                        while (pos[0] * (size[0]) < i + j - size[0])
+                        while (pos[0] * (size[1]) < i + j - size[1])
                             pos[0]++;
                         pos[1] = i + j - (pos[0] * (size[1])) - two;
 
@@ -76,29 +92,25 @@ public class MyCompressorOutputStream extends OutputStream {
                 }
             }
             final_array.add(ByteToBin(temp));
+            i += 8;
         }
-        System.out.print("Compressed to:\n[");
-        for(byte output : final_array){
-            out.write(output);
-            System.out.print(output + ", ");
-        }
-        System.out.println("]");
+        for (Byte aByte : final_array) out.write(aByte);
     }
 
 
-    private int[] getMazeSize(byte[] b){
-        int row_amount, col_amount=0;
+    private int[] getMazeSize(byte[] b) {
+        int row_amount, col_amount = 0;
         while (b[col_amount] != 2)
             col_amount++;
         row_amount = (b.length - 1) / (col_amount);
-       return new int[]{row_amount, col_amount};
+        return new int[]{row_amount, col_amount};
     }
 
-    private byte ByteToBin(byte[] b){
+    private byte ByteToBin(byte[] b) {
         byte bin = 0;
         for (int i = 0; i < b.length; i++) {
             if (b[i] == 1)
-                bin += (byte)Math.pow(2, i);
+                bin += (byte) Math.pow(2, i);
         }
         return bin;
     }

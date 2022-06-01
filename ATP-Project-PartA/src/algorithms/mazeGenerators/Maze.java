@@ -1,7 +1,5 @@
 package algorithms.mazeGenerators;
 
-import algorithms.search.AState;
-
 import java.util.ArrayList;
 
 /**
@@ -9,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Maze {
 
-    private  int[][] maze;
+    private int[][] maze;
     private Position startPos, goalPos;
 
     /**
@@ -36,8 +34,8 @@ public class Maze {
     }
 
 
-    private void setSize(byte[] b){
-        int row_amount, col_amount=0;
+    private void setSize(byte[] b) {
+        int row_amount, col_amount = 0;
         while (b[col_amount] != 2)
             col_amount++;
         row_amount = (b.length - 1) / (col_amount);
@@ -137,35 +135,45 @@ public class Maze {
     /**
      * Maze will be represented using flags.
      * <p>
-     *     Returns byte array containing maze information. 0 - Empty space, 1 - wall, 2 - new row,
-     *     3 - start position, 4 - goal position.
+     * <p>
+     * Returns byte array containing maze information. 0 - Empty space, 1 - wall, 2 - new row,
+     * 3 - start position, 4 - goal position.
+     * <p>
+     * Byte 2 is only used once and the entire size is calculated via its location and the length of the array.
+     * </p>
      * </p>
      *
-     *<pre>
+     * <pre>
      * Example:
      *     For the maze [[1, E], [0, S]]
      *     return array = [1, 4, 2, 0, 3, 2].
-     *</pre>
+     * </pre>
+     *
      * @return byte array.
      */
     public byte[] toByteArray() {
         ArrayList<Byte> maze_b = new ArrayList<>();
 
         boolean flag = false;
-        for(int[] row : maze) {
-            for (int col : row){
+        for (int[] row : maze) {
+            for (int col : row) {
                 maze_b.add((byte) col);
             }
-            if (!flag){
+            if (!flag) {
                 maze_b.add((byte) 2);
                 flag = true;
             }
         }
-        int index;
-        index = startPos.getRowIndex() == 0 ? 0 : (startPos.getRowIndex() * maze.length) + 1;
-        maze_b.set(index + startPos.getColumnIndex(), (byte) 3); // start pos
-        index =  goalPos.getRowIndex() == 0 ? 0 : (goalPos.getRowIndex() * maze.length) + 1;
-        maze_b.set(index + goalPos.getColumnIndex(), (byte) 4); // goal pos
+
+        int index = startPos.getRowIndex() * maze[0].length; // Row * column amount
+        index = index > 0 ? index + 1 : 0;
+        index += startPos.getColumnIndex(); // + col
+        maze_b.set(index, (byte) 3);
+
+        index = goalPos.getRowIndex() * maze[0].length; // Row * column amount
+        index = index > 0 ? index + 1 : 0;
+        index += goalPos.getColumnIndex(); // + col
+        maze_b.set(index, (byte) 4);
 
         byte[] maze = new byte[maze_b.size()];
         for (int i = 0; i < maze_b.size(); i++) {
@@ -173,8 +181,6 @@ public class Maze {
         }
         return maze;
     }
-
-
 
 
 }
