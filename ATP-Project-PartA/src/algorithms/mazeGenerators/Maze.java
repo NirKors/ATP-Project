@@ -1,5 +1,7 @@
 package algorithms.mazeGenerators;
 
+import algorithms.search.AState;
+
 import java.util.ArrayList;
 
 /**
@@ -17,34 +19,28 @@ public class Maze {
         maze = new int[row_size][column_size];
     }
 
-    public Maze(byte[] b) { // TODO: Test if works.
+    public Maze(byte[] b) {
         setSize(b);
-        int row = 0, col = 0;
-        for (byte cell : b) {
-            if (cell == 2) {
-                row++;
-                col = 0;
-                continue;
+        int row, col, counter = 0;
+        for (row = 0; row < maze.length; row++) {
+            for (col = 0; col < maze[0].length; col++) {
+                switch (b[counter]) {
+                    case 1 -> maze[row][col] = b[counter];
+                    case 3 -> startPos = new Position(row, col);
+                    case 4 -> goalPos = new Position(row, col);
+                    case 2 -> col--;
+                }
+                counter++;
             }
-            switch (cell) {
-                case 1 -> maze[row][col] = cell;
-                case 3 -> startPos = new Position(row, col);
-                case 4 -> goalPos = new Position(row, col);
-            }
-            col++;
         }
     }
 
 
     private void setSize(byte[] b){
-        int row_amount = 0, col_amount = 0;
-        for (int i = 0; i < b.length; i++) {
-            if (b[i] == 2) {
-                row_amount++;
-                if (row_amount == 1)
-                    col_amount = i;
-            }
-        }
+        int row_amount, col_amount=0;
+        while (b[col_amount] != 2)
+            col_amount++;
+        row_amount = (b.length - 1) / (col_amount);
         maze = new int[row_amount][col_amount];
     }
 
@@ -153,20 +149,29 @@ public class Maze {
      * @return byte array.
      */
     public byte[] toByteArray() {
-        //TODO can improve by only adding one '2'
-        byte[] maze_b = new byte[maze.length * (1 + maze[0].length)];
-        int counter = 0;
+        ArrayList<Byte> maze_b = new ArrayList<>();
+
+        boolean flag = false;
         for(int[] row : maze) {
             for (int col : row){
-                maze_b[counter++] = (byte)col;
+                maze_b.add((byte) col);
             }
-            maze_b[counter++] = 2; // new row
+            if (!flag){
+                maze_b.add((byte) 2);
+                flag = true;
+            }
         }
+        int index;
+        index = startPos.getRowIndex() == 0 ? 0 : (startPos.getRowIndex() * maze.length) + 1;
+        maze_b.set(index + startPos.getColumnIndex(), (byte) 3); // start pos
+        index =  goalPos.getRowIndex() == 0 ? 0 : (goalPos.getRowIndex() * maze.length) + 1;
+        maze_b.set(index + goalPos.getColumnIndex(), (byte) 4); // goal pos
 
-        maze_b[startPos.getRowIndex() * (maze[0].length + 1) + startPos.getColumnIndex()] = 3; // start pos
-        maze_b[goalPos.getRowIndex() * (maze[0].length + 1) + goalPos.getColumnIndex()] = 4; // goal pos
-
-        return maze_b;
+        byte[] maze = new byte[maze_b.size()];
+        for (int i = 0; i < maze_b.size(); i++) {
+            maze[i] = maze_b.get(i);
+        }
+        return maze;
     }
 
 
