@@ -12,38 +12,7 @@ public class MyCompressorOutputStream extends OutputStream {
         this.out = out;
     }
 
-    @Override
-    public void write(int b) throws IOException {
-
-    }
-
-    /**
-     * Compresses a maze the following way:
-     * <p>
-     * Four bytes are used for integers at the start, signifying the following information in order:
-     * <p>
-     * Row amount, column amount, start position row, start position column, goal position row, goal position column.
-     * </p>
-     * The following information is then converted to "binary". Since information about walls is either 0 or 1,
-     * we can use one byte to show information about eight bytes. For example:
-     * <p>
-     * <example>
-     * <code>
-     * Series of bytes: [0, 1, 1, 0, 0, 1, 0, 1]
-     * Will be displayed with byte 101 - its binary value matching the series.
-     * </code>
-     * </example>
-     * </p>
-     * </p>
-     *
-     * @param b - The data.
-     */
-    public void write(byte[] b) throws IOException {
-
-        for (Byte aByte : compress(b)) out.write(aByte);
-    }
-
-    public byte[] compress(byte[] b) {
+    public static byte[] compress(byte[] b) {
         int[] size = getMazeSize(b);
 
         ArrayList<Byte> final_array = new ArrayList<>();
@@ -104,18 +73,48 @@ public class MyCompressorOutputStream extends OutputStream {
         return array;
     }
 
-    private int[] getMazeSize(byte[] b) {
+    private static int[] getMazeSize(byte[] b) {
         int row_amount, col_amount = 0;
         while (b[col_amount] != 2) col_amount++;
         row_amount = (b.length - 1) / (col_amount);
         return new int[]{row_amount, col_amount};
     }
 
-    private byte ByteToBin(byte[] b) {
+    private static byte ByteToBin(byte[] b) {
         byte bin = 0;
         for (int i = 0; i < b.length; i++) {
             if (b[i] == 1) bin += (byte) Math.pow(2, i);
         }
         return bin;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+
+    }
+
+    /**
+     * Compresses a maze the following way:
+     * <p>
+     * Four bytes are used for integers at the start, signifying the following information in order:
+     * <p>
+     * Row amount, column amount, start position row, start position column, goal position row, goal position column.
+     * </p>
+     * The following information is then converted to "binary". Since information about walls is either 0 or 1,
+     * we can use one byte to show information about eight bytes. For example:
+     * <p>
+     * <example>
+     * <code>
+     * Series of bytes: [0, 1, 1, 0, 0, 1, 0, 1]
+     * Will be displayed with byte 101 - its binary value matching the series.
+     * </code>
+     * </example>
+     * </p>
+     * </p>
+     * @param b - The data.
+     */
+    public void write(byte[] b) throws IOException {
+
+        for (Byte aByte : compress(b)) out.write(aByte);
     }
 }

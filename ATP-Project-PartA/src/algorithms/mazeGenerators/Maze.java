@@ -1,11 +1,12 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Every maze is built out of a 2-dimensional array of ints. 1 means it's a wall, 0 means it's a path.
  */
-public class Maze {
+public class Maze implements Serializable {
 
     private int[][] maze;
     private Position startPos, goalPos;
@@ -51,6 +52,7 @@ public class Maze {
         return this.maze[row][column];
     }
 
+
     public int getVal(Position pos) {
         return getVal(pos.getRowIndex(), pos.getColumnIndex());
     }
@@ -61,6 +63,7 @@ public class Maze {
     public void setVal(int row, int column, int val) {
         maze[row][column] = val;
     }
+
 
     public void setVal(Position pos, int val) {
         maze[pos.getRowIndex()][pos.getColumnIndex()] = val;
@@ -101,7 +104,6 @@ public class Maze {
             str.append("}");
             System.out.println(str);
         }
-
     }
 
     /**
@@ -135,14 +137,11 @@ public class Maze {
     /**
      * Maze will be represented using flags.
      * <p>
-     * <p>
      * Returns byte array containing maze information. 0 - Empty space, 1 - wall, 2 - new row,
      * 3 - start position, 4 - goal position.
      * <p>
      * Byte 2 is only used once and the entire size is calculated via its location and the length of the array.
      * </p>
-     * </p>
-     *
      * <pre>
      * Example:
      *     For the maze [[1, E], [0, S]]
