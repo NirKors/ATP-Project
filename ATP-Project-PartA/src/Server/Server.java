@@ -22,26 +22,25 @@ public class Server {
         this.TP = Executors.newCachedThreadPool();
     }
 
-    public void start(){ new Thread(() -> { communicate(); }).start();}
+    public void start() {
+        new Thread(this::communicate).start();
+    }
 
 
-    private void communicate(){
+    private void communicate() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
 
-            // Here is the
             while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
                     // This thread will handle the new Client
-                    TP.submit(() -> {
-                        handleClient(clientSocket);
-                    });
+                    TP.submit(() -> handleClient(clientSocket));
 
-                } catch (SocketTimeoutException e){
-                    e.printStackTrace();
+                } catch (SocketTimeoutException ignored) {
+
                 }
             }
 
@@ -53,15 +52,15 @@ public class Server {
     }
 
     private void handleClient(Socket clientSocket) {
-        try{
-            strategy.applyStrategy(clientSocket.getInputStream(),clientSocket.getOutputStream());
+        try {
+            strategy.applyStrategy(clientSocket.getInputStream(), clientSocket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public void stop(){
+    public void stop() {
         stop = true;
     }
 }
