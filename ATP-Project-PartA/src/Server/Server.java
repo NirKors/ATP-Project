@@ -22,7 +22,10 @@ public class Server {
         this.TP = Executors.newCachedThreadPool();
     }
 
-    public void start(){
+    public void start(){ new Thread(() -> { communicate(); }).start();}
+
+
+    private void communicate(){
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
