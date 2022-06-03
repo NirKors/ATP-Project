@@ -1,8 +1,9 @@
 package algorithms.search;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Solution {
+public class Solution implements Serializable {
 
     private ArrayList<AState> solution;
 
@@ -21,8 +22,6 @@ public class Solution {
 
     /**
      * setter method.
-     *
-     * @param solution
      */
     public void setSolution(ArrayList<AState> solution) {
         this.solution = solution;
@@ -30,8 +29,6 @@ public class Solution {
 
     /**
      * Appends a state to the stored ArrayList<AState>
-     *
-     * @param state
      */
     public void addState(AState state) {
         solution.add(state);

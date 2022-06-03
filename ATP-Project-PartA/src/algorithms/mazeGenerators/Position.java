@@ -1,11 +1,13 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
+
 /**
  * A class representing the position
  */
-public class Position {
-    private  int row;
-    private  int column;
+public class Position implements Serializable {
+    private int row;
+    private int column;
 
     /**
      * Position constructor using the current Row and Column
@@ -36,28 +38,35 @@ public class Position {
         return "{" + this.getRowIndex() + "," + this.getColumnIndex() + "}";
     }
 
-    /** Changes the coordinate values
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Up() {
         return new Position(this.getRowIndex() + 1, this.getColumnIndex());
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Down() {
         return new Position(this.getRowIndex() - 1, this.getColumnIndex());
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
     public Position Left() {
         return new Position(this.getRowIndex(), this.getColumnIndex() - 1);
     }
-    /** Changes the coordinate values
+
+    /**
+     * Changes the coordinate values
      *
      * @return new Position
      */
