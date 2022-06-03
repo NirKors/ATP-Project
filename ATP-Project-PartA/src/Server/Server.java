@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,11 +16,13 @@ public class Server {
     private volatile boolean stop;
     private ExecutorService TP; //stands for ThreadPool
 
+    Properties prop = Configurations.props();
+
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;
         this.listeningIntervalMS = listeningIntervalMS;
         this.strategy = strategy;
-        this.TP = Executors.newCachedThreadPool();
+        this.TP = Executors.newFixedThreadPool(Integer.parseInt(prop.getProperty("threadPoolSize")));
     }
 
     public void start(){ new Thread(() -> { communicate(); }).start();}
@@ -30,7 +33,6 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningIntervalMS);
 
-            // Here is the
             while (!stop) {
                 try {
                     Socket clientSocket = serverSocket.accept();
