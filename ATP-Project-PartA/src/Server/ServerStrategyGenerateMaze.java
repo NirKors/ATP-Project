@@ -33,9 +33,9 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
     private AMazeGenerator GeneratorSelector() {
         String temp = Configurations.getProp().getProperty("mazeGeneratingAlgorithm");
         return switch (temp) {
-            case "MyMazeGenerator" -> new MyMazeGenerator();
-            case "EmptyMazeGenerator" -> new EmptyMazeGenerator();
-            case "SimpleMazeGenerator" -> new SimpleMazeGenerator();
+            case "\"MyMazeGenerator\"" -> new MyMazeGenerator();
+            case "\"EmptyMazeGenerator\"" -> new EmptyMazeGenerator();
+            case "\"SimpleMazeGenerator\"" -> new SimpleMazeGenerator();
             default -> throw new RuntimeException("Unrecognized maze generator \"" + temp + "\" in config.properties.");
         };
 

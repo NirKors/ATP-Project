@@ -54,9 +54,9 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     private ASearchingAlgorithm SolverSelector() {
         String temp = Configurations.getProp().getProperty("mazeSearchingAlgorithm");
         return switch (temp) {
-            case "BestFirstSearch" -> new BestFirstSearch();
-            case "BreadthFirstSearch" -> new BreadthFirstSearch();
-            case "DepthFirstSearch" -> new DepthFirstSearch();
+            case "\"BestFirstSearch\"" -> new BestFirstSearch();
+            case "\"BreadthFirstSearch\"" -> new BreadthFirstSearch();
+            case "\"DepthFirstSearch\"" -> new DepthFirstSearch();
             default -> throw new RuntimeException("Unrecognized maze solver \"" + temp + "\" in config.properties.");
         };
     }
