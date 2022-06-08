@@ -2,9 +2,7 @@ package Server;
 
 import IO.MyCompressorOutputStream;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.BestFirstSearch;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
+import algorithms.search.*;
 
 import java.io.*;
 
@@ -43,10 +41,24 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
         }
     }
 
+
     private Solution SolveMaze(Maze maze) {
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-        BestFirstSearch solver = new BestFirstSearch();
+        ASearchingAlgorithm solver = SolverSelector();
         return solver.solve(searchableMaze);
+    }
+
+    /**
+     * Usage of Configurations.
+     */
+    private ASearchingAlgorithm SolverSelector() {
+        String temp = Configurations.getProp().getProperty("mazeSearchingAlgorithm");
+        return switch (temp) {
+            case "BestFirstSearch" -> new BestFirstSearch();
+            case "BreadthFirstSearch" -> new BreadthFirstSearch();
+            case "DepthFirstSearch" -> new DepthFirstSearch();
+            default -> throw new RuntimeException("Unrecognized maze solver \"" + temp + "\" in config.properties.");
+        };
     }
 
     private void OutputAsFile(Maze maze, Solution sol) throws IOException {
@@ -110,7 +122,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                 e.printStackTrace();
             }
         }
-
 
         return sol;
     }

@@ -1,9 +1,7 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
-import algorithms.mazeGenerators.AMazeGenerator;
-import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.*;
 
 import java.io.*;
 
@@ -18,7 +16,7 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
             ObjectInputStream fromClient = new ObjectInputStream(inFromClient);
 
             clientInfo = (int[]) fromClient.readObject();
-            AMazeGenerator mazeGenerator = new MyMazeGenerator();
+            AMazeGenerator mazeGenerator = GeneratorSelector();
             Maze maze = mazeGenerator.generate(clientInfo[0], clientInfo[1]);
             byte[] maze_b = maze.toByteArray();
 
@@ -27,5 +25,19 @@ public class ServerStrategyGenerateMaze implements IServerStrategy {
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
+    }
+
+    /**
+     * Usage of Configuration.
+     */
+    private AMazeGenerator GeneratorSelector() {
+        String temp = Configurations.getProp().getProperty("mazeGeneratingAlgorithm");
+        return switch (temp) {
+            case "MyMazeGenerator" -> new MyMazeGenerator();
+            case "EmptyMazeGenerator" -> new EmptyMazeGenerator();
+            case "SimpleMazeGenerator" -> new SimpleMazeGenerator();
+            default -> throw new RuntimeException("Unrecognized maze generator \"" + temp + "\" in config.properties.");
+        };
+
     }
 }
