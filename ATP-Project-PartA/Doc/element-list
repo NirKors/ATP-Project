@@ -1,4 +1,7 @@
 algorithms.maze3D
 algorithms.mazeGenerators
 algorithms.search
+Client
+IO
+Server
 test
