@@ -16,7 +16,7 @@ public class Server {
     private volatile boolean stop;
     private ExecutorService TP; //stands for ThreadPool
 
-    Properties prop = Configurations.props();
+    Properties prop = Configurations.getProp();
 
     public Server(int port, int listeningIntervalMS, IServerStrategy strategy) {
         this.port = port;

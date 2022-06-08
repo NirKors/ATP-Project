@@ -12,9 +12,8 @@ public class SimpleDecompressorInputStream extends InputStream{
     }
 
     @Override
-    public int read() throws IOException { //TODO
-        return 0;
-    }
+    public int read() throws IOException {return 0;}
+
 
     @Override
     public int read(byte[] b) throws IOException {
@@ -31,5 +30,4 @@ public class SimpleDecompressorInputStream extends InputStream{
         }while(amount != -1);
         return count;
     }
-
 }

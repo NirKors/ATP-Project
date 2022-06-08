@@ -27,19 +27,13 @@ public class Client implements IClientStrategy{
         }
     }
 
+    /**
+     * "Default" clientStrategy.
+     */
     @Override
     public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
-        // TODO: Unsure of what to do here, technically here we do what the client sends.
         try {
-            ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
-            // TODO: instead of $$$ input what needs to be put
-            // toServer.writeObject($$$);
-            toServer.flush();
-            ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
-            // TODO: instead of $$$ input what needs to be put
-            // serverResult = $$$;
-            fromServer.close();
-            toServer.close();
+            throw new UnsupportedOperationException("Strategy not overridden.");
         } catch (Exception e) {
             e.printStackTrace();
         }

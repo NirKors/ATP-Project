@@ -12,9 +12,7 @@ public class MyDecompressorInputStream extends InputStream {
     }
 
     @Override
-    public int read() throws IOException {
-        return 0;
-    }
+    public int read() throws IOException {return 0;}
 
     /**
      * Decompresses data compressed by {@link MyCompressorOutputStream}.

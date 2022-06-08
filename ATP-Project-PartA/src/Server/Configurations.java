@@ -8,6 +8,9 @@ public class Configurations {
 
     private static Properties prop;
 
+    /**
+     * Similar code to example given in the work (page 26), but changed to fit the Singleton demand.
+     */
     public static Properties getProp() {
         if (prop == null){
             try (InputStream input = Configurations.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -20,3 +23,5 @@ public class Configurations {
         return prop;
     }
 }
+
+//TODO: Make usage of the configurations.

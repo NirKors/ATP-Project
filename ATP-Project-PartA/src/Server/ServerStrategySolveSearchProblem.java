@@ -13,6 +13,10 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     String tempDirectoryPath = System.getProperty("java.io.tmpdir");
     int id;
 
+    /**
+     * Reads the maze byte array into clientInfo. Checks if it exists and retrieves the solution if it is ({@link #ReadFiles(Maze)}), or solves the maze if it isn't ({@link #SolveMaze(Maze)}).
+     * If it doesn't exist, compresses and writes the maze and its solution into a file for future references ({@link #OutputAsFile(Maze, Solution)}).
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
 
@@ -60,7 +64,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     /**
      * Compresses the maze's byte representation and compares it to files beginning with prefix "maze_". If the length of
      * the compared arrays is equal, continues to compare both arrays. If equal, returns solution stored in the file.
-     * If no comparision is found, returns null.
+     * If no comparison is found, returns null.
      *
      * @param maze - Maze to compare
      * @return - Solution if found, else null.

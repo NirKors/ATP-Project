@@ -19,7 +19,7 @@ public class Maze implements Serializable {
     }
 
     public Maze(byte[] b) {
-        setSize(b);
+        setSize(b); // Calculate size.
         int row, col, counter = 0;
         for (row = 0; row < maze.length; row++) {
             for (col = 0; col < maze[0].length; col++) {
@@ -141,6 +141,9 @@ public class Maze implements Serializable {
      * 3 - start position, 4 - goal position.
      * <p>
      * Byte 2 is only used once and the entire size is calculated via its location and the length of the array.
+     * </p>
+     * <p>
+     * Size will always be row length times column length plus one.
      * </p>
      * <pre>
      * Example:

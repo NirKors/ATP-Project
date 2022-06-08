@@ -12,6 +12,27 @@ public class MyCompressorOutputStream extends OutputStream {
         this.out = out;
     }
 
+    /**
+     * Compresses a maze the following way:
+     * <p>
+     * Six couples of bytes are used for integers at the start, signifying the following information in order:
+     * <p>
+     * Row amount, column amount, start position row, start position column, goal position row, goal position column.
+     * </p>
+     * The following information is then converted to "binary". Since information about walls is either 0 or 1,
+     * we can use one byte to show information about eight bytes. For example:
+     * <p>
+     * <example>
+     * <code>
+     * Series of bytes: [0, 1, 1, 0, 0, 1, 0, 1]
+     * Will be displayed with byte 101 - its binary value matching the series.
+     * </code>
+     * </example>
+     * </p>
+     * </p>
+     * @param b - The data.
+     * @return compressed byte array.
+     */
     public static byte[] compress(byte[] b) {
         int[] size = getMazeSize(b);
 
@@ -89,32 +110,13 @@ public class MyCompressorOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(int b) throws IOException {
-
-    }
+    public void write(int b) throws IOException {}
 
     /**
-     * Compresses a maze the following way:
-     * <p>
-     * Four bytes are used for integers at the start, signifying the following information in order:
-     * <p>
-     * Row amount, column amount, start position row, start position column, goal position row, goal position column.
-     * </p>
-     * The following information is then converted to "binary". Since information about walls is either 0 or 1,
-     * we can use one byte to show information about eight bytes. For example:
-     * <p>
-     * <example>
-     * <code>
-     * Series of bytes: [0, 1, 1, 0, 0, 1, 0, 1]
-     * Will be displayed with byte 101 - its binary value matching the series.
-     * </code>
-     * </example>
-     * </p>
-     * </p>
-     * @param b - The data.
+     * Compresses the given byte array via {@link #compress(byte[])}}.
+     * @param b - Given data.
      */
     public void write(byte[] b) throws IOException {
-
         for (Byte aByte : compress(b)) out.write(aByte);
     }
 }
