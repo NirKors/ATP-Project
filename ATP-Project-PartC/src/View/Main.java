@@ -16,8 +16,8 @@ public class Main extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = fxmlLoader.load();
-        primaryStage.setTitle("Big Test");
-        Scene scene = new Scene(root, 900, 900);
+        primaryStage.setTitle("Big Test"); //TODO: change title
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
 
