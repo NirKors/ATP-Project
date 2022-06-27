@@ -1,6 +1,10 @@
 package View;
 
 import Model.*;
+import Server.Server;
+import Server.ServerStrategyGenerateMaze;
+import Server.ServerStrategySolveSearchProblem;
+import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,11 +25,19 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-//        IModel model = new MyModel();
-//        ViewModel viewModel = new ViewModel(model);
-//        View view = fxmlLoader.getController();
-//        view.setViewModel(viewModel);
-//        viewModel.addObserver(view);
+
+
+        IModel model = new MyModel();
+        model.connectGenerator(5400, 1000, new ServerStrategyGenerateMaze());
+        model.connectSolver(5401, 1000, new ServerStrategySolveSearchProblem());
+
+        MyViewModel viewModel = new MyViewModel(model);
+
+
+        MyViewController viewController = fxmlLoader.getController();
+        viewController.setViewModel(viewModel);
+        viewModel.addObserver(viewController);
+
 
     }
 

@@ -1,10 +1,11 @@
 package Model;
 
 import Server.Server;
+import Server.IServerStrategy;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
-import algorithms.search.Solution;
+
 
 import java.util.Observable;
 
@@ -12,13 +13,11 @@ public class MyModel extends Observable implements IModel{
 
     Position curr_position; // TODO: Astate?
     Maze curr_maze;
-
+    Server generator, solver;
 
     // TODO: Implement server usage (make sure it reads from config file, if needed)
-    Server server;
-    public void connect(Server server){
-        this.server = server;
-    }
+
+
     @Override
     public void generateRandomMaze(int row, int col) {
         MyMazeGenerator gen = new MyMazeGenerator();
@@ -54,6 +53,16 @@ public class MyModel extends Observable implements IModel{
 
     }
 
+    @Override
+    public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy) {
+        generator = new Server(port, listeningIntervalMS, strategy);
+    }
+
+    @Override
+    public void connectSolver(int port, int listeningIntervalMS, IServerStrategy strategy) {
+        solver = new Server(port, listeningIntervalMS, strategy);
+    }
+
     private boolean validTraversal(Position pos){
         if (pos.getRowIndex() < 0 || pos.getColumnIndex() < 0 || pos.getRowIndex() >= curr_maze.getRowNum() || pos.getColumnIndex() >= curr_maze.getColNum())
             return false;
@@ -61,9 +70,4 @@ public class MyModel extends Observable implements IModel{
             return false;
         return true;
     }
-
-//    @Override
-//    public Solution getSolution() {
-//        return null;
-//    }
 }
