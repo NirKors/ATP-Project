@@ -12,16 +12,11 @@ public class MyViewModel {
     }
 
     public void generateMaze(int rows, int cols){
-
+        model.generateRandomMaze(rows, cols);
     }
 
     public void loadMaze(){
 
-    }
-
-    public int[][] getMazeArray(){
-
-        return null;
     }
 
     public void addObserver(MyViewController viewController) {
