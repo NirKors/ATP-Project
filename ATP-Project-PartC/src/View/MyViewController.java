@@ -1,10 +1,24 @@
 package View;
 
+import ViewModel.MyViewModel;
+
 import java.awt.event.ActionEvent;
 
 public class MyViewController implements IView {
 
-    //TODO: Link all buttons
+    //TODO:
+
+    private int[][] maze;
+    private Displayer displayer;
+    private MyViewModel vModel;
+
+    public void setViewModel(MyViewModel viewModel) {
+        vModel = viewModel;
+    }
+
+
+
+
     //File menu:
     public void newButton(javafx.event.ActionEvent actionEvent) {
 

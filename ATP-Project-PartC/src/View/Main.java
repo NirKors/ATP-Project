@@ -35,7 +35,6 @@ public class Main extends Application {
 
 
         MyViewController viewController = fxmlLoader.getController();
-        viewController.setViewModel(viewModel);
         viewModel.addObserver(viewController);
 
 
