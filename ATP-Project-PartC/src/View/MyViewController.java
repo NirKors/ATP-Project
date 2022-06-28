@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -29,16 +30,16 @@ public class MyViewController implements IView {
 
     public Displayer displayer;
 
-    private static MyViewModel viewModel;
+    public MyViewModel viewModel;
 
     @FXML
-    private BorderPane Displayer;
+    private Button customizeButton;
     @FXML
     private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
     @FXML
     private CheckBox soundCheckBox;
     @FXML
-    private TextField threadPoolTextField;
+    private TextField threadPoolTextField, rowsText, colsText;
 
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
@@ -82,6 +83,7 @@ public class MyViewController implements IView {
     }
 
     public void drawMaze(int row, int col) {
+        this.viewModel = new MyViewModel(); //TODO:
         viewModel.generateMaze(row, col);
         Maze temp = viewModel.getMaze();
 
@@ -184,6 +186,7 @@ public class MyViewController implements IView {
         if (myMazeGen.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator");
         }
+        System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
 
     public void solvePropertyChoice(javafx.event.ActionEvent event) {
@@ -204,7 +207,7 @@ public class MyViewController implements IView {
         if (threadPoolTextField.getText().matches("-?\\d+")) {
             Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
         }
-        System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
+        System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }
 
 
@@ -214,7 +217,6 @@ public class MyViewController implements IView {
         } else {
             System.out.println("sounds OFF");
         }
-        System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }
 
 

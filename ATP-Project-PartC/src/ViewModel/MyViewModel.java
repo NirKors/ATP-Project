@@ -9,10 +9,13 @@ import algorithms.mazeGenerators.MyMazeGenerator;
 public class MyViewModel {
 
     private IModel model;
-    public MyViewModel(IModel model) {
-        this.model = model;
-    }
+//    public MyViewModel(IModel model) {
+//        this.model = model;
+//    }
 
+    public MyViewModel() {//TODO: ^
+       // this.model = model;
+    }
     public void generateMaze(int rows, int cols){
         model.generateRandomMaze(rows, cols);
     }
