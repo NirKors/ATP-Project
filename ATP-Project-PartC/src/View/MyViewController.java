@@ -1,6 +1,8 @@
 package View;
 
 import ViewModel.MyViewModel;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,8 +16,10 @@ public class MyViewController implements IView {
     //TODO:
 
     private int[][] maze;
-    private Displayer displayer;
-    private MyViewModel viewModel;
+
+    private static Displayer displayer;
+
+    private static MyViewModel viewModel;
 
 
     public void setViewModel(MyViewModel viewModel) {
@@ -30,6 +34,7 @@ public class MyViewController implements IView {
             stage.setTitle("Change title");
             stage.setScene(new Scene(root));
             stage.show();
+            displayer = new Displayer();
         }
         catch (IOException e){
             // TODO: add to logger.
@@ -46,10 +51,11 @@ public class MyViewController implements IView {
 
     private void displayDifficultySelection() {
         Parent root;
+        Stage stage;
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("DifficultyMenu.fxml"));
             root = fxmlLoader.load();
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setTitle("Select Difficulty");
             stage.setScene(new Scene(root));
             stage.show();
@@ -61,9 +67,31 @@ public class MyViewController implements IView {
         }
     }
 
+    public void drawMaze(int row, int col){
+        viewModel.generateMaze(row, col);
+        Maze temp = viewModel.getMaze();
+
+        maze = new int[temp.getRowNum()][temp.getColNum()];
+        for (int i = 0; i < temp.getRowNum(); i++) {
+            for (int j = 0; j < temp.getColNum(); j++) {
+                maze[i][j] = temp.getVal(i, j);
+            }
+        }
+        Position pos = temp.getStartPosition();
+        maze[pos.getRowIndex()][pos.getColumnIndex()] = 2;
+        pos = temp.getGoalPosition();
+        maze[pos.getRowIndex()][pos.getColumnIndex()] = 3;
+
+
+        displayer.drawMaze(maze);
+
+    }
+
+    //TODO: should close after valid selection.
     public void tooYoungDifficulty(javafx.event.ActionEvent actionEvent) {
         System.out.println("tooYoungDifficulty");
-        viewModel.generateMaze(5, 5);
+        drawMaze(5, 5);
+
     }
 
     public void hurtMeDifficulty(javafx.event.ActionEvent actionEvent) {

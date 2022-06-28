@@ -3,6 +3,7 @@ package ViewModel;
 import Model.IModel;
 import View.IView;
 import View.MyViewController;
+import algorithms.mazeGenerators.Maze;
 
 public class MyViewModel {
 
@@ -20,5 +21,9 @@ public class MyViewModel {
     }
 
     public void addObserver(MyViewController viewController) {
+    }
+
+    public Maze getMaze() {
+        return model.getMaze();
     }
 }

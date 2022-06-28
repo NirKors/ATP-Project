@@ -38,8 +38,19 @@ public class Main extends Application {
 
 //        viewModel.addObserver(viewController);
 
-        MyViewController viewController = fxmlLoader.getController();
-        viewModel.addObserver(viewController);
+        /*
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("View/MazeWindow.fxml"));
+        Parent root = fxmlLoader.load();
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 900, 900));
+        primaryStage.show();
+
+        IModel model = new Model();
+        ViewModel viewModel = new ViewModel(model);
+        View view = fxmlLoader.getController();
+        view.setViewModel(viewModel);
+        viewModel.addObserver(view);
+         */
 
 
     }
