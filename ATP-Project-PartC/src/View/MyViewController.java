@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -31,7 +32,10 @@ public class MyViewController implements IView {
 
     @FXML
     private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
+    @FXML
     private CheckBox soundCheckBox;
+    @FXML
+    private TextField threadPoolTextField;
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
     }
@@ -127,13 +131,18 @@ public class MyViewController implements IView {
         System.out.println("save");
     }
     //Options menu:
-    public void propertiesButton(javafx.event.ActionEvent actionEvent) {
+    public void propertiesButton(javafx.event.ActionEvent actionEvent){
+        displayPropertiesSelection();
+    }
+
+    private void displayPropertiesSelection() {
         Parent root;
+        Stage stage;
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
             root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("Properties");
+            stage = new Stage();
+            stage.setTitle("Properties Menu");
             stage.setScene(new Scene(root));
             stage.show();
         }
@@ -143,6 +152,8 @@ public class MyViewController implements IView {
             return;
         }
     }
+
+
 
     //TODO: Following buttons don't work.
     public void exitButton(javafx.event.ActionEvent actionEvent) {
@@ -158,7 +169,7 @@ public class MyViewController implements IView {
     }
 
     //Properties:
-    public void mazeCreatePropertyChoice(ActionEvent event){
+    public void mazeCreatePropertyChoice(javafx.event.ActionEvent event){
         if(randomMaze.isSelected()){
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm","SimpleMazeGenerator");
         }
@@ -167,7 +178,7 @@ public class MyViewController implements IView {
         }
     }
 
-    public void solvePropertyChoice(ActionEvent event){
+    public void solvePropertyChoice(javafx.event.ActionEvent event){
         if(bfsChoice.isSelected()){
             Configurations.getProp().setProperty("mazeSearchingAlgorithm","BreadthFirstSearch");
         }
@@ -180,16 +191,20 @@ public class MyViewController implements IView {
 
     }
 
-    public void TPButton(javafx.event.ActionEvent actionEvent) {
-        System.out.println("TP needs to be added");
+    public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
+        if(threadPoolTextField.getText().matches("-?\\d+")) {
+            Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
+        }
     }
 
 
-    public void soundBox(ActionEvent event){
+    public void soundBox(javafx.event.ActionEvent event){
         if(soundCheckBox.isSelected()){
             System.out.println("sounds ON");
         } else {
             System.out.println("sounds OFF");
         }
     }
+
+
 }
