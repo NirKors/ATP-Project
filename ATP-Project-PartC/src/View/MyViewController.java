@@ -26,7 +26,7 @@ public class MyViewController implements IView {
 
     private int[][] maze;
 
-    private static Displayer displayer;
+    public Displayer displayer;
 
     private static MyViewModel viewModel;
 
@@ -48,7 +48,6 @@ public class MyViewController implements IView {
             stage.setTitle("Change title");
             stage.setScene(new Scene(root));
             stage.show();
-            displayer = new Displayer();
         }
         catch (IOException e){
             // TODO: add to logger.

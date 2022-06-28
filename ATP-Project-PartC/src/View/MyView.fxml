@@ -4,7 +4,9 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
+<?import View.Displayer?>
 <BorderPane id="Displayer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
@@ -27,4 +29,9 @@
         </menus>
       </MenuBar>
    </top>
+<!--REMOVE CODE BELOW TO RUN IN SCENEBUILDER-->
+   <center>
+      <Displayer fx:id="displayer" height="200.0" width="200.0" BorderPane.alignment="CENTER" />
+   </center>
+<!--REMOVE CODE ABOVE TO RUN IN SCENEBUILDER-->
 </BorderPane>
