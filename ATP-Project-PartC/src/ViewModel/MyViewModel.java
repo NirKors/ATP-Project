@@ -4,6 +4,7 @@ import Model.IModel;
 import View.IView;
 import View.MyViewController;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
 
 public class MyViewModel {
 

@@ -1,18 +1,26 @@
 package View;
 
+import Server.Configurations;
 import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class MyViewController implements IView {
-
-
     //TODO:
 
     private int[][] maze;
@@ -21,7 +29,9 @@ public class MyViewController implements IView {
 
     private static MyViewModel viewModel;
 
-
+    @FXML
+    private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
+    private CheckBox soundCheckBox;
     public void setViewModel(MyViewModel viewModel) {
         this.viewModel = viewModel;
     }
@@ -118,7 +128,20 @@ public class MyViewController implements IView {
     }
     //Options menu:
     public void propertiesButton(javafx.event.ActionEvent actionEvent) {
-        System.out.println("properties");
+        Parent root;
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
+            root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Properties");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+        catch (IOException e){
+            // TODO: add to logger.
+            e.printStackTrace();
+            return;
+        }
     }
 
     //TODO: Following buttons don't work.
@@ -132,5 +155,41 @@ public class MyViewController implements IView {
 
     public void aboutButton(javafx.event.ActionEvent actionEvent) {
         System.out.println("about");
+    }
+
+    //Properties:
+    public void mazeCreatePropertyChoice(ActionEvent event){
+        if(randomMaze.isSelected()){
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm","SimpleMazeGenerator");
+        }
+        if(myMazeGen.isSelected()){
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm","MyMazeGenerator");
+        }
+    }
+
+    public void solvePropertyChoice(ActionEvent event){
+        if(bfsChoice.isSelected()){
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm","BreadthFirstSearch");
+        }
+        if(dfsChoice.isSelected()){
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm","DepthFirstSearch");
+        }
+        if(bestChoice.isSelected()){
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm","BestFirstSearch");
+        }
+
+    }
+
+    public void TPButton(javafx.event.ActionEvent actionEvent) {
+        System.out.println("TP needs to be added");
+    }
+
+
+    public void soundBox(ActionEvent event){
+        if(soundCheckBox.isSelected()){
+            System.out.println("sounds ON");
+        } else {
+            System.out.println("sounds OFF");
+        }
     }
 }
