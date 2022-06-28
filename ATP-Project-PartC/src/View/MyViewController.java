@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -217,4 +218,7 @@ public class MyViewController implements IView {
     }
 
 
+    public void keyPressed(KeyEvent keyEvent) {
+        System.out.println("keyPressed");
+    }
 }
