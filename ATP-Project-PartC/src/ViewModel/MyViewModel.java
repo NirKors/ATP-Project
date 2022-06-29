@@ -6,7 +6,11 @@ import View.MyViewController;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.AState;
+import algorithms.search.Solution;
 import javafx.util.Pair;
+
+import java.util.ArrayList;
 
 public class MyViewModel {
 
@@ -46,4 +50,15 @@ public class MyViewModel {
 
         return new Pair<Integer, Integer>(pos.getRowIndex(), pos.getColumnIndex());
     }
+
+    //TODO: Finish
+    public Pair<Integer, Integer>[] getSolution() {
+        Solution sol = model.getSolution();
+        ArrayList<AState> solutionPath = sol.getSolutionPath();
+        for (int i = 0; i < solutionPath.size(); i++) {
+            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
+        }
+        return new Pair[0];
+    }
+
 }

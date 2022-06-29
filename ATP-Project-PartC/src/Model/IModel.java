@@ -1,6 +1,5 @@
 package Model;
 
-import Server.Server;
 import Server.IServerStrategy;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
@@ -15,4 +14,6 @@ public interface IModel {
     public void connectSolver(int port, int listeningIntervalMS, IServerStrategy strategy);
     public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy);
     Position getPlayer();
+
+    Solution getSolution();
 }

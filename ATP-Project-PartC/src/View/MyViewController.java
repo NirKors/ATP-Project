@@ -192,6 +192,10 @@ public class MyViewController implements IView {
         }
     }
 
+    public void helpUser(){
+        Pair<Integer,Integer>[] solution = viewModel.getSolution();
+        displayer.drawSolution(solution);
+    }
 
     public void keyPressed(String keyEvent) {
         if (maze == null)
@@ -214,7 +218,6 @@ public class MyViewController implements IView {
             if (displayer.movePlayer(pair.getKey(), pair.getValue())){
                 //reached goal
                 playEnding();
-                System.out.println("Got to goal");
 
             }
         }

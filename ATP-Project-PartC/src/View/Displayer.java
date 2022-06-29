@@ -125,6 +125,10 @@ public class Displayer extends Canvas {
         }
     }
 
+    public void drawSolution(Pair<Integer,Integer>[] solution){
+
+    }
+
 
 
 

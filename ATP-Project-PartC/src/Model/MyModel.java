@@ -5,6 +5,10 @@ import Server.IServerStrategy;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.BestFirstSearch;
+import algorithms.search.ISearchingAlgorithm;
+import algorithms.search.SearchableMaze;
+import algorithms.search.Solution;
 
 
 import java.util.Observable;
@@ -16,7 +20,6 @@ public class MyModel extends Observable implements IModel{
     Server generator, solver;
 
     // TODO: Implement server usage (make sure it reads from config file, if needed)
-
 
     @Override
     public void generateRandomMaze(int row, int col) {
@@ -33,6 +36,14 @@ public class MyModel extends Observable implements IModel{
     @Override
     public Position getPlayer() {
         return player;
+    }
+
+    @Override
+    public Solution getSolution() {
+        SearchableMaze searchableMaze = new SearchableMaze(curr_maze);
+        ISearchingAlgorithm algorithm = new BestFirstSearch();
+        Solution solution = algorithm.solve(searchableMaze);
+        return solution;
     }
 
     @Override
