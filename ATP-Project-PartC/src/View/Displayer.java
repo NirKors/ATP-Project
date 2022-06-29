@@ -16,6 +16,7 @@ public class Displayer extends Canvas {
     private int[][] maze;
     int rows, cols;
     private Pair<Integer, Integer> playerPos;
+    private Pair<Integer, Integer> goalPos;
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameFloor = new SimpleStringProperty();
@@ -27,6 +28,7 @@ public class Displayer extends Canvas {
         rows = maze.length;
         cols = maze[0].length;
         playerPos = null;
+        goalPos = null;
         draw();
     }
 
@@ -103,6 +105,7 @@ public class Displayer extends Canvas {
                             graphicsContext.drawImage(player, x, y, cellWidth, cellHeight);
                         break;
                     case 3:
+                        goalPos = new Pair<>(i, j);
                         if(goal == null)
                             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                         else
@@ -173,8 +176,13 @@ public class Displayer extends Canvas {
         this.imageFileNameGoal.set(imageFileNameGoal);
     }
 
-    public void movePlayer(int row, int col) {
+    public boolean movePlayer(int row, int col) {
         playerPos = new Pair<>(row, col);
         draw();
+        if (goalPos != null)
+            if (playerPos == goalPos){
+                return true;
+            }
+        return false;
     }
 }

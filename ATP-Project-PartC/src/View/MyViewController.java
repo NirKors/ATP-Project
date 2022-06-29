@@ -9,16 +9,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
-
 public class MyViewController implements IView {
     //TODO:
     private int[][] maze;
@@ -201,9 +201,12 @@ public class MyViewController implements IView {
             default -> {return;}
         }
         if (success){
-            // TODO: update displayer with new location
             Pair<Integer, Integer> pair = viewModel.getPlayerLocation();
-            displayer.movePlayer(pair.getKey(), pair.getValue());
+            if (displayer.movePlayer(pair.getKey(), pair.getValue())){
+                //reached goal
+                // play end theme
+
+            }
         }
         else {
             // TODO: play player sound
