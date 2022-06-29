@@ -77,6 +77,8 @@ public class MyViewController implements IView {
         pos = temp.getGoalPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 3;
 
+        displayer.setHeight(300);
+        displayer.setWidth(300);
         displayer.drawMaze(maze);
 
     }
