@@ -21,7 +21,7 @@ public class Displayer extends Canvas {
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameFloor = new SimpleStringProperty();
     StringProperty imageFileNameGoal = new SimpleStringProperty();
-
+    StringProperty imageFileNameBackground = new SimpleStringProperty();
 
     public void drawMaze(int[][] maze){
         this.maze = maze;

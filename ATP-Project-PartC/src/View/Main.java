@@ -10,9 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.awt.*;
+import java.util.Objects;
+
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 public class Main extends Application {
 
@@ -23,6 +28,7 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Big Test");
         Scene scene = new Scene(root, 400, 400);
+        scene.getStylesheets().addAll(Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
 
