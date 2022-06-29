@@ -121,7 +121,7 @@ public class MyViewController implements IView {
 
     public void exitButton(javafx.event.ActionEvent actionEvent) {
         Platform.exit();
-        //TODO: wtf is a safe exit, and do we need to close the server streams as well?
+        System.exit(0);
     }
 
     public void helpButton(javafx.event.ActionEvent actionEvent) {
