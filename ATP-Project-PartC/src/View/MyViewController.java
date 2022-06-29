@@ -47,18 +47,7 @@ public class MyViewController implements IView {
     }
 
 
-    public void playTheme(){
 
-        URL resource = getClass().getClassLoader().getResource("Music/At_Dooms_Gate.mp3");
-        MediaPlayer a =new MediaPlayer(new Media(resource.toString()));
-        a.setOnEndOfMedia(new Runnable() {
-            public void run() {
-                a.seek(Duration.ZERO);
-            }
-        });
-        a.play();
-
-    }
     //File menu:
     public void newButton(javafx.event.ActionEvent actionEvent) {
         displayDifficultySelection();
@@ -224,13 +213,75 @@ public class MyViewController implements IView {
             Pair<Integer, Integer> pair = viewModel.getPlayerLocation();
             if (displayer.movePlayer(pair.getKey(), pair.getValue())){
                 //reached goal
-                // play end theme
+                playEnding();
                 System.out.println("Got to goal");
 
             }
         }
         else {
             // TODO: play player sound
+            playStuck();
         }
+    }
+
+    private MediaPlayer music;
+    private MediaPlayer fx;
+
+    private void playStuck() {
+        if (fx != null)
+            fx.stop();
+
+        String path = "resources/Music/hitwall.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        fx = new MediaPlayer(media);
+        fx.setVolume(1);
+        fx.setAutoPlay(true);
+        fx.play();
+    }
+
+    private void playEnding() {
+        if (fx != null)
+            fx.stop();
+
+        String path = "resources/Music/goalreached.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        fx = new MediaPlayer(media);
+        fx.setVolume(1);
+        fx.setAutoPlay(true);
+        fx.play();
+
+
+        if (music != null)
+            music.stop();
+        path = "resources/Music/Intermission.mp3";
+        media = new Media(new File(path).toURI().toString());
+        music = new MediaPlayer(media);
+        music.setVolume(0.3);
+        music.setAutoPlay(true);
+
+        music.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                music.seek(Duration.ZERO);
+            }
+        });
+        music.play();
+    }
+
+    public void playTheme(){
+        if (music != null)
+            music.stop();
+        String path = "resources/Music/At_Dooms_Gate.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        music = new MediaPlayer(media);
+        music.setVolume(0.3);
+        music.setAutoPlay(true);
+
+        music.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                music.seek(Duration.ZERO);
+            }
+        });
+        music.play();
+
     }
 }
