@@ -6,6 +6,7 @@ import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +33,7 @@ public class Main extends Application {
         MyViewModel viewModel = new MyViewModel(model);
         MyViewController myview = fxmlLoader.getController();
         myview.setViewModel(viewModel, scene);
-
+        primaryStage.setOnCloseRequest( e-> myview.exitButton(new ActionEvent()));
 
     }
 
