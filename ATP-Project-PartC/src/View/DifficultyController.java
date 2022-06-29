@@ -17,7 +17,6 @@ public class DifficultyController implements IView{
     private Stage stage;
 
     public void tooYoungDifficulty(javafx.event.ActionEvent actionEvent) {
-        System.out.println("tooYoungDifficulty");
         row = 5;
         col = 5;
         sendback(row, col);
@@ -25,21 +24,18 @@ public class DifficultyController implements IView{
     }
 
     public void hurtMeDifficulty(javafx.event.ActionEvent actionEvent) {
-        System.out.println("hurtMeDifficulty");
         row = 10;
         col = 10;
         sendback(row, col);
     }
 
     public void nightmareDifficulty(javafx.event.ActionEvent actionEvent) {
-        System.out.println("nightmareDifficulty");
         row = 20;
         col = 20;
         sendback(row, col);
     }
 
     public void choiceDifficulty(javafx.event.ActionEvent actionEvent) {
-        System.out.println("choiceDifficulty");
         if((!rowsText.getText().isEmpty()) && !(colsText.getText().isEmpty()) && rowsText.getText().matches("-?\\d+") && colsText.getText().matches("-?\\d+")) {
             row = Integer.parseInt(rowsText.getText());
             col = Integer.parseInt(colsText.getText());

@@ -5,6 +5,8 @@ import View.IView;
 import View.MyViewController;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.Position;
+import javafx.util.Pair;
 
 public class MyViewModel {
 
@@ -30,8 +32,18 @@ public class MyViewModel {
                 case "DOWN" -> model.updateCharacterLocation(2);
                 case "LEFT" -> model.updateCharacterLocation(3);
                 case "RIGHT" -> model.updateCharacterLocation(4);
+                case "DOWNLEFT" -> model.updateCharacterLocation(5);
+                case "DOWNRIGHT" -> model.updateCharacterLocation(6);
+                case "UPLEFT" -> model.updateCharacterLocation(7);
+                case "UPRIGHT" -> model.updateCharacterLocation(8);
             }
         } catch (UnsupportedOperationException e) { return false;}
         return true;
+    }
+
+    public Pair<Integer, Integer> getPlayerLocation() {
+        Position pos = model.getPlayer();
+
+        return new Pair<Integer, Integer>(pos.getRowIndex(), pos.getColumnIndex());
     }
 }

@@ -3,6 +3,7 @@ package Model;
 import Server.Server;
 import Server.IServerStrategy;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 import algorithms.search.Solution;
 
 public interface IModel {
@@ -13,6 +14,5 @@ public interface IModel {
 
     public void connectSolver(int port, int listeningIntervalMS, IServerStrategy strategy);
     public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy);
-
-
+    Position getPlayer();
 }

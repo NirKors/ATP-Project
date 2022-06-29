@@ -15,7 +15,7 @@ public class Displayer extends Canvas {
 
     private int[][] maze;
     int rows, cols;
-    private Pair<Integer, Integer> player;
+    private Pair<Integer, Integer> playerPos;
     StringProperty imageFileNameWall = new SimpleStringProperty();
     StringProperty imageFileNamePlayer = new SimpleStringProperty();
     StringProperty imageFileNameFloor = new SimpleStringProperty();
@@ -26,6 +26,7 @@ public class Displayer extends Canvas {
         this.maze = maze;
         rows = maze.length;
         cols = maze[0].length;
+        playerPos = null;
         draw();
     }
 
@@ -64,9 +65,9 @@ public class Displayer extends Canvas {
             // TODO: logger
         }
 
-        Image Shotgun = null;
+        Image goal = null;
         try{
-            Shotgun = new Image(new FileInputStream(getImageFileNameGoal()));
+            goal = new Image(new FileInputStream(getImageFileNameGoal()));
         } catch (FileNotFoundException e) {
             // TODO: logger
         }
@@ -89,20 +90,35 @@ public class Displayer extends Canvas {
                             graphicsContext.drawImage(wallImage, x, y, cellWidth, cellHeight);
                         break;
                     case 2:
+                        if (playerPos != null){
+                            if(floor == null)
+                                graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+                            else
+                                graphicsContext.drawImage(floor, x, y, cellWidth, cellHeight);
+                            break;
+                        }
                         if(player == null)
                             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                         else
                             graphicsContext.drawImage(player, x, y, cellWidth, cellHeight);
                         break;
                     case 3:
-                        if(Shotgun == null)
+                        if(goal == null)
                             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                         else
-                            graphicsContext.drawImage(Shotgun, x, y, cellWidth, cellHeight);
+                            graphicsContext.drawImage(goal, x, y, cellWidth, cellHeight);
                         break;
 
                 }
             }
+        }
+        if (playerPos != null){
+            double x = playerPos.getValue() * cellWidth;
+            double y = playerPos.getKey() * cellHeight;
+            if(player == null)
+                graphicsContext.fillRect( x,y, cellWidth, cellHeight);
+            else
+                graphicsContext.drawImage(player,  x,y, cellWidth, cellHeight);
         }
     }
 
@@ -157,4 +173,8 @@ public class Displayer extends Canvas {
         this.imageFileNameGoal.set(imageFileNameGoal);
     }
 
+    public void movePlayer(int row, int col) {
+        playerPos = new Pair<>(row, col);
+        draw();
+    }
 }

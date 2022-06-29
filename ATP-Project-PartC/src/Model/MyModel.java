@@ -31,18 +31,43 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
+    public Position getPlayer() {
+        return player;
+    }
+
+    @Override
     public void updateCharacterLocation(int direction) {
         Position newpos;
 
         switch (direction) {
-            case 1 -> //Up
+            case 1 -> // UP
                     newpos = player.Up();
-            case 2 -> //Down
+            case 2 -> // DOWN
                     newpos = player.Down();
-            case 3 -> //Left
+            case 3 -> // LEFT
                     newpos = player.Left();
-            case 4 -> //Right
+            case 4 -> // RIGHT
                     newpos = player.Right();
+            case 5 -> // DOWNLEFT
+            {
+                newpos = player.Down();
+                newpos = newpos.Left();
+            }
+            case 6 -> // DOWNRIGHT
+            {
+                newpos = player.Down();
+                newpos = newpos.Right();
+            }
+            case 7 -> // UPLEFT
+            {
+                newpos = player.Up();
+                newpos = newpos.Left();
+            }
+            case 8 -> // UPRIGHT
+            {
+                newpos = player.Up();
+                newpos = newpos.Right();
+            }
             default ->
                 throw new UnsupportedOperationException("Unable to move to given direction.");
         }

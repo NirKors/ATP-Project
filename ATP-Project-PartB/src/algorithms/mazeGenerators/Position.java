@@ -44,7 +44,7 @@ public class Position implements Serializable {
      * @return new Position
      */
     public Position Up() {
-        return new Position(this.getRowIndex() + 1, this.getColumnIndex());
+        return new Position(this.getRowIndex() - 1, this.getColumnIndex());
     }
 
     /**
@@ -53,7 +53,7 @@ public class Position implements Serializable {
      * @return new Position
      */
     public Position Down() {
-        return new Position(this.getRowIndex() - 1, this.getColumnIndex());
+        return new Position(this.getRowIndex() + 1, this.getColumnIndex());
     }
 
     /**

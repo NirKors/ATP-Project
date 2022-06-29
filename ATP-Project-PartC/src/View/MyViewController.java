@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -184,32 +185,27 @@ public class MyViewController implements IView {
 
 
     public void keyPressed(String keyEvent) {
-        System.out.println("keyPressed: " + keyEvent);
+        if (maze == null)
+            return;
+
         boolean success;
         switch (keyEvent) {
             case "NUMPAD2" -> success = viewModel.movePlayer("DOWN");
             case "NUMPAD4" -> success = viewModel.movePlayer("LEFT");
             case "NUMPAD6" -> success = viewModel.movePlayer("RIGHT");
             case "NUMPAD8" -> success = viewModel.movePlayer("UP");
-            case "NUMPAD1" -> {
-                success = viewModel.movePlayer("DOWN");
-                keyPressed("LEFT");
-            }
-            case "NUMPAD3" -> {
-                success = viewModel.movePlayer("RIGHT");
-                keyPressed("DOWN");
-            }
-            case "NUMPAD7" -> {
-                success = viewModel.movePlayer("LEFT");
-                keyPressed("UP");
-            }
-            case "NUMPAD9" -> {
-                success = viewModel.movePlayer("UP");
-                keyPressed("RIGHT");
-            }
+            case "NUMPAD1" -> success = viewModel.movePlayer("DOWNLEFT");
+            case "NUMPAD3" -> success = viewModel.movePlayer("DOWNRIGHT");
+            case "NUMPAD7" -> success = viewModel.movePlayer("UPLEFT");
+            case "NUMPAD9" -> success = viewModel.movePlayer("UPRIGHT");
             default -> {return;}
         }
-        if (!success){
+        if (success){
+            // TODO: update displayer with new location
+            Pair<Integer, Integer> pair = viewModel.getPlayerLocation();
+            displayer.movePlayer(pair.getKey(), pair.getValue());
+        }
+        else {
             // TODO: play player sound
         }
     }
