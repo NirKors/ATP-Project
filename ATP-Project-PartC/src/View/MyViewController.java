@@ -125,7 +125,7 @@ public class MyViewController implements IView {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
-        alert.setContentText("Ok we got to hell, now what?\nUse the numpad keys to move around and get to the BFG!");
+        alert.setContentText("Hell's forces are loose on Mars!\nUse the numpad keys to move around and find the BFG9000!\nLook for its green plasma glow.");
         alert.showAndWait();
     }
 
@@ -133,9 +133,7 @@ public class MyViewController implements IView {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText(null);
-        alert.setContentText("MURDERED By Daniel Zaslavsky & Nir Kusronsky\n" +
-                "EXECUTED by the DFS algorithm, that makes the mazes all pretty.\n" +
-                "DESTROYED by the DFS, BFS and BestFirstSearch solving algorithms that help us escape hell!");
+        alert.setContentText("Hell's forces were let loose by\nCyberdemon: Daniel Zaslavsky\nSpider Mastermind: Nir Korsunsky");
         alert.showAndWait();
     }
 
