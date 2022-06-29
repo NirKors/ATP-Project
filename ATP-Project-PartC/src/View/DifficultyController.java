@@ -38,7 +38,7 @@ public class DifficultyController implements IView{
         sendback(row, col);
     }
 
-    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) { //TODO: causes exception
+    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) {
         System.out.println("choiceDifficulty");
         if((!rowsText.getText().isEmpty()) && !(colsText.getText().isEmpty()) && rowsText.getText().matches("-?\\d+") && colsText.getText().matches("-?\\d+")) {
             row = Integer.parseInt(rowsText.getText());
