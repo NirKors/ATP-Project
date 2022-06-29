@@ -1,13 +1,13 @@
 package View;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import javafx.scene.control.TextField;
 
 public class DifficultyController implements IView{
 
-    //TODO: should close after valid selection.
     private int row, col;
 
     public TextField rowsText;
@@ -38,13 +38,20 @@ public class DifficultyController implements IView{
         sendback(row, col);
     }
 
-    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) { // TODO: Lock button when text boxes are empty.
+    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) {
         System.out.println("choiceDifficulty");
-        row = Integer.parseInt(rowsText.getText());
-        col = Integer.parseInt(colsText.getText());
-        sendback(row, col);
+        if((!rowsText.getText().isEmpty()) && !(colsText.getText().isEmpty()) && rowsText.getText().matches("-?\\d+") && colsText.getText().matches("-?\\d+")) {
+            row = Integer.parseInt(rowsText.getText());
+            col = Integer.parseInt(colsText.getText());
+            sendback(row, col);
+        } else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("YOU CAN'T CHEAT YOUR WAY IN");
+            alert.setHeaderText(null);
+            alert.setContentText("These aren't numbers!\nEnter only full numbers in the columns and rows fields!");
+            alert.showAndWait();
+        }
 
-        //TODO: catch error or disable button
     }
 
     public void sendback(int row, int col){

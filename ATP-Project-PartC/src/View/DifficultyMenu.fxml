@@ -22,7 +22,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="customizeButton" disable="true" layoutX="4.0" layoutY="48.0" mnemonicParsing="false" onAction="#choiceDifficulty" prefHeight="62.0" prefWidth="128.0" text="CUSTOMIZE YOUR PAIN" textAlignment="CENTER" wrapText="true" />
+                  <Button fx:id="customizeButton" layoutX="4.0" layoutY="48.0" mnemonicParsing="false" onAction="#choiceDifficulty" prefHeight="62.0" prefWidth="128.0" text="CUSTOMIZE YOUR PAIN" textAlignment="CENTER" wrapText="true" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

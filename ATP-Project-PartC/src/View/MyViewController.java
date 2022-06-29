@@ -147,6 +147,7 @@ public class MyViewController implements IView {
         if (myMazeGen.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator");
         }
+        System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
 
     public void solvePropertyChoice(javafx.event.ActionEvent event) {
@@ -167,7 +168,8 @@ public class MyViewController implements IView {
         if (threadPoolTextField.getText().matches("-?\\d+")) {
             Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
         }
-        System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
+
+        System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }
 
 
@@ -177,7 +179,6 @@ public class MyViewController implements IView {
         } else {
             System.out.println("sounds OFF");
         }
-        System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }
 
 
