@@ -31,7 +31,7 @@ public class Main extends Application {
 
         MyViewModel viewModel = new MyViewModel(model);
         MyViewController myview = fxmlLoader.getController();
-        myview.setViewModel(viewModel);
+        myview.setViewModel(viewModel, scene);
 
 
     }

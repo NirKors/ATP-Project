@@ -11,7 +11,7 @@ import java.util.Observable;
 
 public class MyModel extends Observable implements IModel{
 
-    Position curr_position; // TODO: Astate?
+    Position player;
     Maze curr_maze;
     Server generator, solver;
 
@@ -22,6 +22,7 @@ public class MyModel extends Observable implements IModel{
     public void generateRandomMaze(int row, int col) {
         MyMazeGenerator gen = new MyMazeGenerator();
         curr_maze = gen.generate(row, col);
+        player = curr_maze.getStartPosition();
     }
 
     @Override
@@ -35,21 +36,20 @@ public class MyModel extends Observable implements IModel{
 
         switch (direction) {
             case 1 -> //Up
-                    newpos = curr_position.Up();
+                    newpos = player.Up();
             case 2 -> //Down
-                    newpos = curr_position.Down();
+                    newpos = player.Down();
             case 3 -> //Left
-                    newpos = curr_position.Left();
+                    newpos = player.Left();
             case 4 -> //Right
-                    newpos = curr_position.Right();
+                    newpos = player.Right();
             default ->
-                throw new IllegalArgumentException("Maybe remove this?"); //TODO
+                throw new UnsupportedOperationException("Unable to move to given direction.");
         }
-
         if (validTraversal(newpos))
-            curr_position = newpos;
+            player = newpos;
         else
-            throw new IllegalArgumentException("Maybe remove this?"); //TODO
+            throw new UnsupportedOperationException("Unable to move to given direction.");
 
     }
 

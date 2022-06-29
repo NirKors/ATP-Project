@@ -11,11 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MyViewController implements IView {
     //TODO:
@@ -24,16 +25,18 @@ public class MyViewController implements IView {
     private static MyViewModel viewModel;
 
     @FXML
-    private BorderPane Displayer;
-    @FXML
     private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
     @FXML
     private CheckBox soundCheckBox;
     @FXML
     private TextField threadPoolTextField;
 
-    public void setViewModel(MyViewModel viewModel) {
+    public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
+        scene.setOnKeyPressed(event -> {
+            String codeString = event.getCode().toString();
+            keyPressed(codeString);
+        });
     }
 
 
@@ -180,7 +183,34 @@ public class MyViewController implements IView {
     }
 
 
-    public void keyPressed(KeyEvent keyEvent) {
-        System.out.println("keyPressed");
+    public void keyPressed(String keyEvent) {
+        System.out.println("keyPressed: " + keyEvent);
+        boolean success;
+        switch (keyEvent) {
+            case "NUMPAD2" -> success = viewModel.movePlayer("DOWN");
+            case "NUMPAD4" -> success = viewModel.movePlayer("LEFT");
+            case "NUMPAD6" -> success = viewModel.movePlayer("RIGHT");
+            case "NUMPAD8" -> success = viewModel.movePlayer("UP");
+            case "NUMPAD1" -> {
+                success = viewModel.movePlayer("DOWN");
+                keyPressed("LEFT");
+            }
+            case "NUMPAD3" -> {
+                success = viewModel.movePlayer("RIGHT");
+                keyPressed("DOWN");
+            }
+            case "NUMPAD7" -> {
+                success = viewModel.movePlayer("LEFT");
+                keyPressed("UP");
+            }
+            case "NUMPAD9" -> {
+                success = viewModel.movePlayer("UP");
+                keyPressed("RIGHT");
+            }
+            default -> {return;}
+        }
+        if (!success){
+            // TODO: play player sound
+        }
     }
 }
