@@ -7,6 +7,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
+import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import javafx.util.Pair;
 
@@ -55,10 +56,12 @@ public class MyViewModel {
     public Pair<Integer, Integer>[] getSolution() {
         Solution sol = model.getSolution();
         ArrayList<AState> solutionPath = sol.getSolutionPath();
+        Pair<Integer, Integer>[] toreturn = new Pair[solutionPath.size()];
         for (int i = 0; i < solutionPath.size(); i++) {
-            System.out.println(String.format("%s.%s", i, solutionPath.get(i)));
+            Position pos = solutionPath.get(i).getState();
+            toreturn[i] = new Pair<>(pos.getRowIndex(), pos.getColumnIndex());
         }
-        return new Pair[0];
+        return toreturn;
     }
 
 }

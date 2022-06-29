@@ -5,6 +5,7 @@ import ViewModel.MyViewModel;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -192,10 +193,6 @@ public class MyViewController implements IView {
         }
     }
 
-    public void helpUser(){
-        Pair<Integer,Integer>[] solution = viewModel.getSolution();
-        displayer.drawSolution(solution);
-    }
 
     int numOfSteps = 0;
     public void keyPressed(String keyEvent) {
@@ -221,10 +218,10 @@ public class MyViewController implements IView {
                 //reached goal
                 playEnding();
                 showScore();
+                //TODO: now what
             }
         }
         else {
-            // TODO: play player sound
             playStuck();
         }
     }
@@ -296,5 +293,20 @@ public class MyViewController implements IView {
         });
         music.play();
 
+    }
+
+    public void solveButton(ActionEvent actionEvent) {
+        if (maze == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Solve");
+            alert.setHeaderText(null);
+            alert.setContentText("There's no maze yet.\nCreate a maze with File->New, or load your maze with File->Load.");
+            alert.showAndWait();
+            return;
+        }
+
+        Pair<Integer,Integer>[] solution = viewModel.getSolution();
+        displayer.drawSolution(solution);
     }
 }
