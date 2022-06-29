@@ -8,7 +8,6 @@ import javafx.scene.control.TextField;
 
 public class DifficultyController implements IView{
 
-    //TODO: should close after valid selection.
     private int row, col;
 
     public TextField rowsText;
@@ -39,7 +38,7 @@ public class DifficultyController implements IView{
         sendback(row, col);
     }
 
-    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) { // TODO: Lock button when text boxes are empty.
+    public void choiceDifficulty(javafx.event.ActionEvent actionEvent) {
         System.out.println("choiceDifficulty");
         if((!rowsText.getText().isEmpty()) && !(colsText.getText().isEmpty()) && rowsText.getText().matches("-?\\d+") && colsText.getText().matches("-?\\d+")) {
             row = Integer.parseInt(rowsText.getText());
@@ -53,7 +52,6 @@ public class DifficultyController implements IView{
             alert.showAndWait();
         }
 
-        //TODO: catch error or disable button
     }
 
     public void sendback(int row, int col){
