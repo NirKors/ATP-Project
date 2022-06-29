@@ -180,7 +180,7 @@ public class Displayer extends Canvas {
         playerPos = new Pair<>(row, col);
         draw();
         if (goalPos != null)
-            if (playerPos == goalPos){
+            if (playerPos.equals(goalPos)){
                 return true;
             }
         return false;

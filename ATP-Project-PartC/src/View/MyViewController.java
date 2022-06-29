@@ -14,11 +14,17 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class MyViewController implements IView {
     //TODO:
     private int[][] maze;
@@ -41,6 +47,18 @@ public class MyViewController implements IView {
     }
 
 
+    public void playTheme(){
+
+        URL resource = getClass().getClassLoader().getResource("Music/At_Dooms_Gate.mp3");
+        MediaPlayer a =new MediaPlayer(new Media(resource.toString()));
+        a.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                a.seek(Duration.ZERO);
+            }
+        });
+        a.play();
+
+    }
     //File menu:
     public void newButton(javafx.event.ActionEvent actionEvent) {
         displayDifficultySelection();
@@ -84,6 +102,8 @@ public class MyViewController implements IView {
         displayer.setHeight(300);
         displayer.setWidth(300);
         displayer.drawMaze(maze);
+
+        playTheme();
 
     }
 
@@ -205,6 +225,7 @@ public class MyViewController implements IView {
             if (displayer.movePlayer(pair.getKey(), pair.getValue())){
                 //reached goal
                 // play end theme
+                System.out.println("Got to goal");
 
             }
         }
