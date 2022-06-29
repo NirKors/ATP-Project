@@ -197,6 +197,7 @@ public class MyViewController implements IView {
         displayer.drawSolution(solution);
     }
 
+    int numOfSteps = 0;
     public void keyPressed(String keyEvent) {
         if (maze == null)
             return;
@@ -214,11 +215,12 @@ public class MyViewController implements IView {
             default -> {return;}
         }
         if (success){
+            numOfSteps++;
             Pair<Integer, Integer> pair = viewModel.getPlayerLocation();
             if (displayer.movePlayer(pair.getKey(), pair.getValue())){
                 //reached goal
                 playEnding();
-
+                showScore();
             }
         }
         else {
@@ -229,6 +231,14 @@ public class MyViewController implements IView {
 
     private MediaPlayer music;
     private MediaPlayer fx;
+
+    private void showScore(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Score screen");
+        alert.setHeaderText("You won! You managed to reach the BFG9000!");
+        alert.setContentText("It only took you " + numOfSteps + " steps until you reached the ending!\nCan you do better?");
+        alert.showAndWait();
+    }
 
     private void playStuck() {
         if (fx != null)
