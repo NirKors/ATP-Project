@@ -55,7 +55,6 @@ public class MyViewModel {
         return new Pair<Integer, Integer>(pos.getRowIndex(), pos.getColumnIndex());
     }
 
-    //TODO: Finish
     public Pair<Integer, Integer>[] getSolution(Pair<Integer, Integer> player) {
         Solution sol = model.getSolution(player.getKey(), player.getValue());
         ArrayList<AState> solutionPath = sol.getSolutionPath();

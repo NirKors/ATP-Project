@@ -21,6 +21,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import static View.Log4J.LOG;
+
 public class MyModel extends Observable implements IModel{
 
     Position player;
@@ -41,7 +43,8 @@ public class MyModel extends Observable implements IModel{
             out.close();
             return true;
         } catch (Exception e) {
-            //TODO: logger and delete file on exit
+            LOG.error("MyModel failed to save file.", e);
+            //TODO: delete file on exit
         }
         return false;
     }
@@ -56,8 +59,8 @@ public class MyModel extends Observable implements IModel{
             curr_maze = new Maze(mazeBytes);
             return true;
         } catch (IOException e) {
-            //TODO: logger
-            e.printStackTrace();
+            LOG.error("MyModel failed to load file.", e);
+
         }
         return false;
     }
@@ -69,7 +72,7 @@ public class MyModel extends Observable implements IModel{
             player = curr_maze.getStartPosition();
         }
         catch (Exception e){
-            //TODO: logger
+            LOG.error("MyModel failed to generate maze.", e);
         }
 
     }
@@ -144,6 +147,7 @@ public class MyModel extends Observable implements IModel{
         generator = new Server(port, listeningIntervalMS, strategy);
         generator.start();
         genport = port;
+        LOG.info(String.format("Maze generating server connected via port %s.", port));
     }
     private Solution CommunicateWithServer_SolveSearchProblem(Maze toSolve) {
         final Solution[] mazeSolution = new Solution[1];
@@ -159,14 +163,15 @@ public class MyModel extends Observable implements IModel{
                         toServer.flush();
                         mazeSolution[0] = (Solution) fromServer.readObject();
                     } catch (Exception e) {
-                        //TODO: logger
+                        LOG.error(e);
+
                     }
                 }
             });
             client.communicateWithServer();
             return mazeSolution[0];
         } catch (UnknownHostException e) {
-            //TODO: logger
+            LOG.error(e);
         }
         return null;
     }
@@ -197,14 +202,14 @@ public class MyModel extends Observable implements IModel{
                         maze[0] = new Maze(decompressedMaze);
 
                     } catch (Exception e) {
-                        //TODO: logger
+                        LOG.error(e);
                     }
                 }
             });
             client.communicateWithServer();
             return maze[0];
         } catch (UnknownHostException e) {
-            //TODO: logger
+            LOG.error(e);
         }
         return null;
     }
@@ -213,6 +218,7 @@ public class MyModel extends Observable implements IModel{
         solver = new Server(port, listeningIntervalMS, strategy);
         solver.start();
         solveport = port;
+        LOG.info(String.format("Maze solving server connected via port %s.", port));
 
     }
 

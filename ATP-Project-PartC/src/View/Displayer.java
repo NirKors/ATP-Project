@@ -15,6 +15,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 
+import static View.Log4J.LOG;
+
 public class Displayer extends Canvas {
 
     private int[][] maze;
@@ -59,34 +61,34 @@ public class Displayer extends Canvas {
         try {
             wallImage = new Image(new FileInputStream(getImageFileNameWall()));
         } catch (FileNotFoundException e) {
-            // TODO: logger
+
         }
         Image floor = null;
         try {
             floor = new Image(new FileInputStream(getImageFileNameFloor()));
         } catch (FileNotFoundException e) {
-            // TODO: logger
+            LOG.warn("Unable to load image.");
         }
 
         Image player = null;
         try {
             player = new Image(new FileInputStream(getImageFileNamePlayer()));
         } catch (FileNotFoundException e) {
-            // TODO: logger
+            LOG.warn("Unable to load image.");
         }
 
         Image goal = null;
         try {
             goal = new Image(new FileInputStream(getImageFileNameGoal()));
         } catch (FileNotFoundException e) {
-            // TODO: logger
+            LOG.warn("Unable to load image.");
         }
 
         Image health = null;
         try {
             health = new Image(new FileInputStream(getImageFileNameHealth()));
         } catch (FileNotFoundException e) {
-            // TODO: logger
+            LOG.warn("Unable to load image.");
         }
 
         for (int i = 0; i < rows; i++) {

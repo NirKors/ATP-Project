@@ -28,9 +28,11 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Optional;
+import View.Log4J;
+
+import static View.Log4J.LOG;
 
 public class MyViewController implements IView {
-    //TODO:
     private int[][] maze;
     public Displayer displayer;
     private static MyViewModel viewModel;
@@ -78,8 +80,7 @@ public class MyViewController implements IView {
             DifficultyController dcontrol = fxmlLoader.getController();
             dcontrol.setParent(this, stage);
         } catch (IOException e) {
-            // TODO: add to logger.
-            e.printStackTrace();
+            LOG.error("Unable to display difficulty selection.", e);
             return;
         }
     }
@@ -96,6 +97,7 @@ public class MyViewController implements IView {
             }
         }
         playTheme();
+        LOG.info("Created a new " + temp.getRowNum() + "x" + temp.getColNum() +" maze.");
         Position pos = temp.getStartPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 2;
         pos = temp.getGoalPosition();
@@ -147,6 +149,7 @@ public class MyViewController implements IView {
                             pane.setScaleX(pane.getScaleX() * zoomFactor);
                             pane.setScaleY(pane.getScaleY() * zoomFactor);
                             event.consume();
+                            LOG.debug("Zoom level changed.");
                         }
                     }
                 });
@@ -157,23 +160,30 @@ public class MyViewController implements IView {
 
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {
-        //TODO: add usage of viewModel.save(String fileName). If method returns false: error
         String userResult = getUserFileName("Save Maze");
-        if (viewModel.save(userResult))
+        if (viewModel.save(userResult)){
             successAlert("File saved successfully.");
-        else
+            LOG.info(String.format("User saved a maze to file \"%n\"",userResult));
+        }
+        else{
             warningAlert("Unable to save the maze.");
+            LOG.warn("User failed to save a maze.");
+        }
 
     }
     public void loadButton(javafx.event.ActionEvent actionEvent) {
-        //TODO: add usage of viewModel.load(String fileName). If method returns false: error
         String userResult = getUserFileName("Load Maze");
-        if (viewModel.load(userResult))
-            successAlert("File saved successfully.");
-        else
+        if (viewModel.load(userResult)) {
+            successAlert("File loaded successfully.");
+            LOG.info(String.format("User loaded maze \"%n\"",userResult));
+        }
+        else {
             warningAlert("Unable to load the maze.");
+            LOG.warn("User failed to load a maze.");
+
+        }
     }
-    public String getUserFileName(String title){
+    private String getUserFileName(String title){
         TextInputDialog td = new TextInputDialog("Enter the file name...");
         td.setTitle(title);
         td.setHeaderText("File name:");
@@ -181,14 +191,14 @@ public class MyViewController implements IView {
         return td.getResult();
     }
 
-    public void successAlert(String msg){
+    private void successAlert(String msg){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText(null);
         alert.setContentText(msg);
         alert.showAndWait();
     }
-    public void warningAlert(String msg){
+    private void warningAlert(String msg){
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Warning");
         alert.setHeaderText(null);
@@ -212,18 +222,19 @@ public class MyViewController implements IView {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            // TODO: add to logger.
-            e.printStackTrace();
+            LOG.error("Unable to display properties.", e);
             return;
         }
     }
 
     public void exitButton(javafx.event.ActionEvent actionEvent) {
+        LOG.info("Program terminated by user");
         Platform.exit();
         System.exit(0);
     }
 
     public void helpButton(javafx.event.ActionEvent actionEvent) {
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
@@ -243,9 +254,11 @@ public class MyViewController implements IView {
     public void mazeCreatePropertyChoice(javafx.event.ActionEvent event) {
         if (randomMaze.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "SimpleMazeGenerator");
+            LOG.info("SimpleMazeGenerator selected.");
         }
         if (myMazeGen.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator");
+            LOG.info("MyMazeGenerator selected.");
         }
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
@@ -253,20 +266,24 @@ public class MyViewController implements IView {
     public void solvePropertyChoice(javafx.event.ActionEvent event) {
         if (bfsChoice.isSelected()) {
             Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BreadthFirstSearch");
+            LOG.info("BreadthFirstSearch selected.");
         }
         if (dfsChoice.isSelected()) {
             Configurations.getProp().setProperty("mazeSearchingAlgorithm", "DepthFirstSearch");
+            LOG.info("DepthFirstSearch selected.");
         }
         if (bestChoice.isSelected()) {
             Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BestFirstSearch");
+            LOG.info("BestFirstSearch selected.");
         }
         System.out.println("Current searcher is: " + Configurations.getProp().getProperty("mazeSearchingAlgorithm"));
 
     }
 
     public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
-        if (threadPoolTextField.getText().matches("-?\\d+")) {
+        if (threadPoolTextField.getText().matches("-?\\d+")) { //TODO: can't be negative or zero
             Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
+            LOG.info("Threadpool size changed.");
         }
 
         System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
@@ -275,6 +292,8 @@ public class MyViewController implements IView {
 
     public void soundBox(javafx.event.ActionEvent event) {
         mute = soundCheckBox.isSelected();
+        LOG.info("Mute: " + mute);
+
         if (mute)
             stopsounds();
     }
@@ -322,6 +341,7 @@ public class MyViewController implements IView {
 
 
     private void showScore(){
+        LOG.info(String.format("User solved maze. Highscore: %s.", numOfSteps));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Maze Solved");
         alert.setHeaderText("You won! You managed to reach the BFG9000!");
@@ -393,6 +413,7 @@ public class MyViewController implements IView {
     }
 
     public void solveButton(ActionEvent actionEvent) {
+        LOG.info("User requested solution.");
         if (currentState == MazeState.NOTRUNNING)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
