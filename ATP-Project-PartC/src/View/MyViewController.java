@@ -36,7 +36,7 @@ public class MyViewController implements IView {
     private static MyViewModel viewModel;
 
     @FXML
-    private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
+    private RadioButton randomMaze, myMazeGen, emptyMaze, bfsChoice, dfsChoice, bestChoice;
     @FXML
     private CheckBox soundCheckBox;
     @FXML
@@ -225,6 +225,7 @@ public class MyViewController implements IView {
     }
 
     public void exitButton(javafx.event.ActionEvent actionEvent) {
+        viewModel.stopServers();
         Platform.exit();
         System.exit(0);
     }
@@ -253,6 +254,9 @@ public class MyViewController implements IView {
         if (myMazeGen.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"MyMazeGenerator\"");
         }
+        if (emptyMaze.isSelected()){
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"EmptyMazeGenerator\"");
+        }
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
 
@@ -272,8 +276,16 @@ public class MyViewController implements IView {
 
     public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
         if (threadPoolTextField.getText().matches("-?\\d+")) {
-            Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
+            if(Integer.parseInt(threadPoolTextField.getText())>1) {
+                Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
+                return;
+            }
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Wrong number of threads");
+        alert.setHeaderText(null);
+        alert.setContentText("Please input numbers above 1 in the threads text field.");
+        alert.showAndWait();
 
         System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }

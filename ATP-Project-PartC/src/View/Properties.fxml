@@ -15,12 +15,12 @@
       <Text layoutX="28.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size of Threadpool:" />
       <TextField fx:id="threadPoolTextField" layoutX="30.0" layoutY="187.0" promptText="Threadpool size" />
       <CheckBox fx:id="soundCheckBox" layoutX="25.0" layoutY="14.0" mnemonicParsing="false" onAction="#soundBox" text="Mute" />
-      <RadioButton fx:id="randomMaze" layoutX="25.0" layoutY="54.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" selected="true" text="Random Maze">
+      <RadioButton fx:id="randomMaze" layoutX="25.0" layoutY="65.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" selected="true" text="Random Maze">
          <toggleGroup>
             <ToggleGroup fx:id="create" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="myMazeGen" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" selected="true" text="MyMazeGenerator" toggleGroup="$create" />
+      <RadioButton fx:id="myMazeGen" layoutX="25.0" layoutY="83.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" selected="true" text="MyMazeGenerator" toggleGroup="$create" />
       <RadioButton fx:id="bfsChoice" layoutX="25.0" layoutY="113.0" mnemonicParsing="false" onAction="#solvePropertyChoice" selected="true" text="BFS">
          <toggleGroup>
             <ToggleGroup fx:id="solve" />
@@ -29,5 +29,6 @@
       <RadioButton fx:id="dfsChoice" layoutX="25.0" layoutY="131.0" mnemonicParsing="false" onAction="#solvePropertyChoice" text="DFS" toggleGroup="$solve" />
       <RadioButton fx:id="bestChoice" layoutX="25.0" layoutY="149.0" mnemonicParsing="false" onAction="#solvePropertyChoice" text="Best" toggleGroup="$solve" />
       <Button layoutX="25.0" layoutY="212.0" mnemonicParsing="false" onAction="#threadPoolButton" text="Apply new Threadpool size" />
+      <RadioButton fx:id="emptyMaze" layoutX="25.0" layoutY="48.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" text="Empty Maze" toggleGroup="$create" />
    </children>
 </Pane>
