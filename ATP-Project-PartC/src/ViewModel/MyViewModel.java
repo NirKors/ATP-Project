@@ -42,6 +42,13 @@ public class MyViewModel {
         return true;
     }
 
+    public boolean save(String fileName){
+        return model.save(fileName);
+    }
+    public boolean load(String fileName){
+        return model.load(fileName);
+    }
+
     public Pair<Integer, Integer> getPlayerLocation() {
         Position pos = model.getPlayer();
 

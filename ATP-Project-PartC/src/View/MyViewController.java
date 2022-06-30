@@ -1,8 +1,11 @@
 package View;
 
+import IO.SimpleCompressorOutputStream;
 import Server.Configurations;
 import ViewModel.MyViewModel;
+import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,9 +24,7 @@ import javafx.util.Pair;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -109,13 +110,15 @@ public class MyViewController implements IView {
 
 
 
+    public void saveButton(javafx.event.ActionEvent actionEvent) {
+        //TODO: add usage of viewModel.save(String fileName). If method returns false: error
+
+    }
     public void loadButton(javafx.event.ActionEvent actionEvent) {
-        System.out.println("load");
+        //TODO: add usage of viewModel.load(String fileName). If method returns false: error
+
     }
 
-    public void saveButton(javafx.event.ActionEvent actionEvent) {
-        System.out.println("save");
-    }
 
     //Options menu:
     public void propertiesButton(javafx.event.ActionEvent actionEvent) {

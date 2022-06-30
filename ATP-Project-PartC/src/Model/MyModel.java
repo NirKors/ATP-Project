@@ -3,8 +3,11 @@ package Model;
 import Client.Client;
 import Client.IClientStrategy;
 import IO.MyDecompressorInputStream;
+import IO.SimpleCompressorOutputStream;
+import IO.SimpleDecompressorInputStream;
 import Server.Server;
 import Server.IServerStrategy;
+import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
@@ -25,8 +28,36 @@ public class MyModel extends Observable implements IModel{
     int genport;
     int solveport;
 
-    // TODO: Implement server usage (make sure it reads from config file, if needed)
 
+    public boolean save(String fileName) {
+
+        try {
+            // save maze to a file
+            OutputStream out = new SimpleCompressorOutputStream(new FileOutputStream(fileName));
+            out.write(curr_maze.toByteArray());
+            out.flush();
+            out.close();
+            return true;
+        } catch (IOException e) {
+            //TODO: logger
+        }
+        return false;
+    }
+
+    public boolean load(String fileName){
+        byte[] mazeBytes;
+        try {
+            //read maze from file
+            InputStream in = new SimpleDecompressorInputStream(new FileInputStream(fileName));
+            mazeBytes = in.readAllBytes();
+            in.close();
+            curr_maze = new Maze(mazeBytes);
+            return true;
+        } catch (IOException e) {
+            //TODO: logger
+        }
+        return false;
+    }
     @Override
     public void generateRandomMaze(int row, int col) {
 

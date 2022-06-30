@@ -16,4 +16,8 @@ public interface IModel {
     Position getPlayer();
 
     Solution getSolution(int playerx, int playery);
+
+    boolean save(String fileName);
+
+    boolean load(String fileName);
 }
