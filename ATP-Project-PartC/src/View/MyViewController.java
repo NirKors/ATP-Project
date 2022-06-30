@@ -9,6 +9,7 @@ import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -93,7 +95,7 @@ public class MyViewController implements IView {
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 2;
         pos = temp.getGoalPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 3;
-
+        zoom(displayerPane);
         displayer.setHeight(displayerPane.getHeight());
         displayer.setWidth(displayerPane.getWidth());
 
@@ -101,13 +103,49 @@ public class MyViewController implements IView {
         lockkeys = false;
     }
 
+
+    public void sizeListener(MyViewModel viewModel, Stage stage){
+        this.viewModel = viewModel;
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            redraw();
+        });
+
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            redraw();
+        });
+    }
+
     public void redraw(){
-        displayer.setHeight(displayerPane.getHeight());
-        displayer.setWidth(displayerPane.getWidth());
-        displayer.draw();
+        if(displayer.getPlayerPos()!=null)
+        {
+            displayer.setHeight(displayerPane.getHeight());
+            displayer.setWidth(displayerPane.getWidth());
+            displayer.draw();
+        }
+
     }
 
 
+    public void zoom( Pane pane) {
+        pane.setOnScroll(
+                new EventHandler<ScrollEvent>() {
+                    @Override
+                    public void handle(ScrollEvent event) {
+                        if( event.isControlDown()) {
+                            double zoomFactor = 1.05;
+                            double deltaY = event.getDeltaY();
+
+                            if (deltaY < 0) {
+                                zoomFactor = 0.95;
+                            }
+                            pane.setScaleX(pane.getScaleX() * zoomFactor);
+                            pane.setScaleY(pane.getScaleY() * zoomFactor);
+                            event.consume();
+                        }
+                    }
+                });
+
+    }
 
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {

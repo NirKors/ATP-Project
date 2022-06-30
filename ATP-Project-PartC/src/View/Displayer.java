@@ -2,9 +2,12 @@ package View;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
@@ -237,4 +240,5 @@ public class Displayer extends Canvas {
     public Pair<Integer, Integer> getPlayerPos() {
         return playerPos;
     }
+
 }

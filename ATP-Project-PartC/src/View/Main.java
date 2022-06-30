@@ -7,10 +7,12 @@ import Server.ServerStrategySolveSearchProblem;
 import ViewModel.MyViewModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -29,6 +31,13 @@ public class Main extends Application {
         primaryStage.setTitle("Big Test");
         Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().addAll(Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm());
+        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            // Do whatever you want
+        });
+
+        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            // Do whatever you want
+        });
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -39,6 +48,7 @@ public class Main extends Application {
         MyViewModel viewModel = new MyViewModel(model);
         MyViewController myview = fxmlLoader.getController();
         myview.setViewModel(viewModel, scene);
+        myview.sizeListener(viewModel,primaryStage);
         primaryStage.setOnCloseRequest( e-> myview.exitButton(new ActionEvent()));
 
     }
