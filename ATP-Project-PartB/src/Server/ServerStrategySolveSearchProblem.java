@@ -114,6 +114,8 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                             break;
                         }
                     }
+                else
+                    flag = false;
                 if (flag) {
                     sol = (Solution) oi.readObject();
                     break;
