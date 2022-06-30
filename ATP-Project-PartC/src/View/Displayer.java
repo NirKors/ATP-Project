@@ -43,7 +43,6 @@ public class Displayer extends Canvas {
         double canvasHeight = getHeight();
         double canvasWidth = getWidth();
 
-        System.out.printf("Width: %s\nHeight: %s\n", canvasWidth, canvasHeight);
         double cellHeight = canvasHeight / rows;
         double cellWidth = canvasWidth / cols;
 
@@ -79,6 +78,13 @@ public class Displayer extends Canvas {
         Image goal = null;
         try {
             goal = new Image(new FileInputStream(getImageFileNameGoal()));
+        } catch (FileNotFoundException e) {
+            // TODO: logger
+        }
+
+        Image health = null;
+        try {
+            health = new Image(new FileInputStream(getImageFileNameHealth()));
         } catch (FileNotFoundException e) {
             // TODO: logger
         }
@@ -121,29 +127,17 @@ public class Displayer extends Canvas {
                         else
                             graphicsContext.drawImage(goal, x, y, cellWidth, cellHeight);
                         break;
+                    case 4:
+                    if (health == null)
+                        graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+                    else
+                        graphicsContext.drawImage(health, x, y, cellWidth, cellHeight);
+                    break;
 
                 }
             }
         }
-        if (solution != null){
 
-            Image health = null;
-            try {
-                health = new Image(new FileInputStream(getImageFileNameHealth()));
-            } catch (FileNotFoundException e) {
-                // TODO: logger
-            }
-
-            for (int i = 0; i < solution.length; i++) {
-                double y = solution[i].getKey() * cellWidth;
-                double x = solution[i].getValue() * cellHeight;
-
-                if (health == null)
-                    graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                else
-                    graphicsContext.drawImage(health, x, y, cellWidth, cellHeight);
-            }
-        }
         double x = playerPos.getValue() * cellWidth;
         double y = playerPos.getKey() * cellHeight;
         if (player == null)
@@ -152,10 +146,13 @@ public class Displayer extends Canvas {
             graphicsContext.drawImage(player, x, y, cellWidth, cellHeight);
     }
 
-    public void drawSolution(Pair<Integer, Integer>[] solution) {
+    public void drawSolution(Pair<Integer, Integer>[] sol) {
 
 
-        this.solution = Arrays.copyOfRange(solution, 1, solution.length-1);
+        solution = Arrays.copyOfRange(sol, 1, sol.length-1);
+        for (int i = 0; i < solution.length; i++) {
+            maze[solution[i].getKey()][solution[i].getValue()] = 4;
+        }
         draw();
     }
 
@@ -226,6 +223,8 @@ public class Displayer extends Canvas {
                 if (playerPos.equals(solution[i]))
                 {
                     solution = Arrays.copyOfRange(solution, i + 1, solution.length);
+                    maze[playerPos.getKey()][playerPos.getValue()] = 0;
+
                 }
             }
         }

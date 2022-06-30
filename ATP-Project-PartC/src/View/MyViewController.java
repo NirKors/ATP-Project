@@ -42,7 +42,9 @@ public class MyViewController implements IView {
     private CheckBox soundCheckBox;
     @FXML
     private TextField threadPoolTextField;
-    private boolean lockkeys = true;
+
+    private enum MazeState {NOTRUNNING, RUNNING, SOLVED};
+    private MazeState currentState = MazeState.NOTRUNNING;
     private int numOfSteps;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
@@ -100,7 +102,7 @@ public class MyViewController implements IView {
         displayer.setWidth(displayerPane.getWidth());
 
         displayer.drawMaze(maze);
-        lockkeys = false;
+        currentState = MazeState.RUNNING;
         numOfSteps = 0;
     }
 
@@ -247,7 +249,7 @@ public class MyViewController implements IView {
 
 
     public void keyPressed(String keyEvent) {
-        if (lockkeys || maze == null)
+        if (currentState != MazeState.RUNNING)
             return;
 
         boolean success;
@@ -269,6 +271,7 @@ public class MyViewController implements IView {
                 //reached goal
                 playEnding();
                 showScore();
+                currentState = MazeState.SOLVED;
                 //TODO: now what
             }
         }
@@ -286,7 +289,6 @@ public class MyViewController implements IView {
         alert.setHeaderText("You won! You managed to reach the BFG9000!");
         alert.setContentText("It only took you " + numOfSteps + " steps until you reached the ending!\nCan you do better?");
         alert.showAndWait();
-        lockkeys = true;
     }
 
     private void playStuck() {
@@ -348,12 +350,22 @@ public class MyViewController implements IView {
     }
 
     public void solveButton(ActionEvent actionEvent) {
-        if (maze == null)
+        if (currentState == MazeState.NOTRUNNING)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Solve");
             alert.setHeaderText(null);
             alert.setContentText("There's no maze yet.\nCreate a maze with File->New, or load your maze with File->Load.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (currentState == MazeState.SOLVED)
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Solve");
+            alert.setHeaderText(null);
+            alert.setContentText("You already solved the maze! We can't help you against hell itself.");
             alert.showAndWait();
             return;
         }
