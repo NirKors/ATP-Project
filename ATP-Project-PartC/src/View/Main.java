@@ -31,13 +31,7 @@ public class Main extends Application {
         primaryStage.setTitle("Big Test");
         Scene scene = new Scene(root, 400, 400);
         scene.getStylesheets().addAll(Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm());
-        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            // Do whatever you want
-        });
 
-        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-            // Do whatever you want
-        });
         primaryStage.setScene(scene);
         primaryStage.show();
 
