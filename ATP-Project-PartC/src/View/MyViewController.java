@@ -51,15 +51,17 @@ public class MyViewController implements IView {
     private MediaPlayer fx = null;
 
     public Stage propertiesStage = null;
-    private boolean mute = false;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
         scene.setOnKeyPressed(event -> {
             String codeString = event.getCode().toString();
             keyPressed(codeString);
         });
+        displayerPane.setMinHeight(0);
+        displayerPane.setMinWidth(0);
     }
 
+    //TODO: add health pickup sound effect(?)
 
 
     //File menu:
@@ -156,8 +158,6 @@ public class MyViewController implements IView {
                 });
 
     }
-
-    //TODO: disable selecting a window like File->Save when a different window is open like File->New
 
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {
@@ -308,22 +308,6 @@ public class MyViewController implements IView {
     }
 
 
-    public void soundBox(javafx.event.ActionEvent event) {
-        mute = soundCheckBox.isSelected();
-        LOG.info("Mute: " + mute);
-
-        if (mute)
-            stopsounds();
-    }
-
-    private void stopsounds() {
-        if (music != null)
-            music.setMute(true);
-        if (fx != null)
-            fx.setMute(true);
-    }
-
-
 
     public void keyPressed(String keyEvent) {
         if (currentState != MazeState.RUNNING)
@@ -376,7 +360,6 @@ public class MyViewController implements IView {
         fx = new MediaPlayer(media);
         fx.setVolume(1);
         fx.setAutoPlay(true);
-        fx.setMute(mute);
         fx.play();
     }
 
@@ -405,7 +388,6 @@ public class MyViewController implements IView {
                 music.seek(Duration.ZERO);
             }
         });
-        music.setMute(mute);
         music.play();
     }
 
@@ -425,9 +407,7 @@ public class MyViewController implements IView {
                 music.seek(Duration.ZERO);
             }
         });
-        music.setMute(mute);
         music.play();
-
     }
 
     public void solveButton(ActionEvent actionEvent) {
