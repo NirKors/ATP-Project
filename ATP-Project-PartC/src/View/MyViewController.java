@@ -49,6 +49,7 @@ public class MyViewController implements IView {
     private MediaPlayer music = null;
     private MediaPlayer fx = null;
 
+    public Stage propertiesStage = null;
     private boolean mute = false;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
@@ -172,14 +173,19 @@ public class MyViewController implements IView {
 
     private void displayPropertiesSelection() {
         Parent root;
-        Stage stage;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
-            root = fxmlLoader.load();
-            stage = new Stage();
-            stage.setTitle("Properties Menu");
-            stage.setScene(new Scene(root));
-            stage.show();
+            if(propertiesStage==null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
+                root = fxmlLoader.load();
+                propertiesStage = new Stage();
+                propertiesStage.setTitle("Properties Menu");
+                propertiesStage.setScene(new Scene(root));
+                propertiesStage.show();
+            }
+            else{
+                propertiesStage.show();
+            }
+            propertiesStage.setOnCloseRequest(e -> propertiesStage.hide());
         } catch (IOException e) {
             // TODO: add to logger.
             e.printStackTrace();
@@ -211,23 +217,23 @@ public class MyViewController implements IView {
     //Properties:
     public void mazeCreatePropertyChoice(javafx.event.ActionEvent event) {
         if (randomMaze.isSelected()) {
-            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "SimpleMazeGenerator");
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"SimpleMazeGenerator\"");
         }
         if (myMazeGen.isSelected()) {
-            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator");
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"MyMazeGenerator\"");
         }
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
 
     public void solvePropertyChoice(javafx.event.ActionEvent event) {
         if (bfsChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BreadthFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"BreadthFirstSearch\"");
         }
         if (dfsChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "DepthFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"DepthFirstSearch\"");
         }
         if (bestChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BestFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"BestFirstSearch\"");
         }
         System.out.println("Current searcher is: " + Configurations.getProp().getProperty("mazeSearchingAlgorithm"));
 

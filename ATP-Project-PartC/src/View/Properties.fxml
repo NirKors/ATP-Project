@@ -20,7 +20,7 @@
             <ToggleGroup fx:id="create" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="myMazeGen" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" text="MyMazeGenerator" toggleGroup="$create" />
+      <RadioButton fx:id="myMazeGen" layoutX="25.0" layoutY="72.0" mnemonicParsing="false" onAction="#mazeCreatePropertyChoice" selected="true" text="MyMazeGenerator" toggleGroup="$create" />
       <RadioButton fx:id="bfsChoice" layoutX="25.0" layoutY="113.0" mnemonicParsing="false" onAction="#solvePropertyChoice" selected="true" text="BFS">
          <toggleGroup>
             <ToggleGroup fx:id="solve" />
