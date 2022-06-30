@@ -161,7 +161,6 @@ public class MyViewController implements IView {
 
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {
-        //TODO: add usage of viewModel.save(String fileName). If method returns false: error
         String userResult = getUserFileName("Save Maze");
         if (viewModel.save(userResult)){
             successAlert("File saved successfully.");
