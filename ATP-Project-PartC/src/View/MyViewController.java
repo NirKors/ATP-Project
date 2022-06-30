@@ -46,6 +46,10 @@ public class MyViewController implements IView {
     private enum MazeState {NOTRUNNING, RUNNING, SOLVED};
     private MazeState currentState = MazeState.NOTRUNNING;
     private int numOfSteps;
+    private MediaPlayer music = null;
+    private MediaPlayer fx = null;
+
+    private boolean mute = false;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
         scene.setOnKeyPressed(event -> {
@@ -239,11 +243,16 @@ public class MyViewController implements IView {
 
 
     public void soundBox(javafx.event.ActionEvent event) {
-        if (soundCheckBox.isSelected()) {
-            System.out.println("sounds ON");
-        } else {
-            System.out.println("sounds OFF");
-        }
+        mute = soundCheckBox.isSelected();
+        if (mute)
+            stopsounds();
+    }
+
+    private void stopsounds() {
+        if (music != null)
+            music.setMute(true);
+        if (fx != null)
+            fx.setMute(true);
     }
 
 
@@ -279,8 +288,7 @@ public class MyViewController implements IView {
         }
     }
 
-    private MediaPlayer music;
-    private MediaPlayer fx;
+
 
     private void showScore(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -299,6 +307,7 @@ public class MyViewController implements IView {
         fx = new MediaPlayer(media);
         fx.setVolume(1);
         fx.setAutoPlay(true);
+        fx.setMute(mute);
         fx.play();
     }
 
@@ -327,6 +336,7 @@ public class MyViewController implements IView {
                 music.seek(Duration.ZERO);
             }
         });
+        music.setMute(mute);
         music.play();
     }
 
@@ -338,7 +348,7 @@ public class MyViewController implements IView {
         String path = "resources/Music/At_Dooms_Gate.mp3";
         Media media = new Media(new File(path).toURI().toString());
         music = new MediaPlayer(media);
-        music.setVolume(0.3);
+        music.setVolume((0.3));
         music.setAutoPlay(true);
 
         music.setOnEndOfMedia(new Runnable() {
@@ -346,6 +356,7 @@ public class MyViewController implements IView {
                 music.seek(Duration.ZERO);
             }
         });
+        music.setMute(mute);
         music.play();
 
     }
