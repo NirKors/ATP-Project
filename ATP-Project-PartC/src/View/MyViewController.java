@@ -292,7 +292,7 @@ public class MyViewController implements IView {
 
     public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
         if (threadPoolTextField.getText().matches("-?\\d+")) {
-            if(Integer.parseInt(threadPoolTextField.getText())>1) {
+            if(Integer.parseInt(threadPoolTextField.getText())>0) {
                 Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
                 LOG.info("Threadpool size changed.");
                 return;
