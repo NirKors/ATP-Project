@@ -14,12 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -29,6 +27,7 @@ import javafx.scene.media.MediaPlayer;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Optional;
 
 public class MyViewController implements IView {
     //TODO:
@@ -154,16 +153,48 @@ public class MyViewController implements IView {
 
     }
 
+    //TODO: disable selecting a window like File->Save when a different window is open like File->New
+
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {
         //TODO: add usage of viewModel.save(String fileName). If method returns false: error
+        String userResult = getUserFileName("Save Maze");
+        if (viewModel.save(userResult))
+            successAlert("File saved successfully.");
+        else
+            warningAlert("Unable to save the maze.");
 
     }
     public void loadButton(javafx.event.ActionEvent actionEvent) {
         //TODO: add usage of viewModel.load(String fileName). If method returns false: error
-
+        String userResult = getUserFileName("Load Maze");
+        if (viewModel.load(userResult))
+            successAlert("File saved successfully.");
+        else
+            warningAlert("Unable to load the maze.");
+    }
+    public String getUserFileName(String title){
+        TextInputDialog td = new TextInputDialog("Enter the file name...");
+        td.setTitle(title);
+        td.setHeaderText("File name:");
+        td.showAndWait();
+        return td.getResult();
     }
 
+    public void successAlert(String msg){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+    public void warningAlert(String msg){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
 
     //Options menu:
     public void propertiesButton(javafx.event.ActionEvent actionEvent) {

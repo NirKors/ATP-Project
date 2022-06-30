@@ -2,6 +2,7 @@ package Model;
 
 import Client.Client;
 import Client.IClientStrategy;
+import IO.MyCompressorOutputStream;
 import IO.MyDecompressorInputStream;
 import IO.SimpleCompressorOutputStream;
 import IO.SimpleDecompressorInputStream;
@@ -31,30 +32,32 @@ public class MyModel extends Observable implements IModel{
 
     public boolean save(String fileName) {
 
-        try {
+        try(OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName))) {
             // save maze to a file
-            OutputStream out = new SimpleCompressorOutputStream(new FileOutputStream(fileName));
+            FileOutputStream a = new FileOutputStream(fileName);
+
             out.write(curr_maze.toByteArray());
             out.flush();
             out.close();
             return true;
-        } catch (IOException e) {
-            //TODO: logger
+        } catch (Exception e) {
+            //TODO: logger and delete file on exit
         }
         return false;
     }
 
     public boolean load(String fileName){
         byte[] mazeBytes;
-        try {
+        try(InputStream in = new MyDecompressorInputStream(new FileInputStream(fileName))) {
             //read maze from file
-            InputStream in = new SimpleDecompressorInputStream(new FileInputStream(fileName));
+
             mazeBytes = in.readAllBytes();
             in.close();
             curr_maze = new Maze(mazeBytes);
             return true;
         } catch (IOException e) {
             //TODO: logger
+            e.printStackTrace();
         }
         return false;
     }
