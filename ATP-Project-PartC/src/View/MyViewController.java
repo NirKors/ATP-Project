@@ -43,7 +43,7 @@ public class MyViewController implements IView {
     @FXML
     private TextField threadPoolTextField;
     private boolean lockkeys = true;
-
+    private int numOfSteps;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
         scene.setOnKeyPressed(event -> {
@@ -101,6 +101,7 @@ public class MyViewController implements IView {
 
         displayer.drawMaze(maze);
         lockkeys = false;
+        numOfSteps = 0;
     }
 
 
@@ -244,7 +245,7 @@ public class MyViewController implements IView {
     }
 
 
-    int numOfSteps = 0;
+
     public void keyPressed(String keyEvent) {
         if (lockkeys || maze == null)
             return;
