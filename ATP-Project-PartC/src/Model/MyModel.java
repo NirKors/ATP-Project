@@ -169,8 +169,12 @@ public class MyModel extends Observable implements IModel{
     }
 
     private Maze CommunicateWithServer_MazeGenerating(int row, int col) {
+        row = (row < 2? 2 : row);
+        col = (col < 2? 2 : col);
         final Maze[] maze = new Maze[1];
         try {
+            int finalRow = row;
+            int finalCol = col;
             Client client = new Client(InetAddress.getLocalHost(), genport, new IClientStrategy() {
                 @Override
                 public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
@@ -178,12 +182,12 @@ public class MyModel extends Observable implements IModel{
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        int[] mazeDimensions = new int[]{row, col};
+                        int[] mazeDimensions = new int[]{finalRow, finalCol};
                         toServer.writeObject(mazeDimensions);
                         toServer.flush();
                         byte[] compressedMaze = (byte[]) fromServer.readObject();
                         InputStream is = new MyDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
-                        byte[] decompressedMaze = new byte[row * col + 1];
+                        byte[] decompressedMaze = new byte[finalRow * finalCol + 1];
                         //allocating byte[] for the decompressed maze -
                         is.read(decompressedMaze); //Fill decompressedMaze with bytes
 

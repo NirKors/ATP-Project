@@ -272,7 +272,6 @@ public class MyViewController implements IView {
                 playEnding();
                 showScore();
                 currentState = MazeState.SOLVED;
-                //TODO: now what
             }
         }
         else {
@@ -332,6 +331,8 @@ public class MyViewController implements IView {
     }
 
     public void playTheme(){
+        if (currentState == MazeState.RUNNING)
+            return;
         if (music != null)
             music.stop();
         String path = "resources/Music/At_Dooms_Gate.mp3";

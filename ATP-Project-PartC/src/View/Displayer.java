@@ -222,8 +222,10 @@ public class Displayer extends Canvas {
             for (int i = solution.length - 1; i >= 0 ; i--) {
                 if (playerPos.equals(solution[i]))
                 {
+                    for (int j = 0; j <= i; j++) {
+                        maze[solution[j].getKey()][solution[j].getValue()] = 0;
+                    }
                     solution = Arrays.copyOfRange(solution, i + 1, solution.length);
-                    maze[playerPos.getKey()][playerPos.getValue()] = 0;
 
                 }
             }
