@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -75,6 +76,7 @@ public class MyViewController implements IView {
         }
     }
 
+    public Pane displayerPane;
     public void drawMaze(int row, int col) {
         viewModel.generateMaze(row, col);
         Maze temp = viewModel.getMaze();
@@ -91,11 +93,17 @@ public class MyViewController implements IView {
         pos = temp.getGoalPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 3;
 
-        displayer.setHeight(300);
-        displayer.setWidth(300);
+        displayer.setHeight(displayerPane.getHeight());
+        displayer.setWidth(displayerPane.getWidth());
+
         displayer.drawMaze(maze);
         lockkeys = false;
+    }
 
+    public void redraw(){
+        displayer.setHeight(displayerPane.getHeight());
+        displayer.setWidth(displayerPane.getWidth());
+        displayer.draw();
     }
 
 

@@ -38,7 +38,7 @@
       </MenuBar>
    </top>
     <center>
-        <Pane BorderPane.alignment="CENTER">
+        <Pane fx:id="displayerPane" BorderPane.alignment="CENTER">
             <children>
                 <Displayer fx:id="displayer" imageFileNameFloor="./Resources/Sprites/Floor.png" imageFileNameGoal="./Resources/Sprites/BFG9000.png" imageFileNamePlayer="./Resources/Sprites/Doomguy.png" imageFileNameWall="./Resources/Sprites/Wall.png" imageFileNameHealth="./Resources/Sprites/Health.png" />
             </children>

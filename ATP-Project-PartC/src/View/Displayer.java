@@ -36,10 +36,11 @@ public class Displayer extends Canvas {
         draw();
     }
 
-    private void draw() {
+    public void draw() {
         double canvasHeight = getHeight();
         double canvasWidth = getWidth();
 
+        System.out.printf("Width: %s\nHeight: %s\n", canvasWidth, canvasHeight);
         double cellHeight = canvasHeight / rows;
         double cellWidth = canvasWidth / cols;
 
