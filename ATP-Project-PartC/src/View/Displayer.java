@@ -24,7 +24,7 @@ public class Displayer extends Canvas {
     StringProperty imageFileNameGoal = new SimpleStringProperty();
     StringProperty imageFileNameBackground = new SimpleStringProperty();
     StringProperty imageFileNameHealth = new SimpleStringProperty();
-    private Pair<Integer, Integer>[] solution = null;
+    private Pair<Integer, Integer>[] solution;
 
     public void drawMaze(int[][] maze) {
         this.maze = maze;
@@ -32,6 +32,7 @@ public class Displayer extends Canvas {
         cols = maze[0].length;
         playerPos = null;
         goalPos = null;
+        solution = null;
         draw();
     }
 
