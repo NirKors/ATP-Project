@@ -20,4 +20,6 @@ public interface IModel {
     boolean save(String fileName);
 
     boolean load(String fileName);
+
+    void stopServers();
 }

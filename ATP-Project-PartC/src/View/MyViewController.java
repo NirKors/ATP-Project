@@ -38,7 +38,7 @@ public class MyViewController implements IView {
     private static MyViewModel viewModel;
 
     @FXML
-    private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
+    private RadioButton randomMaze, myMazeGen, emptyMaze, bfsChoice, dfsChoice, bestChoice;
     @FXML
     private CheckBox soundCheckBox;
     @FXML
@@ -50,6 +50,7 @@ public class MyViewController implements IView {
     private MediaPlayer music = null;
     private MediaPlayer fx = null;
 
+    public Stage propertiesStage = null;
     private boolean mute = false;
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
@@ -160,6 +161,7 @@ public class MyViewController implements IView {
 
 
     public void saveButton(javafx.event.ActionEvent actionEvent) {
+        //TODO: add usage of viewModel.save(String fileName). If method returns false: error
         String userResult = getUserFileName("Save Maze");
         if (viewModel.save(userResult)){
             successAlert("File saved successfully.");
@@ -215,12 +217,18 @@ public class MyViewController implements IView {
         Parent root;
         Stage stage;
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
-            root = fxmlLoader.load();
-            stage = new Stage();
-            stage.setTitle("Properties Menu");
-            stage.setScene(new Scene(root));
-            stage.show();
+            if(propertiesStage==null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Properties.fxml"));
+                root = fxmlLoader.load();
+                propertiesStage = new Stage();
+                propertiesStage.setTitle("Properties Menu");
+                propertiesStage.setScene(new Scene(root));
+                propertiesStage.show();
+            }
+            else{
+                propertiesStage.show();
+            }
+            propertiesStage.setOnCloseRequest(e -> propertiesStage.hide());
         } catch (IOException e) {
             LOG.error("Unable to display properties.", e);
             return;
@@ -229,12 +237,12 @@ public class MyViewController implements IView {
 
     public void exitButton(javafx.event.ActionEvent actionEvent) {
         LOG.info("Program terminated by user");
+        viewModel.stopServers();
         Platform.exit();
         System.exit(0);
     }
 
     public void helpButton(javafx.event.ActionEvent actionEvent) {
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
         alert.setHeaderText(null);
@@ -253,11 +261,14 @@ public class MyViewController implements IView {
     //Properties:
     public void mazeCreatePropertyChoice(javafx.event.ActionEvent event) {
         if (randomMaze.isSelected()) {
-            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "SimpleMazeGenerator");
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"SimpleMazeGenerator\"");
             LOG.info("SimpleMazeGenerator selected.");
         }
         if (myMazeGen.isSelected()) {
-            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "MyMazeGenerator");
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"MyMazeGenerator\"");
+        }
+        if (emptyMaze.isSelected()){
+            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"EmptyMazeGenerator\"");
             LOG.info("MyMazeGenerator selected.");
         }
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
@@ -265,15 +276,15 @@ public class MyViewController implements IView {
 
     public void solvePropertyChoice(javafx.event.ActionEvent event) {
         if (bfsChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BreadthFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"BreadthFirstSearch\"");
             LOG.info("BreadthFirstSearch selected.");
         }
         if (dfsChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "DepthFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"DepthFirstSearch\"");
             LOG.info("DepthFirstSearch selected.");
         }
         if (bestChoice.isSelected()) {
-            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "BestFirstSearch");
+            Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"BestFirstSearch\"");
             LOG.info("BestFirstSearch selected.");
         }
         System.out.println("Current searcher is: " + Configurations.getProp().getProperty("mazeSearchingAlgorithm"));
@@ -281,10 +292,18 @@ public class MyViewController implements IView {
     }
 
     public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
-        if (threadPoolTextField.getText().matches("-?\\d+")) { //TODO: can't be negative or zero
-            Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
-            LOG.info("Threadpool size changed.");
+        if (threadPoolTextField.getText().matches("-?\\d+")) {
+            if(Integer.parseInt(threadPoolTextField.getText())>1) {
+                Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
+                LOG.info("Threadpool size changed.");
+                return;
+            }
         }
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Wrong number of threads");
+        alert.setHeaderText(null);
+        alert.setContentText("Please input numbers above 1 in the threads text field.");
+        alert.showAndWait();
 
         System.out.println("Current threadpool size is: " + Configurations.getProp().getProperty("threadPoolSize"));
     }

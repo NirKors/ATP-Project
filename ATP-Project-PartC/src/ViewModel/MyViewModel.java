@@ -66,4 +66,5 @@ public class MyViewModel {
         return toreturn;
     }
 
+    public void stopServers(){model.stopServers();}
 }

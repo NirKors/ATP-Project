@@ -141,7 +141,6 @@ public class MyModel extends Observable implements IModel{
 
     }
 
-    //TODO: Should server.stop be used when existing?
     @Override
     public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy) {
         generator = new Server(port, listeningIntervalMS, strategy);
@@ -228,5 +227,10 @@ public class MyModel extends Observable implements IModel{
         if (curr_maze.getVal(pos) != 0)
             return false;
         return true;
+    }
+
+    public void stopServers(){
+        generator.stop();
+        solver.stop();
     }
 }
