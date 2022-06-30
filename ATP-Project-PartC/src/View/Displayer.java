@@ -103,6 +103,7 @@ public class Displayer extends Canvas {
                                 graphicsContext.drawImage(floor, x, y, cellWidth, cellHeight);
                             break;
                         }
+                        playerPos = new Pair<>(i, j);
                         if (player == null)
                             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
                         else
@@ -138,22 +139,19 @@ public class Displayer extends Canvas {
                     graphicsContext.drawImage(health, x, y, cellWidth, cellHeight);
             }
         }
-        if (playerPos != null) {
-            double x = playerPos.getValue() * cellWidth;
-            double y = playerPos.getKey() * cellHeight;
-            if (player == null)
-                graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-            else
-                graphicsContext.drawImage(player, x, y, cellWidth, cellHeight);
-        }
-
+        double x = playerPos.getValue() * cellWidth;
+        double y = playerPos.getKey() * cellHeight;
+        if (player == null)
+            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+        else
+            graphicsContext.drawImage(player, x, y, cellWidth, cellHeight);
     }
 
     public void drawSolution(Pair<Integer, Integer>[] solution) {
 
 
         this.solution = Arrays.copyOfRange(solution, 1, solution.length-1);
-        drawMaze(this.maze);
+        draw();
     }
 
     public String getImageFileNameWall() {
@@ -232,5 +230,9 @@ public class Displayer extends Canvas {
                 return true;
             }
         return false;
+    }
+
+    public Pair<Integer, Integer> getPlayerPos() {
+        return playerPos;
     }
 }

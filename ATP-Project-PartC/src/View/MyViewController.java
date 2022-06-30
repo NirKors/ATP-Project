@@ -38,6 +38,7 @@ public class MyViewController implements IView {
     private CheckBox soundCheckBox;
     @FXML
     private TextField threadPoolTextField;
+    private boolean lockkeys = true;
 
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
@@ -84,6 +85,7 @@ public class MyViewController implements IView {
                 maze[i][j] = temp.getVal(i, j);
             }
         }
+        playTheme();
         Position pos = temp.getStartPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 2;
         pos = temp.getGoalPosition();
@@ -92,8 +94,7 @@ public class MyViewController implements IView {
         displayer.setHeight(300);
         displayer.setWidth(300);
         displayer.drawMaze(maze);
-
-        playTheme();
+        lockkeys = false;
 
     }
 
@@ -196,7 +197,7 @@ public class MyViewController implements IView {
 
     int numOfSteps = 0;
     public void keyPressed(String keyEvent) {
-        if (maze == null)
+        if (lockkeys || maze == null)
             return;
 
         boolean success;
@@ -231,10 +232,11 @@ public class MyViewController implements IView {
 
     private void showScore(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Score screen");
+        alert.setTitle("Maze Solved");
         alert.setHeaderText("You won! You managed to reach the BFG9000!");
         alert.setContentText("It only took you " + numOfSteps + " steps until you reached the ending!\nCan you do better?");
         alert.showAndWait();
+        lockkeys = true;
     }
 
     private void playStuck() {
@@ -306,7 +308,8 @@ public class MyViewController implements IView {
             return;
         }
 
-        Pair<Integer,Integer>[] solution = viewModel.getSolution();
+        Pair<Integer,Integer> player = displayer.getPlayerPos();
+        Pair<Integer,Integer>[] solution = viewModel.getSolution(player);
         displayer.drawSolution(solution);
     }
 }

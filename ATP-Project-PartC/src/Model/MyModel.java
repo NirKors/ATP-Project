@@ -39,8 +39,10 @@ public class MyModel extends Observable implements IModel{
     }
 
     @Override
-    public Solution getSolution() {
-        SearchableMaze searchableMaze = new SearchableMaze(curr_maze);
+    public Solution getSolution(int playerx, int playery) {
+        Maze copy = curr_maze;
+        copy.setStartPosition(new Position(playerx, playery));
+        SearchableMaze searchableMaze = new SearchableMaze(copy);
         ISearchingAlgorithm algorithm = new BestFirstSearch();
         Solution solution = algorithm.solve(searchableMaze);
         return solution;

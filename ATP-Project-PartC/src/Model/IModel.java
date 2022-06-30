@@ -15,5 +15,5 @@ public interface IModel {
     public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy);
     Position getPlayer();
 
-    Solution getSolution();
+    Solution getSolution(int playerx, int playery);
 }

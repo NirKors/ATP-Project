@@ -1,13 +1,9 @@
 package ViewModel;
 
 import Model.IModel;
-import View.IView;
-import View.MyViewController;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.AState;
-import algorithms.search.MazeState;
 import algorithms.search.Solution;
 import javafx.util.Pair;
 
@@ -53,8 +49,8 @@ public class MyViewModel {
     }
 
     //TODO: Finish
-    public Pair<Integer, Integer>[] getSolution() {
-        Solution sol = model.getSolution();
+    public Pair<Integer, Integer>[] getSolution(Pair<Integer, Integer> player) {
+        Solution sol = model.getSolution(player.getKey(), player.getValue());
         ArrayList<AState> solutionPath = sol.getSolutionPath();
         Pair<Integer, Integer>[] toreturn = new Pair[solutionPath.size()];
         for (int i = 0; i < solutionPath.size(); i++) {
