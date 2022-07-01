@@ -34,7 +34,7 @@ public class MyViewController implements IView {
     @FXML
     private TextField threadPoolTextField;
 
-    private enum MazeState {NOTRUNNING, RUNNING, SOLVED};
+    private enum MazeState {NOTRUNNING, RUNNING, SOLVED}
     private MazeState currentState = MazeState.NOTRUNNING;
     private int numOfSteps;
     private MediaPlayer music = null;
@@ -43,15 +43,13 @@ public class MyViewController implements IView {
     public Stage propertiesStage = null;
     @Override
     public void setViewModel(MyViewModel viewModel, Scene scene) {
-        this.viewModel = viewModel;
+        MyViewController.viewModel = viewModel;
         scene.setOnKeyPressed(event -> {
             String codeString = event.getCode().toString();
             keyPressed(codeString);
         });
         displayerPane.setMinHeight(0);
         displayerPane.setMinWidth(0);
-        displayer.prefHeight(0);
-        displayer.prefWidth(0);
     }
 
     @Override
@@ -74,14 +72,13 @@ public class MyViewController implements IView {
             dcontrol.setParent(this, stage);
         } catch (IOException e) {
             LOG.error("Unable to display difficulty selection.", e);
-            return;
         }
     }
 
     public Pane displayerPane;
 
 
-    public void draw(Maze mazeToDraw){
+    private void draw(Maze mazeToDraw){
         maze = new int[mazeToDraw.getRowNum()][mazeToDraw.getColNum()];
         for (int i = 0; i < mazeToDraw.getRowNum(); i++) {
             for (int j = 0; j < mazeToDraw.getColNum(); j++) {
@@ -111,7 +108,7 @@ public class MyViewController implements IView {
 
 
     public void sizeListener(MyViewModel viewModel, Stage stage){
-        this.viewModel = viewModel;
+        MyViewController.viewModel = viewModel;
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             redraw();
         });
@@ -121,7 +118,7 @@ public class MyViewController implements IView {
         });
     }
 
-    public void redraw(){
+    private void redraw(){
         if(displayer.getPlayerPos()!=null)
         {
             displayer.setHeight(displayerPane.getHeight());
@@ -132,7 +129,7 @@ public class MyViewController implements IView {
     }
 
 
-    public void zoom( Pane pane) {
+    private void zoom( Pane pane) {
         pane.setOnScroll(
                 new EventHandler<ScrollEvent>() {
                     @Override
@@ -164,6 +161,8 @@ public class MyViewController implements IView {
             return;
         }
         String userResult = getUserFileName("Save Maze");
+        if (userResult == null)
+            return;
         if (viewModel.save(userResult)){
             successAlert("File saved successfully.");
             LOG.info(String.format("User saved a maze to file \"%s\"",userResult));
@@ -176,6 +175,8 @@ public class MyViewController implements IView {
     @Override
     public void loadButton(javafx.event.ActionEvent actionEvent) {
         String userResult = getUserFileName("Load Maze");
+        if (userResult == null)
+            return;
         if (viewModel.load(userResult)) {
             successAlert("File loaded successfully.");
             LOG.info(String.format("User loaded maze \"%s\"",userResult));
@@ -262,7 +263,7 @@ public class MyViewController implements IView {
     }
 
     //Properties:
-    public void mazeCreatePropertyChoice(javafx.event.ActionEvent event) {
+    public void mazeCreatePropertyChoice() {
         if (randomMaze.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"SimpleMazeGenerator\"");
             LOG.info("SimpleMazeGenerator selected.");
@@ -273,7 +274,7 @@ public class MyViewController implements IView {
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
 
-    public void solvePropertyChoice(javafx.event.ActionEvent event) {
+    public void solvePropertyChoice() {
         if (bfsChoice.isSelected()) {
             Configurations.getProp().setProperty("mazeSearchingAlgorithm", "\"BreadthFirstSearch\"");
             LOG.info("BreadthFirstSearch selected.");
@@ -290,7 +291,7 @@ public class MyViewController implements IView {
 
     }
 
-    public void threadPoolButton(javafx.event.ActionEvent actionEvent) {
+    public void threadPoolButton() {
         if (threadPoolTextField.getText().matches("-?\\d+")) {
             if(Integer.parseInt(threadPoolTextField.getText())>0) {
                 Configurations.getProp().setProperty("threadPoolSize", threadPoolTextField.getText());
@@ -391,7 +392,7 @@ public class MyViewController implements IView {
         music.play();
     }
 
-    public void playTheme(){
+    private void playTheme(){
         if (currentState == MazeState.RUNNING)
             return;
         if (music != null)
