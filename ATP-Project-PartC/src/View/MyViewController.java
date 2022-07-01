@@ -38,9 +38,7 @@ public class MyViewController implements IView {
     private static MyViewModel viewModel;
 
     @FXML
-    private RadioButton randomMaze, myMazeGen, emptyMaze, bfsChoice, dfsChoice, bestChoice;
-    @FXML
-    private CheckBox soundCheckBox;
+    private RadioButton randomMaze, myMazeGen, bfsChoice, dfsChoice, bestChoice;
     @FXML
     private TextField threadPoolTextField;
 
@@ -62,7 +60,7 @@ public class MyViewController implements IView {
     }
 
     //TODO: add health pickup sound effect(?)
-
+    //TODO: add jar to projects
 
     //File menu:
     public void newButton(javafx.event.ActionEvent actionEvent) {
@@ -265,10 +263,6 @@ public class MyViewController implements IView {
         }
         if (myMazeGen.isSelected()) {
             Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"MyMazeGenerator\"");
-        }
-        if (emptyMaze.isSelected()){
-            Configurations.getProp().setProperty("mazeGeneratingAlgorithm", "\"EmptyMazeGenerator\"");
-            LOG.info("MyMazeGenerator selected.");
         }
         System.out.println("Current generator is: " + Configurations.getProp().getProperty("mazeGeneratingAlgorithm"));
     }
