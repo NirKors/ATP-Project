@@ -341,12 +341,18 @@ public class MyViewController implements IView {
         if (success){
             numOfSteps++;
             Pair<Integer, Integer> pair = viewModel.getPlayerLocation();
-            if (displayer.movePlayer(pair.getKey(), pair.getValue())){
+            int result = displayer.movePlayer(pair.getKey(), pair.getValue());
+            if (result == 1){
+                //health pickup
+                playHealth();
+            }
+            else if (result == 2){
                 //reached goal
                 playEnding();
                 showScore();
                 currentState = MazeState.SOLVED;
             }
+
         }
         else {
             playStuck();
@@ -364,6 +370,16 @@ public class MyViewController implements IView {
         alert.showAndWait();
     }
 
+    private void playHealth(){
+        if (fx != null)
+            fx.stop();
+        String path = "resources/Music/health.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        fx = new MediaPlayer(media);
+        fx.setVolume(1);
+        fx.setAutoPlay(true);
+        fx.play();
+    }
     private void playStuck() {
         if (fx != null)
             fx.stop();
