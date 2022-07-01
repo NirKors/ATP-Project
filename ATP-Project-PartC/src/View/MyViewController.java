@@ -1,11 +1,8 @@
 package View;
 
-import IO.SimpleCompressorOutputStream;
 import Server.Configurations;
 import ViewModel.MyViewModel;
-import algorithms.mazeGenerators.AMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MyMazeGenerator;
 import algorithms.mazeGenerators.Position;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -17,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -25,10 +21,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Optional;
-import View.Log4J;
 
 import static View.Log4J.LOG;
 
@@ -49,6 +41,7 @@ public class MyViewController implements IView {
     private MediaPlayer fx = null;
 
     public Stage propertiesStage = null;
+    @Override
     public void setViewModel(MyViewModel viewModel, Scene scene) {
         this.viewModel = viewModel;
         scene.setOnKeyPressed(event -> {
@@ -57,12 +50,11 @@ public class MyViewController implements IView {
         });
         displayerPane.setMinHeight(0);
         displayerPane.setMinWidth(0);
+        displayer.prefHeight(0);
+        displayer.prefWidth(0);
     }
 
-    //TODO: add health pickup sound effect(?)
-    //TODO: add jar to projects
-
-    //File menu:
+    @Override
     public void newButton(javafx.event.ActionEvent actionEvent) {
         displayDifficultySelection();
     }
@@ -87,21 +79,20 @@ public class MyViewController implements IView {
     }
 
     public Pane displayerPane;
-    public void drawMaze(int row, int col) {
-        viewModel.generateMaze(row, col);
-        Maze temp = viewModel.getMaze();
 
-        maze = new int[temp.getRowNum()][temp.getColNum()];
-        for (int i = 0; i < temp.getRowNum(); i++) {
-            for (int j = 0; j < temp.getColNum(); j++) {
-                maze[i][j] = temp.getVal(i, j);
+
+    public void draw(Maze mazeToDraw){
+        maze = new int[mazeToDraw.getRowNum()][mazeToDraw.getColNum()];
+        for (int i = 0; i < mazeToDraw.getRowNum(); i++) {
+            for (int j = 0; j < mazeToDraw.getColNum(); j++) {
+                maze[i][j] = mazeToDraw.getVal(i, j);
             }
         }
+
         playTheme();
-        LOG.info("Created a new " + temp.getRowNum() + "x" + temp.getColNum() +" maze.");
-        Position pos = temp.getStartPosition();
+        Position pos = mazeToDraw.getStartPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 2;
-        pos = temp.getGoalPosition();
+        pos = mazeToDraw.getGoalPosition();
         maze[pos.getRowIndex()][pos.getColumnIndex()] = 3;
         zoom(displayerPane);
         displayer.setHeight(displayerPane.getHeight());
@@ -110,6 +101,12 @@ public class MyViewController implements IView {
         displayer.drawMaze(maze);
         currentState = MazeState.RUNNING;
         numOfSteps = 0;
+    }
+    public void drawMazeNew(int row, int col) {
+        viewModel.generateMaze(row, col);
+        Maze temp = viewModel.getMaze();
+        LOG.info("Created a new " + temp.getRowNum() + "x" + temp.getColNum() +" maze.");
+        draw(temp);
     }
 
 
@@ -154,27 +151,35 @@ public class MyViewController implements IView {
                         }
                     }
                 });
-
     }
 
-
+    @Override
     public void saveButton(javafx.event.ActionEvent actionEvent) {
+        if (currentState == MazeState.NOTRUNNING) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("No maze to save.");
+            alert.showAndWait();
+            return;
+        }
         String userResult = getUserFileName("Save Maze");
         if (viewModel.save(userResult)){
             successAlert("File saved successfully.");
-            LOG.info(String.format("User saved a maze to file \"%n\"",userResult));
+            LOG.info(String.format("User saved a maze to file \"%s\"",userResult));
         }
         else{
             warningAlert("Unable to save the maze.");
             LOG.warn("User failed to save a maze.");
         }
-
     }
+    @Override
     public void loadButton(javafx.event.ActionEvent actionEvent) {
         String userResult = getUserFileName("Load Maze");
         if (viewModel.load(userResult)) {
             successAlert("File loaded successfully.");
-            LOG.info(String.format("User loaded maze \"%n\"",userResult));
+            LOG.info(String.format("User loaded maze \"%s\"",userResult));
+            draw(viewModel.getMaze());
         }
         else {
             warningAlert("Unable to load the maze.");
@@ -206,6 +211,7 @@ public class MyViewController implements IView {
     }
 
     //Options menu:
+    @Override
     public void propertiesButton(javafx.event.ActionEvent actionEvent) {
         displayPropertiesSelection();
     }
@@ -231,14 +237,14 @@ public class MyViewController implements IView {
             return;
         }
     }
-
+    @Override
     public void exitButton(javafx.event.ActionEvent actionEvent) {
         LOG.info("Program terminated by user");
         viewModel.stopServers();
         Platform.exit();
         System.exit(0);
     }
-
+    @Override
     public void helpButton(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Help");
@@ -246,7 +252,7 @@ public class MyViewController implements IView {
         alert.setContentText("Hell's forces are loose on Mars!\nUse the numpad keys to move around and find the BFG9000!\nLook for its green plasma glow.");
         alert.showAndWait();
     }
-
+    @Override
     public void aboutButton(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
@@ -302,7 +308,7 @@ public class MyViewController implements IView {
     }
 
 
-
+    @Override
     public void keyPressed(String keyEvent) {
         if (currentState != MazeState.RUNNING)
             return;
@@ -403,7 +409,7 @@ public class MyViewController implements IView {
         });
         music.play();
     }
-
+    @Override
     public void solveButton(ActionEvent actionEvent) {
         LOG.info("User requested solution.");
         if (currentState == MazeState.NOTRUNNING)
