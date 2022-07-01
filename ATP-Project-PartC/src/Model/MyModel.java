@@ -33,11 +33,12 @@ public class MyModel extends Observable implements IModel{
     int solveport;
 
 
+    @Override
     public boolean save(String fileName) {
+
 
         try(OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName))) {
             // save maze to a file
-            FileOutputStream a = new FileOutputStream(fileName);
 
             out.write(curr_maze.toByteArray());
             out.flush();
@@ -48,7 +49,7 @@ public class MyModel extends Observable implements IModel{
         }
         return false;
     }
-
+    @Override
     public boolean load(String fileName){
         byte[] buffer = new byte[65536]; //Maximum maze size according to forum.
 
@@ -228,6 +229,7 @@ public class MyModel extends Observable implements IModel{
         return curr_maze.getVal(pos) == 0;
     }
 
+    @Override
     public void stopServers(){
         generator.stop();
         solver.stop();

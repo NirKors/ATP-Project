@@ -234,9 +234,7 @@ public class Displayer extends Canvas {
         }
         draw();
         if (goalPos != null)
-            if (playerPos.equals(goalPos)){
-                return true;
-            }
+            return playerPos.equals(goalPos);
         return false;
     }
 

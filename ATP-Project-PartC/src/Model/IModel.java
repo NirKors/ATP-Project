@@ -7,12 +7,12 @@ import algorithms.search.Solution;
 
 public interface IModel {
 
-    public void generateRandomMaze(int row, int col);
-    public Maze getMaze();
-    public void updateCharacterLocation(int direction);
+    void generateRandomMaze(int row, int col);
+    Maze getMaze();
+    void updateCharacterLocation(int direction);
 
-    public void connectSolver(int port, int listeningIntervalMS, IServerStrategy strategy);
-    public void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy);
+    void connectSolver(int port, int listeningIntervalMS, IServerStrategy strategy);
+    void connectGenerator(int port, int listeningIntervalMS, IServerStrategy strategy);
     Position getPlayer();
 
     Solution getSolution(int playerx, int playery);

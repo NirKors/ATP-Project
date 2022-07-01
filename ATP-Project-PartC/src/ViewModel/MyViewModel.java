@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class MyViewModel {
 
-    private IModel model;
+    private final IModel model;
 
     public MyViewModel(IModel model) {
         this.model = model;
@@ -43,6 +43,10 @@ public class MyViewModel {
     }
 
     public boolean save(String fileName){
+        if (fileName == null)
+            return false;
+        if (fileName.equals(""))
+            return false;
         return model.save(fileName);
     }
     public boolean load(String fileName){
@@ -52,7 +56,7 @@ public class MyViewModel {
     public Pair<Integer, Integer> getPlayerLocation() {
         Position pos = model.getPlayer();
 
-        return new Pair<Integer, Integer>(pos.getRowIndex(), pos.getColumnIndex());
+        return new Pair<>(pos.getRowIndex(), pos.getColumnIndex());
     }
 
     public Pair<Integer, Integer>[] getSolution(Pair<Integer, Integer> player) {
