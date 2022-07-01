@@ -19,6 +19,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Observable;
 
 import static View.Log4J.LOG;
@@ -43,20 +44,23 @@ public class MyModel extends Observable implements IModel{
             out.close();
             return true;
         } catch (Exception e) {
-            LOG.error("MyModel failed to save file.", e);
-            //TODO: delete file on exit
+            LOG.fatal("MyModel failed to save file.", e);
         }
         return false;
     }
 
     public boolean load(String fileName){
-        byte[] mazeBytes;
+        byte[] buffer = new byte[65536]; //Maximum maze size according to forum.
+
         try(InputStream in = new MyDecompressorInputStream(new FileInputStream(fileName))) {
             //read maze from file
 
-            mazeBytes = in.readAllBytes();
+            int bytesRead;
+            bytesRead = in.read(buffer);
+            byte[] mazebytes = Arrays.copyOfRange(buffer, 0, bytesRead);
             in.close();
-            curr_maze = new Maze(mazeBytes);
+            curr_maze = new Maze(mazebytes);
+            player = curr_maze.getStartPosition();
             return true;
         } catch (IOException e) {
             LOG.error("MyModel failed to load file.", e);
@@ -91,9 +95,6 @@ public class MyModel extends Observable implements IModel{
     public Solution getSolution(int playerx, int playery) {
         Maze copy = curr_maze;
         copy.setStartPosition(new Position(playerx, playery));
-//        SearchableMaze searchableMaze = new SearchableMaze(copy);
-//        ISearchingAlgorithm algorithm = new BestFirstSearch();
-//        Solution solution = algorithm.solve(searchableMaze);
         Solution solution = CommunicateWithServer_SolveSearchProblem(copy);
         return solution;
     }
@@ -176,8 +177,8 @@ public class MyModel extends Observable implements IModel{
     }
 
     private Maze CommunicateWithServer_MazeGenerating(int row, int col) {
-        row = (row < 2? 2 : row);
-        col = (col < 2? 2 : col);
+        row = (Math.max(row, 2));
+        col = (Math.max(col, 2));
         final Maze[] maze = new Maze[1];
         try {
             int finalRow = row;
@@ -224,9 +225,7 @@ public class MyModel extends Observable implements IModel{
     private boolean validTraversal(Position pos){
         if (pos.getRowIndex() < 0 || pos.getColumnIndex() < 0 || pos.getRowIndex() >= curr_maze.getRowNum() || pos.getColumnIndex() >= curr_maze.getColNum())
             return false;
-        if (curr_maze.getVal(pos) != 0)
-            return false;
-        return true;
+        return curr_maze.getVal(pos) == 0;
     }
 
     public void stopServers(){
