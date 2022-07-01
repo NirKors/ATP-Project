@@ -28,7 +28,7 @@ public class Main extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = fxmlLoader.load();
-        primaryStage.setTitle("Big Test");
+        primaryStage.setTitle("DooMaze");
         Scene scene = new Scene(root, 400, 420);
         scene.getStylesheets().addAll(Objects.requireNonNull(this.getClass().getResource("style.css")).toExternalForm());
 
