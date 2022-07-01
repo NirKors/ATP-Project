@@ -153,12 +153,17 @@ public class Displayer extends Canvas {
 
     public void drawSolution(Pair<Integer, Integer>[] sol) {
 
+        try {
 
-        solution = Arrays.copyOfRange(sol, 1, sol.length-1);
-        for (int i = 0; i < solution.length; i++) {
-            maze[solution[i].getKey()][solution[i].getValue()] = 4;
+            solution = Arrays.copyOfRange(sol, 1, sol.length - 1);
+            for (int i = 0; i < solution.length; i++) {
+                maze[solution[i].getKey()][solution[i].getValue()] = 4;
+            }
+            draw();
         }
-        draw();
+        catch (Exception e){
+            LOG.error("Solution not possible", e);
+        }
     }
 
     public String getImageFileNameWall() {
