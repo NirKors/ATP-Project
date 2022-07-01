@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -21,6 +23,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
+import java.util.Timer;
 
 import static View.Log4J.LOG;
 
@@ -445,5 +448,43 @@ public class MyViewController implements IView {
         Pair<Integer,Integer> player = displayer.getPlayerPos();
         Pair<Integer,Integer>[] solution = viewModel.getSolution(player);
         displayer.drawSolution(solution);
+    }
+
+    public void mouseDragged(MouseEvent mouseEvent) {
+        if (currentState != MazeState.RUNNING)
+            return;
+        double mouse_x = mouseEvent.getX();
+        double mouse_y = mouseEvent.getY();
+
+        dragCalculate(mouse_x, mouse_y);
+    }
+
+    private void dragCalculate(double mouse_x, double mouse_y){
+        if (mouse_x < 0 || mouse_y < 0 || mouse_x > displayer.getWidth() || mouse_y > displayer.getHeight())
+            return;
+        int rownum = viewModel.getMaze().getRowNum();
+        int colnum = viewModel.getMaze().getColNum();
+        double relativesize_x = displayer.getWidth() / colnum;
+        double relativesize_y = displayer.getHeight() / rownum;
+        int pos_x = (int) (mouse_x / relativesize_x);
+        int pos_y = (int) (mouse_y / relativesize_y);
+
+        Pair<Integer, Integer> pos_p = viewModel.getPlayerLocation();
+        int player_y = pos_p.getKey();
+        int player_x = pos_p.getValue();
+
+        String keypressed = "";
+
+        if (pos_x == player_x && pos_y == player_y + 1) keypressed = "NUMPAD2"; // DOWN
+        else if (pos_x == player_x - 1 && pos_y == player_y) keypressed = "NUMPAD4"; // LEFT
+        else if (pos_x == player_x + 1 && pos_y == player_y) keypressed = "NUMPAD6"; // RIGHT
+        else if (pos_x == player_x && pos_y == player_y - 1) keypressed = "NUMPAD8"; // UP
+        else if (pos_x == player_x - 1 && pos_y == player_y + 1) keypressed = "NUMPAD1"; // DOWNLEFT
+        else if (pos_x == player_x + 1 && pos_y == player_y + 1) keypressed = "NUMPAD3"; // DOWNRIGHT
+        else if (pos_x == player_x - 1 && pos_y == player_y - 1) keypressed = "NUMPAD7"; // UPLEFT
+        else if (pos_x == player_x + 1 && pos_y == player_y - 1) keypressed = "NUMPAD9"; // UPRIGHT
+
+        if (keypressed != "")
+            keyPressed(keypressed);
     }
 }
