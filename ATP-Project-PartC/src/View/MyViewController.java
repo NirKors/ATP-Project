@@ -39,7 +39,8 @@ public class MyViewController implements IView {
     private int numOfSteps;
     private MediaPlayer music = null;
     private MediaPlayer fx = null;
-
+    double currwidth;
+    double currheight;
     public Stage propertiesStage = null;
     @Override
     public void setViewModel(MyViewModel viewModel, Scene scene) {
@@ -96,6 +97,8 @@ public class MyViewController implements IView {
         displayer.setWidth(displayerPane.getWidth());
 
         displayer.drawMaze(maze);
+        if (currwidth != 0 || currheight != 0)
+            redraw();
         currentState = MazeState.RUNNING;
         numOfSteps = 0;
     }
@@ -110,22 +113,28 @@ public class MyViewController implements IView {
     public void sizeListener(MyViewModel viewModel, Stage stage){
         MyViewController.viewModel = viewModel;
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            double newsize = newVal.doubleValue() - 15;
+            newsize = Math.max(0, newsize);
+            currwidth = newsize;
             redraw();
         });
 
         stage.heightProperty().addListener((obs, oldVal, newVal) -> {
+            double newsize = newVal.doubleValue() - 63;
+            newsize = Math.max(0, newsize);
+            currheight = newsize;
             redraw();
         });
     }
 
     private void redraw(){
-        if(displayer.getPlayerPos()!=null)
-        {
-            displayer.setHeight(displayerPane.getHeight());
-            displayer.setWidth(displayerPane.getWidth());
+        if(displayer.getPlayerPos()!=null){
+            if (currheight != 0)
+                displayer.setHeight(currheight);
+            if (currwidth != 0)
+                displayer.setWidth(currwidth);
             displayer.draw();
         }
-
     }
 
 
