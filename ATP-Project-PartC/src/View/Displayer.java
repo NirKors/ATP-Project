@@ -133,11 +133,11 @@ public class Displayer extends Canvas {
                             graphicsContext.drawImage(goal, x, y, cellWidth, cellHeight);
                         break;
                     case 4:
-                    if (health == null)
-                        graphicsContext.fillRect(x, y, cellWidth, cellHeight);
-                    else
-                        graphicsContext.drawImage(health, x, y, cellWidth, cellHeight);
-                    break;
+                        if (health == null)
+                            graphicsContext.fillRect(x, y, cellWidth, cellHeight);
+                        else
+                            graphicsContext.drawImage(health, x, y, cellWidth, cellHeight);
+                        break;
 
                 }
             }
@@ -221,12 +221,14 @@ public class Displayer extends Canvas {
         this.imageFileNameHealth.set(imageFileNameHealth);
     }
 
-    public boolean movePlayer(int row, int col) {
+    public int movePlayer(int row, int col) {
+        int result = 0; //Regular
         playerPos = new Pair<>(row, col);
         if (solution != null){
             for (int i = solution.length - 1; i >= 0 ; i--) {
                 if (playerPos.equals(solution[i]))
                 {
+                    result = 1; // Health pickup
                     for (int j = 0; j <= i; j++) {
                         maze[solution[j].getKey()][solution[j].getValue()] = 0;
                     }
@@ -237,8 +239,9 @@ public class Displayer extends Canvas {
         }
         draw();
         if (goalPos != null)
-            return playerPos.equals(goalPos);
-        return false;
+            if (playerPos.equals(goalPos))
+                result = 2; //Goal
+        return result;
     }
 
     public Pair<Integer, Integer> getPlayerPos() {
