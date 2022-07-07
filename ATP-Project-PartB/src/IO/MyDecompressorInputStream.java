@@ -25,11 +25,12 @@ public class MyDecompressorInputStream extends InputStream {
         // Maze row:
         int[] mazeInfo = new int[6]; // Row size, column size, start row, start col, goal row, goal col;
         for (int j = 0; j < 6; j++) {
-            byte[] reads = new byte[2];
-            for (int i = 0; i < 2; i++) {
+            byte[] reads = new byte[4];
+            for (int i = 0; i < 4; i++) {
                 reads[i] = (byte) in.read();
             }
-            mazeInfo[j] = ((0xFF & reads[0]) << 8) | (0xFF & reads[1]);
+            mazeInfo[j] = ((0xFF & reads[0]) << 24) | ((0xFF & reads[1]) << 16) |
+                    ((0xFF & reads[2]) << 8) | (0xFF & reads[3]);
         }
         int i = 0;
         int read = -1;

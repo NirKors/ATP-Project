@@ -41,12 +41,14 @@ public class MyCompressorOutputStream extends OutputStream {
         // Maze size
         for (int i = 0; i < 2; i++) {
             int length = size[i];
+            final_array.add((byte) (length >> 24));
+            final_array.add((byte) (length >> 16));
             final_array.add((byte) (length >> 8));
             final_array.add((byte) (length));
         }
 
         // Maze start and goal
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < 16; i++)
             final_array.add((byte) 0);
 
         byte[] temp;
@@ -73,9 +75,11 @@ public class MyCompressorOutputStream extends OutputStream {
                         while (pos[0] * (size[1]) < i + j - size[1]) pos[0]++;
                         pos[1] = i + j - (pos[0] * (size[1])) - two;
 
-                        int k = cell == 3 ? 4 : 8;
+                        int k = cell == 3 ? 8 : 16;
                         for (int m = 0; m < 2; m++) {
                             int length = pos[m];
+                            final_array.set(k++, (byte) (length >> 24));
+                            final_array.set(k++, (byte) (length >> 16));
                             final_array.set(k++, (byte) (length >> 8));
                             final_array.set(k++, (byte) (length));
                         }
