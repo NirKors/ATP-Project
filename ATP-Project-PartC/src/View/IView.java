@@ -3,6 +3,7 @@ package View;
 import ViewModel.MyViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 
 public interface IView {
     void setViewModel(MyViewModel viewModel, Scene scene);
@@ -25,4 +26,6 @@ public interface IView {
     void keyPressed(String keyEvent);
 
     void solveButton(ActionEvent actionEvent);
+
+    void mouseDragged(MouseEvent mouseEvent);
 }

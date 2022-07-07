@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -23,7 +22,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.*;
-import java.util.Timer;
 
 import static View.Log4J.LOG;
 
@@ -466,6 +464,7 @@ public class MyViewController implements IView {
         displayer.drawSolution(solution);
     }
 
+    @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if (currentState != MazeState.RUNNING)
             return;
@@ -500,7 +499,7 @@ public class MyViewController implements IView {
         else if (pos_x == player_x - 1 && pos_y == player_y - 1) keypressed = "NUMPAD7"; // UPLEFT
         else if (pos_x == player_x + 1 && pos_y == player_y - 1) keypressed = "NUMPAD9"; // UPRIGHT
 
-        if (keypressed != "")
+        if (!keypressed.equals(""))
             keyPressed(keypressed);
     }
 }
